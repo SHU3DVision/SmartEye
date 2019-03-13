@@ -35,6 +35,8 @@ private:
 	
 private slots:
      void TCPSocketSlot();//建立udp通信
+	 void depthprocess(); //深度图像处理
+	 void showImage();//显示图像
 
 
 };
