@@ -9,9 +9,11 @@
 class CTinySocket
 {
  public:
-	 void socket_com(char sendline[], int length);
+	 int socket_com(char sendline[], int length,const char* destip,const int destport);
 	 char buf[MAXLINE];
 	 char ptr_buf2[MAXLINE];
+	 int _port;
+	 string _ip;
 private:
 	SOCKET  sockfd;
 	struct sockaddr_in servaddr;

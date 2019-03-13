@@ -17,7 +17,7 @@ void sk_cleanup(void)
 	//终止使用 DLL
 	WSACleanup();
 }
-void CTinySocket::socket_com(char sendline[], int length)
+int CTinySocket:: socket_com(char sendline[], int length, const char* destip, const int destport)
 {
 	//socket connect
 	sk_startup();
@@ -27,6 +27,7 @@ void CTinySocket::socket_com(char sendline[], int length)
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == INVALID_SOCKET)
 	{
+		return 0;
 		exit(0);
 	}
 	else
@@ -35,11 +36,12 @@ void CTinySocket::socket_com(char sendline[], int length)
 	}
 	memset(&servaddr, 0, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
-	servaddr.sin_port = htons(50660);
-	servaddr.sin_addr.s_addr = inet_addr("192.168.7.63");
+	servaddr.sin_port = htons(destport);
+	servaddr.sin_addr.s_addr = inet_addr(destip);
 	Ret = connect(sockfd, (SOCKADDR*)&servaddr, sizeof(servaddr));
 	if (Ret == SOCKET_ERROR)
 	{
+		return 0;
 		exit(0);
 	}
 
@@ -50,6 +52,7 @@ void CTinySocket::socket_com(char sendline[], int length)
 	Ret = send(sockfd, sendline, strlen(sendline), 0);
 	if (Ret == SOCKET_ERROR)
 	{
+		return 0;
 		exit(0);
 	}
 	else
@@ -80,4 +83,5 @@ void CTinySocket::socket_com(char sendline[], int length)
 	closesocket(sockfd);
 	//终止使用 DLL
 	sk_cleanup();
+	return 1;
 }

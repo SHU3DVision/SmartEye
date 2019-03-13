@@ -26,8 +26,13 @@ SmartEye::~SmartEye()
 //TCPÍ¨ÐÅ
 void SmartEye::TCPSocketSlot()
 {
-	
-		g_Tcpsocket.socket_com(sendline, bytecount);
+		g_Tcpsocket._ip = ui.IplineEdit->text().toStdString();
+		g_Tcpsocket._port=ui.PortlineEdit->text().toInt();
+	    int flag=g_Tcpsocket.socket_com(sendline, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port);
+		if (flag == 1)
+		{
+			ui.statelabel->setText("Success");
+		}
 		for (int j = 0; j < bytecount / 2; j++)
 		{
 			raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
