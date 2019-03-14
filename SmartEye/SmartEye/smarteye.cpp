@@ -1,14 +1,7 @@
 #include "smarteye.h"
-#include"TinySocket.h"
-#include<qtimer.h>
 
-CTinySocket		g_Tcpsocket;
-Imagedepthprocess g_depthprocess;
-QTimer    *timer;
-char sendline[] = "getDistanceSorted";
 
-int connectState = 0;
-cv::Mat imshowsrc;
+
 SmartEye::SmartEye(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -34,6 +27,8 @@ void SmartEye::connectStateSlot()
 	}
 }
 //TCP通信
+//正常连接断开，返回0
+//异常连接，返回-1
 int SmartEye::TCPSocketSlot()
 {
 	if (connectState % 2 == 1)
@@ -46,8 +41,10 @@ int SmartEye::TCPSocketSlot()
 			ui.statelabel->setText("Success");
 			ui.connectButton->setText("Disconnect");
 			g_depthprocess.ptr_buf_unsigned = (unsigned char*)g_Tcpsocket.ptr_buf2;
-			imshowsrc = g_depthprocess.depthprocess();
-			showImage();
+			//处理原始数据
+			cv::Mat imshowsrc = g_depthprocess.depthProcess();
+			//显示灰度图
+			showImage(imshowsrc);
 			timer->start();//启动计时器
 		}
 		else
@@ -68,7 +65,7 @@ int SmartEye::TCPSocketSlot()
 }
 
 //QT显示图像
-void SmartEye::showImage()
+void SmartEye::showImage(Mat imshowsrc)
 {
 	QImage img = QImage((const unsigned char*)(imshowsrc.data), imshowsrc.cols, imshowsrc.rows, QImage::Format_Indexed8);
 	label = new QLabel();

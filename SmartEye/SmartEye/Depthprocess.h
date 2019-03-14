@@ -16,10 +16,12 @@ class Imagedepthprocess
 public:
 	Imagedepthprocess();
 	~Imagedepthprocess();
-	cv::Mat depthprocess();
+	cv::Mat depthProcess();
+	cv::Mat getDepth();
+
 	unsigned char* ptr_buf_unsigned;
-	cv::Mat src_1;
-	cv::Mat imshowsrc;
+	cv::Mat _matimg_short;
+	cv::Mat _matimg_show;
 	//void calibrate();
 private:
 	uint16_t raw_dep;

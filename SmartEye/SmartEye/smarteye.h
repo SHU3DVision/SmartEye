@@ -13,6 +13,8 @@
 #include<direct.h>
 #include <io.h>
 #include"Depthprocess.h"
+#include"TinySocket.h"
+#include<qtimer.h>
 
 using namespace std;
 using namespace cv;
@@ -29,9 +31,15 @@ public:
 	QLabel *label;
 	
 	//void depthprocess(); //深度图像处理
-	void showImage();//显示图像
+	void showImage(Mat imshowsrc);//显示图像
+
 private:
 	Ui::SmartEyeClass ui;
+	int connectState = 0;
+	CTinySocket		g_Tcpsocket;
+	Imagedepthprocess g_depthprocess;
+	QTimer    *timer;
+	char* sendline = "getDistanceSorted";   //发送获取深度数据指令
 	
 private slots:
      int TCPSocketSlot();//建立TCP通信

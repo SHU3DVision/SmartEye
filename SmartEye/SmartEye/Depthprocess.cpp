@@ -2,14 +2,16 @@
 uint16_t fameDepthArray2[MAXLINE];
 Imagedepthprocess::Imagedepthprocess()
 {
-	 src_1.create(240, 320, CV_16UC1);
-	imshowsrc.create(240, 320, CV_8UC1);
+	 _matimg_short.create(240, 320, CV_16UC1);
+	 _matimg_show.create(240, 320, CV_8UC1);
 }
 Imagedepthprocess::~Imagedepthprocess()
 {
 
 }
-Mat Imagedepthprocess::depthprocess()
+//深度数据处理
+//返回：mat类型
+Mat Imagedepthprocess::depthProcess()
 {
 	for (int j = 0; j < bytecount / 2; j++)
 	{
@@ -34,7 +36,7 @@ Mat Imagedepthprocess::depthprocess()
 	{
 		for (int j = 0; j < 320; j++)
 		{
-			src_1.at<ushort>(i, j) = depth[i][j];
+			_matimg_short.at<ushort>(i, j) = depth[i][j];
 
 		}
 
@@ -44,10 +46,16 @@ Mat Imagedepthprocess::depthprocess()
 	{
 		for (int j = 0; j < 320; j++)
 		{
-			imshowsrc.at<uchar>(i, j) = 255 - src_1.at<ushort>(i, j) * 25 / 3000;
+			_matimg_show.at<uchar>(i, j) = 255 - _matimg_short.at<ushort>(i, j) * 25 / 3000;
 			//cout << src2.at<uchar>(i, j) << endl;
 		}
 
 	}
-	return imshowsrc.clone();
+	return _matimg_show.clone();
+}
+//获取深度数据
+//返回：Mat类型
+Mat Imagedepthprocess::getDepth()
+{
+	return _matimg_show.clone();
 }

@@ -1,12 +1,12 @@
+#include "TinySocket.h"
 #include <WINSOCK2.H>
 #include <WS2tcpip.h>
-#include <stdio.h>
-#include "smarteye.h"
 #pragma comment(lib,"ws2_32.lib")
-#include "TinySocket.h"
 
+CTinySocket::CTinySocket()
+{
 
-
+}
 void sk_startup(void)
 {
 	WSADATA wsaData;
@@ -17,6 +17,13 @@ void sk_cleanup(void)
 	//终止使用 DLL
 	WSACleanup();
 }
+//socket获取图像
+//sendline[] 发送指令
+// length 期待获取的长度
+// destip 相机ip
+//destport 相机端口号
+//返回：成功后返回1
+//      失败后返回0
 int CTinySocket:: socket_com(char sendline[], int length, const char* destip, const int destport)
 {
 	//socket connect
@@ -24,6 +31,7 @@ int CTinySocket:: socket_com(char sendline[], int length, const char* destip, co
 	char* ptr_buf = buf;
 	int count = 0;             //接收总字节计数
 	int rec_len, Ret;          //发送、接收状态
+	static struct sockaddr_in servaddr;
 
 	//socket初始化
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -78,7 +86,7 @@ int CTinySocket:: socket_com(char sendline[], int length, const char* destip, co
 		}
 		if (rec_len == SOCKET_ERROR)
 		{
-			cout << "接受Error::" << GetLastError() << endl;
+			//cout << "接受Error::" << GetLastError() << endl;
 			exit(0);
 		}
 
