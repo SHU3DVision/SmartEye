@@ -6,34 +6,36 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>836</width>
-    <height>542</height>
+    <width>1093</width>
+    <height>429</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>SmartEye</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="Img_label">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>150</y>
-      <width>320</width>
-      <height>240</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
+   <layout class="QHBoxLayout" name="horizontalLayout_10">
+    <item>
+     <widget class="QLabel" name="Img_label">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QVTKWidget" name="screen"/>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>836</width>
+     <width>1093</width>
      <height>23</height>
     </rect>
    </property>
@@ -151,7 +153,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="FXlineEdit"/>
+          <widget class="QLineEdit" name="FXlineEdit">
+           <property name="text">
+            <string>287.037753 </string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -165,7 +171,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="FYlineEdit"/>
+          <widget class="QLineEdit" name="FYlineEdit">
+           <property name="text">
+            <string>288.1155963 </string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -179,7 +189,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="CXlineEdit"/>
+          <widget class="QLineEdit" name="CXlineEdit">
+           <property name="text">
+            <string>179.8002737 </string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -193,7 +207,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="CYlineEdit"/>
+          <widget class="QLineEdit" name="CYlineEdit">
+           <property name="text">
+            <string>119.8945818 </string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -207,7 +225,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="k1lineEdit"/>
+          <widget class="QLineEdit" name="k1lineEdit">
+           <property name="text">
+            <string>-0.126345354 </string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -221,9 +243,20 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="k2lineEdit"/>
+          <widget class="QLineEdit" name="k2lineEdit">
+           <property name="text">
+            <string>0.149484016 </string>
+           </property>
+          </widget>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pclBtn">
+         <property name="text">
+          <string>PointCloud Convert</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -245,6 +278,13 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QVTKWidget</class>
+   <extends>QWidget</extends>
+   <header>QVTKWidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="smarteye.qrc"/>
  </resources>

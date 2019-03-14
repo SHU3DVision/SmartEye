@@ -26,6 +26,7 @@
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "QVTKWidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -33,7 +34,9 @@ class Ui_SmartEyeClass
 {
 public:
     QWidget *centralWidget;
+    QHBoxLayout *horizontalLayout_10;
     QLabel *Img_label;
+    QVTKWidget *screen;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -73,22 +76,35 @@ public:
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_8;
     QLineEdit *k2lineEdit;
+    QPushButton *pclBtn;
     QSpacerItem *verticalSpacer_2;
 
     void setupUi(QMainWindow *SmartEyeClass)
     {
         if (SmartEyeClass->objectName().isEmpty())
             SmartEyeClass->setObjectName(QStringLiteral("SmartEyeClass"));
-        SmartEyeClass->resize(836, 542);
+        SmartEyeClass->resize(1093, 429);
         centralWidget = new QWidget(SmartEyeClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
+        horizontalLayout_10 = new QHBoxLayout(centralWidget);
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
         Img_label = new QLabel(centralWidget);
         Img_label->setObjectName(QStringLiteral("Img_label"));
-        Img_label->setGeometry(QRect(100, 150, 320, 240));
+        Img_label->setEnabled(false);
+
+        horizontalLayout_10->addWidget(Img_label);
+
+        screen = new QVTKWidget(centralWidget);
+        screen->setObjectName(QStringLiteral("screen"));
+
+        horizontalLayout_10->addWidget(screen);
+
         SmartEyeClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SmartEyeClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 836, 23));
+        menuBar->setGeometry(QRect(0, 0, 1093, 23));
         SmartEyeClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(SmartEyeClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -271,6 +287,11 @@ public:
 
         verticalLayout_3->addLayout(horizontalLayout_9);
 
+        pclBtn = new QPushButton(dockWidgetContents_2);
+        pclBtn->setObjectName(QStringLiteral("pclBtn"));
+
+        verticalLayout_3->addWidget(pclBtn);
+
 
         verticalLayout_4->addLayout(verticalLayout_3);
 
@@ -300,11 +321,18 @@ public:
         statelabel->setText(QApplication::translate("SmartEyeClass", "NO", 0));
         dockWidget_2->setWindowTitle(QApplication::translate("SmartEyeClass", "Paraments", 0));
         label_3->setText(QApplication::translate("SmartEyeClass", "FX", 0));
+        FXlineEdit->setText(QApplication::translate("SmartEyeClass", "287.037753 ", 0));
         label_4->setText(QApplication::translate("SmartEyeClass", "FY", 0));
+        FYlineEdit->setText(QApplication::translate("SmartEyeClass", "288.1155963 ", 0));
         label_5->setText(QApplication::translate("SmartEyeClass", "CX", 0));
+        CXlineEdit->setText(QApplication::translate("SmartEyeClass", "179.8002737 ", 0));
         label_6->setText(QApplication::translate("SmartEyeClass", "CY", 0));
+        CYlineEdit->setText(QApplication::translate("SmartEyeClass", "119.8945818 ", 0));
         label_7->setText(QApplication::translate("SmartEyeClass", "k1", 0));
+        k1lineEdit->setText(QApplication::translate("SmartEyeClass", "-0.126345354 ", 0));
         label_8->setText(QApplication::translate("SmartEyeClass", "k2", 0));
+        k2lineEdit->setText(QApplication::translate("SmartEyeClass", "0.149484016 ", 0));
+        pclBtn->setText(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
     } // retranslateUi
 
 };

@@ -6,10 +6,24 @@ SmartEye::SmartEye(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
+
+	//点云初始化
+	cloud.reset(new PointCloudT);
+	cloud->resize(1);
+
+	//点云ui界面元素绑定
+	viewer.reset(new pcl::visualization::PCLVisualizer("viewer", false));
+	ui.screen->SetRenderWindow(viewer->getRenderWindow());
+	viewer->setupInteractor(ui.screen->GetInteractor(), ui.screen->GetRenderWindow());
+	viewer->setCameraPosition(114, -500, 44000, 0, 1, 0);
+	ui.screen->update();
+
+
 	//槽连接
 	QObject::connect(ui.connectButton, SIGNAL(triggered()), this, SLOT(connectStateSlot()));
 	timer = new QTimer(this);
 	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(TCPSocketSlot()));
+	QObject::connect(ui.pclBtn, SIGNAL(clicked()), this, SLOT(pointCloudConvert()));
 }
 
 SmartEye::~SmartEye()
@@ -25,6 +39,8 @@ void SmartEye::connectStateSlot()
 		QMessageBox::information(this, "Error Message", "Connect failed,Please Reconnect");
 		connectState--;
 	}
+
+	
 }
 //TCP通信
 //正常连接断开，返回0
@@ -45,6 +61,15 @@ int SmartEye::TCPSocketSlot()
 			cv::Mat imshowsrc = g_depthprocess.depthProcess();
 			//显示灰度图
 			showImage(imshowsrc);
+			
+			//点云展示
+			if (isPCLShow)
+			{
+				cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth());
+				showPointCloud();
+			}
+			
+
 			timer->start();//启动计时器
 		}
 		else
@@ -73,3 +98,39 @@ void SmartEye::showImage(Mat imshowsrc)
 	ui.Img_label->setPixmap(QPixmap::fromImage(img));
 }
 
+void SmartEye::pointCloudConvert()
+{
+	//获取畸变矩阵参数
+	double fx = ui.FXlineEdit->text().toDouble();
+	double fy = ui.FYlineEdit->text().toDouble();
+	double cx = ui.CXlineEdit->text().toDouble();
+	double cy = ui.CYlineEdit->text().toDouble();
+	double k1 = ui.k1lineEdit->text().toDouble();
+	double k2 = ui.k2lineEdit->text().toDouble();
+
+	g_pclConvert.setConvertParameter(fx, fy, cx, cy, k1, k2,0,0,0);
+
+	if (isPCLShow)
+	{
+		//关闭更新
+		isPCLShow = false;
+	}
+	else
+	{
+		isPCLShow = true;
+	}
+}
+
+void SmartEye::showPointCloud()
+{
+	viewer->removeAllPointClouds();
+	viewer->addPointCloud(cloud, "cloud");
+	viewer->updatePointCloud(cloud, "cloud");
+	if (!i++)
+		viewer->resetCamera();
+	pcl::visualization::Camera c;
+	viewer->getCameraParameters(c);
+	qDebug() << "pos1:" << c.pos[0] << "\tpos2:" << c.pos[1] <<"\tpos3:"<< c.pos[2] << endl;
+	qDebug() << "view1:" << c.view[0] << "\tview2:" << c.view[1] << "\tview3:" << c.view[2] << endl;
+	ui.screen->update();
+}

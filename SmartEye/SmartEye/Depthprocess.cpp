@@ -57,5 +57,5 @@ Mat Imagedepthprocess::depthProcess()
 //∑µªÿ£∫Mat¿‡–Õ
 Mat Imagedepthprocess::getDepth()
 {
-	return _matimg_show.clone();
+	return _matimg_short.clone();
 }
