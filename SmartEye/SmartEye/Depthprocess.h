@@ -4,6 +4,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include <opencv2/highgui/highgui.hpp>
 #include <string>
+#include<qmessagebox.h>
 using namespace std;
 using namespace cv;
 #define bytecount 153600

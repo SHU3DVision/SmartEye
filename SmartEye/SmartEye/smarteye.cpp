@@ -7,7 +7,7 @@ Imagedepthprocess g_depthprocess;
 QTimer    *timer;
 char sendline[] = "getDistanceSorted";
 
-int k = 0;
+int connectState = 0;
 cv::Mat imshowsrc;
 SmartEye::SmartEye(QWidget *parent)
 	: QMainWindow(parent)
@@ -26,13 +26,17 @@ SmartEye::~SmartEye()
 //通信状态
 void SmartEye::connectStateSlot()
 {
-	k++;
-	TCPSocketSlot();
+	connectState++;
+	if (TCPSocketSlot()!=0)
+	{
+		QMessageBox::information(this, "Error Message", "Connect failed,Please Reconnect");
+		connectState--;
+	}
 }
 //TCP通信
-void SmartEye::TCPSocketSlot()
+int SmartEye::TCPSocketSlot()
 {
-	if (k % 2 == 1)
+	if (connectState % 2 == 1)
 	{
 		g_Tcpsocket._ip = ui.IplineEdit->text().toStdString();    //获取相机IP
 		g_Tcpsocket._port = ui.PortlineEdit->text().toInt();      //获取相机端口号
@@ -41,17 +45,25 @@ void SmartEye::TCPSocketSlot()
 		{
 			ui.statelabel->setText("Success");
 			ui.connectButton->setText("Disconnect");
+			g_depthprocess.ptr_buf_unsigned = (unsigned char*)g_Tcpsocket.ptr_buf2;
+			imshowsrc = g_depthprocess.depthprocess();
+			showImage();
+			timer->start();//启动计时器
 		}
-		g_depthprocess.ptr_buf_unsigned = (unsigned char*)g_Tcpsocket.ptr_buf2;
-		imshowsrc=g_depthprocess.depthprocess();
-		showImage();
-		timer->start();//启动计时器
+		else
+		{
+			ui.statelabel->setText("No");
+			ui.connectButton->setText("Connect");
+			return -1;
+		}
 	}
 	else
 	{
 		ui.statelabel->setText("No");
 		ui.connectButton->setText("Connect");
+		return 0;
 	}
+	return 0;
 		
 }
 

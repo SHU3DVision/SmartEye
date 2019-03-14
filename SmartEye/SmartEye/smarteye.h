@@ -34,7 +34,7 @@ private:
 	Ui::SmartEyeClass ui;
 	
 private slots:
-     void TCPSocketSlot();//建立TCP通信
+     int TCPSocketSlot();//建立TCP通信
 	 void connectStateSlot();//通信状态
 	 
 
