@@ -253,20 +253,21 @@
    <sender>connectButton</sender>
    <signal>clicked()</signal>
    <receiver>SmartEyeClass</receiver>
-   <slot>TCPSocketSlot()</slot>
+   <slot>connectStateSlot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>62</x>
-     <y>138</y>
+     <x>51</x>
+     <y>140</y>
     </hint>
     <hint type="destinationlabel">
-     <x>263</x>
-     <y>181</y>
+     <x>246</x>
+     <y>189</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
   <slot>TCPSocketSlot()</slot>
+  <slot>connectStateSlot()</slot>
  </slots>
 </ui>

@@ -29,14 +29,15 @@ public:
 	QLabel *label;
 	uint16_t raw_dep;
 	int realindex, realrow, realcol;
-
+	void depthprocess(); //深度图像处理
+	void showImage();//显示图像
 private:
 	Ui::SmartEyeClass ui;
 	
 private slots:
-     void TCPSocketSlot();//建立udp通信
-	 void depthprocess(); //深度图像处理
-	 void showImage();//显示图像
+     void TCPSocketSlot();//建立TCP通信
+	 void connectStateSlot();//通信状态
+	 
 
 
 };

@@ -10,9 +10,9 @@ class CTinySocket
 {
  public:
 	 int socket_com(char sendline[], int length,const char* destip,const int destport);
-	 char buf[MAXLINE];
-	 char ptr_buf2[MAXLINE];
-	 int _port;
+	 char buf[MAXLINE];      //接收缓冲区
+	 char ptr_buf2[MAXLINE];  //存储缓存区
+	 int _port;          
 	 string _ip;
 private:
 	SOCKET  sockfd;

@@ -6,6 +6,7 @@ CTinySocket		g_Tcpsocket;
 QTimer    *timer;
 char sendline[] = "getDistanceSorted";
 unsigned char* ptr_buf_unsigned = (unsigned char*)g_Tcpsocket.ptr_buf2;
+int k = 0;
 uint16_t fameDepthArray2[MAXLINE];
 Mat src_1(240, 320, CV_16UC1, Scalar(0));
 Mat imshowsrc(240, 320, CV_8UC1, Scalar(0));
@@ -14,7 +15,7 @@ SmartEye::SmartEye(QWidget *parent)
 {
 	ui.setupUi(this);
 	//槽连接
-	QObject::connect(ui.connectButton, SIGNAL(triggered()), this, SLOT(TCPSocketSlot()));
+	QObject::connect(ui.connectButton, SIGNAL(triggered()), this, SLOT(connectStateSlot()));
 	timer = new QTimer(this);
 	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(TCPSocketSlot()));
 }
@@ -23,22 +24,39 @@ SmartEye::~SmartEye()
 {
 	
 }
+//通信状态
+void SmartEye::connectStateSlot()
+{
+	k++;
+	TCPSocketSlot();
+}
 //TCP通信
 void SmartEye::TCPSocketSlot()
 {
-		g_Tcpsocket._ip = ui.IplineEdit->text().toStdString();
-		g_Tcpsocket._port=ui.PortlineEdit->text().toInt();
-	    int flag=g_Tcpsocket.socket_com(sendline, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port);
+	if (k % 2 == 1)
+	{
+		g_Tcpsocket._ip = ui.IplineEdit->text().toStdString();    //获取相机IP
+		g_Tcpsocket._port = ui.PortlineEdit->text().toInt();      //获取相机端口号
+		int flag = g_Tcpsocket.socket_com(sendline, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port);
 		if (flag == 1)
 		{
 			ui.statelabel->setText("Success");
+			ui.connectButton->setText("Disconnect");
 		}
 		depthprocess();
 		showImage();
 		timer->start();//启动计时器
+	}
+	else
+	{
+		ui.statelabel->setText("No");
+		ui.connectButton->setText("Connect");
+	}
+		
 	
 	
 }
+//数据处理
 void SmartEye::depthprocess()
 {
 	for (int j = 0; j < bytecount / 2; j++)
@@ -60,6 +78,7 @@ void SmartEye::depthprocess()
 			depth[i][j] = fameDepthArray2[i * 320 + j];
 		}
 	}
+	//16bit原始数据
 	for (int i = 0; i < 240; i++)
 	{
 		for (int j = 0; j < 320; j++)
@@ -69,6 +88,7 @@ void SmartEye::depthprocess()
 		}
 
 	}
+	//8bit显示数据
 	for (int i = 0; i < 240; i++)
 	{
 		for (int j = 0; j < 320; j++)
@@ -79,6 +99,7 @@ void SmartEye::depthprocess()
 
 	}
 }
+//QT显示图像
 void SmartEye::showImage()
 {
 	QImage img = QImage((const unsigned char*)(imshowsrc.data), imshowsrc.cols, imshowsrc.rows, QImage::Format_Indexed8);

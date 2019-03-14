@@ -22,8 +22,10 @@ int CTinySocket:: socket_com(char sendline[], int length, const char* destip, co
 	//socket connect
 	sk_startup();
 	char* ptr_buf = buf;
-	int count = 0;
-	int rec_len, Ret;
+	int count = 0;             //接收总字节计数
+	int rec_len, Ret;          //发送、接收状态
+
+	//socket初始化
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == INVALID_SOCKET)
 	{
@@ -34,10 +36,12 @@ int CTinySocket:: socket_com(char sendline[], int length, const char* destip, co
 	{
 	  
 	}
+	//设置相机IP信息
 	memset(&servaddr, 0, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_port = htons(destport);
 	servaddr.sin_addr.s_addr = inet_addr(destip);
+	//连接相机
 	Ret = connect(sockfd, (SOCKADDR*)&servaddr, sizeof(servaddr));
 	if (Ret == SOCKET_ERROR)
 	{
@@ -49,6 +53,7 @@ int CTinySocket:: socket_com(char sendline[], int length, const char* destip, co
 	{
 		
 	}
+	//发送采集命令
 	Ret = send(sockfd, sendline, strlen(sendline), 0);
 	if (Ret == SOCKET_ERROR)
 	{
@@ -59,6 +64,7 @@ int CTinySocket:: socket_com(char sendline[], int length, const char* destip, co
 	{
 		
 	}
+	//接收返回图像数据
 	int i2 = 0;
 	while (count < length) //153600
 	{

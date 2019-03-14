@@ -282,7 +282,7 @@ public:
         SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_2);
 
         retranslateUi(SmartEyeClass);
-        QObject::connect(connectButton, SIGNAL(clicked()), SmartEyeClass, SLOT(TCPSocketSlot()));
+        QObject::connect(connectButton, SIGNAL(clicked()), SmartEyeClass, SLOT(connectStateSlot()));
 
         QMetaObject::connectSlotsByName(SmartEyeClass);
     } // setupUi
