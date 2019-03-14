@@ -53,6 +53,9 @@
     <ClCompile Include="TinySocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Depthprocess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="smarteye.h">
@@ -70,6 +73,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="TinySocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Depthprocess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

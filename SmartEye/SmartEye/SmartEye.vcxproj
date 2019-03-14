@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Depthprocess.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_smarteye.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -202,6 +203,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Depthprocess.h" />
     <ClInclude Include="GeneratedFiles\ui_smarteye.h" />
     <ClInclude Include="TinySocket.h" />
   </ItemGroup>

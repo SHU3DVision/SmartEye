@@ -91,3 +91,8 @@ int CTinySocket:: socket_com(char sendline[], int length, const char* destip, co
 	sk_cleanup();
 	return 1;
 }
+CTinySocket::~CTinySocket()
+{
+	
+
+}

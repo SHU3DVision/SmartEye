@@ -12,12 +12,12 @@
 #include <fstream>
 #include<direct.h>
 #include <io.h>
+#include"Depthprocess.h"
 
 using namespace std;
 using namespace cv;
 
-#define   Img_width   (320)
-#define   Img_height  (240)
+
 
 class SmartEye : public QMainWindow
 {
@@ -27,9 +27,8 @@ public:
 	SmartEye(QWidget *parent = 0);
 	~SmartEye();
 	QLabel *label;
-	uint16_t raw_dep;
-	int realindex, realrow, realcol;
-	void depthprocess(); //深度图像处理
+	
+	//void depthprocess(); //深度图像处理
 	void showImage();//显示图像
 private:
 	Ui::SmartEyeClass ui;
