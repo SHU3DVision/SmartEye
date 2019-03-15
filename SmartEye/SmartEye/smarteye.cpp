@@ -15,8 +15,10 @@ SmartEye::SmartEye(QWidget *parent)
 	viewer.reset(new pcl::visualization::PCLVisualizer("viewer", false));
 	ui.screen->SetRenderWindow(viewer->getRenderWindow());
 	viewer->setupInteractor(ui.screen->GetInteractor(), ui.screen->GetRenderWindow());
-	viewer->setCameraPosition(114, -500, 44000, 0, 1, 0);
+	viewer->setCameraPosition(-557.379, 9640.31, -6123, -0.00374522, -0.795958, -0.60534);
 	ui.screen->update();
+
+	ui.screen->hide();
 
 
 	//槽连接
@@ -33,60 +35,64 @@ SmartEye::~SmartEye()
 //通信状态
 void SmartEye::connectStateSlot()
 {
-	connectState++;
-	if (TCPSocketSlot()!=0)
+	
+	if (connectState == 0)
 	{
-		QMessageBox::information(this, "Error Message", "Connect failed,Please Reconnect");
+		//启动相机，获取图像
+		std::string ip = ui.IplineEdit->text().toStdString();    //获取相机IP
+		int port = ui.PortlineEdit->text().toInt();      //获取相机端口号
+		g_dcam = new DCam(ip,port);						 //初始化相机类
+		connect(g_dcam, SIGNAL(getImage(cv::Mat)), this, SLOT(imageUpdateSlot(cv::Mat)));	//设置连接槽
+		g_dcam->start();	//线程启动
+
+		ui.statelabel->setText("Success");
+		ui.connectButton->setText("Disconnect");
+		connectState++;
+	}
+	else
+	{
+		g_dcam->setRun(false);
+		ui.statelabel->setText("No");
+		ui.connectButton->setText("Connect");
 		connectState--;
 	}
-
 	
 }
 //TCP通信
 //正常连接断开，返回0
 //异常连接，返回-1
-int SmartEye::TCPSocketSlot()
+void SmartEye::imageUpdateSlot(cv::Mat img)
 {
-	if (connectState % 2 == 1)
+	if (img.size().height != 0)
 	{
-		g_Tcpsocket._ip = ui.IplineEdit->text().toStdString();    //获取相机IP
-		g_Tcpsocket._port = ui.PortlineEdit->text().toInt();      //获取相机端口号
-		int flag = g_Tcpsocket.socket_com(sendline, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port);
-		if (flag == 1)
-		{
-			ui.statelabel->setText("Success");
-			ui.connectButton->setText("Disconnect");
-			g_depthprocess.ptr_buf_unsigned = (unsigned char*)g_Tcpsocket.ptr_buf2;
 			//处理原始数据
-			cv::Mat imshowsrc = g_depthprocess.depthProcess();
+			cv::Mat imshowsrc = img;
 			//显示灰度图
 			showImage(imshowsrc);
 			
-			//点云展示
-			if (isPCLShow)
-			{
-				cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth());
-				showPointCloud();
-			}
-			
-
-			timer->start();//启动计时器
-		}
-		else
-		{
-			ui.statelabel->setText("No");
-			ui.connectButton->setText("Connect");
-			return -1;
-		}
+			////点云展示
+			//if (isPCLShow)
+			//{
+			//	cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth());
+			//	showPointCloud();
+			//}
 	}
 	else
 	{
 		ui.statelabel->setText("No");
 		ui.connectButton->setText("Connect");
-		return 0;
+		return;
 	}
-	return 0;
+	return;
 		
+}
+
+//点云数据更新
+void SmartEye::pointCloudUpdateSlot(PointCloudT::Ptr c)
+{
+	//点云数据更新
+	cloud = c;
+	showPointCloud();
 }
 
 //QT显示图像
@@ -108,16 +114,23 @@ void SmartEye::pointCloudConvert()
 	double k1 = ui.k1lineEdit->text().toDouble();
 	double k2 = ui.k2lineEdit->text().toDouble();
 
-	g_pclConvert.setConvertParameter(fx, fy, cx, cy, k1, k2,0,0,0);
+	g_dcam->setCameraParameters(fx, fy, cx, cy, k1, k2, 0, 0, 0);
+
 
 	if (isPCLShow)
 	{
 		//关闭更新
 		isPCLShow = false;
+		ui.screen->hide();
+		g_dcam->setPointcloudConvert(false);
 	}
 	else
 	{
+		//显示点云
 		isPCLShow = true;
+		ui.screen->show();
+		connect(g_dcam, SIGNAL(getPointCloud(PointCloudT::Ptr)), this, SLOT(pointCloudUpdateSlot(PointCloudT::Ptr)));
+		g_dcam->setPointcloudConvert(true);
 	}
 }
 
@@ -126,8 +139,8 @@ void SmartEye::showPointCloud()
 	viewer->removeAllPointClouds();
 	viewer->addPointCloud(cloud, "cloud");
 	viewer->updatePointCloud(cloud, "cloud");
-	if (!i++)
-		viewer->resetCamera();
+	//if (!i++)
+		//viewer->resetCamera();
 	pcl::visualization::Camera c;
 	viewer->getCameraParameters(c);
 	qDebug() << "pos1:" << c.pos[0] << "\tpos2:" << c.pos[1] <<"\tpos3:"<< c.pos[2] << endl;

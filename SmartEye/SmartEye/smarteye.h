@@ -19,6 +19,7 @@ VTK_MODULE_INIT(vtkInteractionStyle);
 #include "Depthprocess.h"
 #include "TinySocket.h"
 #include "PCLConvert.h"
+#include "DCam.h"
 #include <qtimer.h>
 #include <qdebug.h>
 
@@ -42,6 +43,7 @@ public:
 	SmartEye(QWidget *parent = 0);
 	~SmartEye();
 	QLabel *label;
+	DCam *g_dcam;
 	
 	//void depthprocess(); //深度图像处理
 	void showImage(Mat imshowsrc);//显示图像
@@ -49,9 +51,6 @@ public:
 private:
 	Ui::SmartEyeClass ui;
 	int connectState = 0;
-	CTinySocket		g_Tcpsocket;
-	Imagedepthprocess g_depthprocess;
-	PCLConvert		g_pclConvert;			//点云转换使用
 	QTimer    *timer;
 	char* sendline = "getDistanceSorted";   //发送获取深度数据指令
 	bool isPCLShow = false;					//是否点云转换标志
@@ -62,9 +61,10 @@ private:
 	void showPointCloud();	  //点云显示
 
 private slots:
-     int TCPSocketSlot();//建立TCP通信
-	 void connectStateSlot();//通信状态
-	 void pointCloudConvert();//点云转换功能 
+	void imageUpdateSlot(cv::Mat img);//更新图像信号
+	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//更新点云信息
+	void connectStateSlot();//通信状态
+	void pointCloudConvert();//点云转换功能 
 	 
 
 };

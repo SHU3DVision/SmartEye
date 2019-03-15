@@ -1,50 +1,67 @@
-#pragma once
-#include"Dcam.h"
+#include "DCam.h"
 
-
-
-uint16_t fameDepthArray2[MAXLINE];
-
-void Camdepthprocess::depthprocess()
+DCam::DCam(QObject *parent)
+	: QThread(parent)
 {
-	for (int j = 0; j < bytecount / 2; j++)
-	{
-		raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
-		//cout << raw_dep << " ";
-		realindex = bytecount / 2 - (j / Img_width + 1) * Img_width + j % Img_width;   //镜像
-		realrow = Img_height - 1 - j / Img_width;
-		realcol = j % Img_width;
-		fameDepthArray2[realindex] = raw_dep;
+	qRegisterMetaType<cv::Mat >("cv::Mat");
+}
 
-		//cout << fameDepthArray2[j] << " ";
-	}
-	uint16_t depth[240][320];
-	for (int i = 0; i < 240; i++)
+DCam::DCam(std::string ip, int port)
+{
+	setNet(ip, port);
+}
+
+DCam::~DCam()
+{
+}
+
+void DCam::run()
+{
+	qRegisterMetaType<cv::Mat >("cv::Mat");
+	qRegisterMetaType<PointCloudT::Ptr>("PointCloudT::Ptr");
+	isRun = true;
+
+	while (isRun)
 	{
-		for (int j = 0; j < 320; j++)
+		g_Tcpsocket._ip = ip;
+		g_Tcpsocket._port = port;
+		int flag = g_Tcpsocket.socket_com(sendline, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port);	//获取数据
+		cv::Mat img_show;
+
+		if (flag == 1)
 		{
-			depth[i][j] = fameDepthArray2[i * 320 + j];
-		}
-	}
-	src_1.create(Img_height, Img_width, CV_16UC1);
-	imshowsrc.create(Img_height, Img_width, CV_8UC1);
-
-	for (int i = 0; i < 240; i++)
-	{
-		for (int j = 0; j < 320; j++)
-		{
-		  src_1.at<ushort>(i, j) = depth[i][j];
-
-		}
-
-	}
-	for (int i = 0; i < 240; i++)
-	{
-		for (int j = 0; j < 320; j++)
-		{
-			imshowsrc.at<uchar>(i, j) = 255 - src_1.at<ushort>(i, j) * 25 / 3000;
-			//cout << src2.at<uchar>(i, j) << endl;
+			//获取数据成功
+			g_depthprocess.ptr_buf_unsigned = (unsigned char*)g_Tcpsocket.ptr_buf2;
+			img_show = g_depthprocess.depthProcess();
+			if (isPointCloudConvert)
+			{
+				PointCloudT::Ptr cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth());
+				emit(getPointCloud(cloud));
+			}
 		}
 
+		emit getImage(img_show);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
+
 	}
+}
+
+void DCam::setRun(bool isRun = false)
+{
+	this->isRun = isRun;
+}
+
+void DCam::setNet(std::string ip, int port)
+{
+	this->ip = ip;
+	this->port = port;
+}
+
+void DCam::setPointcloudConvert(bool isConvert)
+{
+	this->isPointCloudConvert = isConvert;
+}
+
+void DCam::setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3)
+{
+	g_pclConvert.setConvertParameter(fx, fy, cx, cy, k1, k2, 0, 0, 0);
 }
