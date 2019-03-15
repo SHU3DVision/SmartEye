@@ -30,6 +30,7 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img)
 	PointCloudT::Ptr pointcloud(new PointCloudT);
 
 	img = undistImg(img);		//畸变矫正
+	int counter = 0;			//计数，降低点数
 	
 	//点云变换
 	int imgWidth = img.size().width;
@@ -44,7 +45,19 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img)
 			float angle = atan(sqrt((j - imgWidth / 2.0)*(j - imgWidth / 2.0) / fx / fx + (i - imgHeight / 2.0)*(i - imgHeight / 2.0) / fy / fy));
 			float dist = img.at<ushort>(i, j);				//原始图像深度
 
-			if (dist == 0 || dist > 30000)
+			//降低点云数量
+			if (counter == 4)
+			{
+				counter=0;
+			}
+			else
+			{
+				counter++;
+				continue;
+			}
+
+			//过滤无效点
+			if (dist == 0 || dist >= 30000)
 				continue;
 
 			pcl::PointXYZRGBA p;

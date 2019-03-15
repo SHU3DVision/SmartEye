@@ -3,12 +3,19 @@
 DCam::DCam(QObject *parent)
 	: QThread(parent)
 {
-	qRegisterMetaType<cv::Mat >("cv::Mat");
+	DCam();
 }
 
 DCam::DCam(std::string ip, int port)
 {
 	setNet(ip, port);
+	DCam();
+}
+
+DCam::DCam()
+{
+	qRegisterMetaType<cv::Mat >("cv::Mat");
+	qRegisterMetaType<PointCloudT::Ptr>("PointCloudT::Ptr");
 }
 
 DCam::~DCam()
@@ -17,10 +24,10 @@ DCam::~DCam()
 
 void DCam::run()
 {
-	qRegisterMetaType<cv::Mat >("cv::Mat");
-	qRegisterMetaType<PointCloudT::Ptr>("PointCloudT::Ptr");
+	
 	isRun = true;
 
+	//Ö÷Ñ­»·
 	while (isRun)
 	{
 		g_Tcpsocket._ip = ip;
@@ -64,4 +71,9 @@ void DCam::setPointcloudConvert(bool isConvert)
 void DCam::setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3)
 {
 	g_pclConvert.setConvertParameter(fx, fy, cx, cy, k1, k2, 0, 0, 0);
+}
+
+bool DCam::getRunState()
+{
+	return isRun;
 }

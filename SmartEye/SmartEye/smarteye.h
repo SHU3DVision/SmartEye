@@ -50,21 +50,19 @@ public:
 
 private:
 	Ui::SmartEyeClass ui;
-	int connectState = 0;
-	QTimer    *timer;
+	int connectState = 0;					//socket连接状态，用于更新连接按钮ui
 	char* sendline = "getDistanceSorted";   //发送获取深度数据指令
 	bool isPCLShow = false;					//是否点云转换标志
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
 	PointCloudT::Ptr cloud;					//点云指针
-	int i = 0;	//临时
 	
 	void showPointCloud();	  //点云显示
 
 private slots:
-	void imageUpdateSlot(cv::Mat img);//更新图像信号
+	void imageUpdateSlot(cv::Mat img);	//更新图像信号
 	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//更新点云信息
-	void connectStateSlot();//通信状态
-	void pointCloudConvert();//点云转换功能 
+	void connectButtonPressedSlot();	//连接按钮点击槽
+	void pclButtonPressedSlot();			//点云转换功能 
 	 
 
 };

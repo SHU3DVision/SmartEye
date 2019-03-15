@@ -15,12 +15,14 @@ class DCam : public QThread
 
 public:
 	DCam(QObject *parent);
+	DCam();
 	DCam(std::string ip, int port);
 	~DCam();
 	void setRun(bool isRun);				//设置线程停止
 	void setNet(std::string ip, int port);	//设置相机IP，端口
-	void setPointcloudConvert(bool isConvert);
+	void setPointcloudConvert(bool isConvert);	//设置点云显示
 	void setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置相机内参、畸变系数
+	bool getRunState();						//获取运行状态
 
 signals:
 	void getImage(cv::Mat);				//获取图像后信号

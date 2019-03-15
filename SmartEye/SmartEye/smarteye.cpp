@@ -15,17 +15,16 @@ SmartEye::SmartEye(QWidget *parent)
 	viewer.reset(new pcl::visualization::PCLVisualizer("viewer", false));
 	ui.screen->SetRenderWindow(viewer->getRenderWindow());
 	viewer->setupInteractor(ui.screen->GetInteractor(), ui.screen->GetRenderWindow());
-	viewer->setCameraPosition(-557.379, 9640.31, -6123, -0.00374522, -0.795958, -0.60534);
-	ui.screen->update();
+	viewer->setCameraPosition(-557.379, 9640.31, -6123, -0.00374522, -0.795958, -0.60534);	//设置相机视角
+	ui.screen->update();	
 
-	ui.screen->hide();
+	ui.screen->hide();	//隐藏点云界面
 
+	g_dcam = new DCam();
 
 	//槽连接
-	QObject::connect(ui.connectButton, SIGNAL(triggered()), this, SLOT(connectStateSlot()));
-	timer = new QTimer(this);
-	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(TCPSocketSlot()));
-	QObject::connect(ui.pclBtn, SIGNAL(clicked()), this, SLOT(pointCloudConvert()));
+	QObject::connect(ui.connectButton, SIGNAL(clicked()), this, SLOT(connectButtonPressedSlot()));
+	QObject::connect(ui.pclBtn, SIGNAL(clicked()), this, SLOT(pclButtonPressedSlot()));
 }
 
 SmartEye::~SmartEye()
@@ -33,7 +32,7 @@ SmartEye::~SmartEye()
 	
 }
 //通信状态
-void SmartEye::connectStateSlot()
+void SmartEye::connectButtonPressedSlot()
 {
 	
 	if (connectState == 0)
@@ -45,40 +44,34 @@ void SmartEye::connectStateSlot()
 		connect(g_dcam, SIGNAL(getImage(cv::Mat)), this, SLOT(imageUpdateSlot(cv::Mat)));	//设置连接槽
 		g_dcam->start();	//线程启动
 
-		ui.statelabel->setText("Success");
+		ui.statelabel->setText("Connecting");
 		ui.connectButton->setText("Disconnect");
 		connectState++;
 	}
 	else
 	{
 		g_dcam->setRun(false);
-		ui.statelabel->setText("No");
+		ui.statelabel->setText("Disconnect");
 		ui.connectButton->setText("Connect");
 		connectState--;
 	}
 	
 }
-//TCP通信
-//正常连接断开，返回0
-//异常连接，返回-1
+
+//更新图片槽
 void SmartEye::imageUpdateSlot(cv::Mat img)
 {
 	if (img.size().height != 0)
 	{
-			//处理原始数据
-			cv::Mat imshowsrc = img;
-			//显示灰度图
-			showImage(imshowsrc);
-			
-			////点云展示
-			//if (isPCLShow)
-			//{
-			//	cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth());
-			//	showPointCloud();
-			//}
+		ui.statelabel->setText("Connected");
+		//处理原始数据
+		cv::Mat imshowsrc = img;
+		//显示灰度图
+		showImage(imshowsrc);
 	}
 	else
 	{
+		g_dcam->setRun(false);
 		ui.statelabel->setText("No");
 		ui.connectButton->setText("Connect");
 		return;
@@ -104,7 +97,7 @@ void SmartEye::showImage(Mat imshowsrc)
 	ui.Img_label->setPixmap(QPixmap::fromImage(img));
 }
 
-void SmartEye::pointCloudConvert()
+void SmartEye::pclButtonPressedSlot()
 {
 	//获取畸变矩阵参数
 	double fx = ui.FXlineEdit->text().toDouble();
@@ -117,7 +110,7 @@ void SmartEye::pointCloudConvert()
 	g_dcam->setCameraParameters(fx, fy, cx, cy, k1, k2, 0, 0, 0);
 
 
-	if (isPCLShow)
+	if (isPCLShow || !(g_dcam->getRunState()))
 	{
 		//关闭更新
 		isPCLShow = false;
@@ -139,8 +132,6 @@ void SmartEye::showPointCloud()
 	viewer->removeAllPointClouds();
 	viewer->addPointCloud(cloud, "cloud");
 	viewer->updatePointCloud(cloud, "cloud");
-	//if (!i++)
-		//viewer->resetCamera();
 	pcl::visualization::Camera c;
 	viewer->getCameraParameters(c);
 	qDebug() << "pos1:" << c.pos[0] << "\tpos2:" << c.pos[1] <<"\tpos3:"<< c.pos[2] << endl;

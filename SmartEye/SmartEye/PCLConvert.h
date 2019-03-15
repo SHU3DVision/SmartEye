@@ -20,14 +20,14 @@ public:
 private:
 	cv::Mat undistImg(cv::Mat src);		//»û±ä½ÃÕý
 
-	int fx;
-	int fy;
-	int cx;
-	int cy;
-	int k1;
-	int k2;
-	int p1;
-	int p2;
-	int k3;
+	double fx;
+	double fy;
+	double cx;
+	double cy;
+	double k1;
+	double k2;
+	double p1;
+	double p2;
+	double k3;
 };
 
