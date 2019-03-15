@@ -18,6 +18,7 @@ using namespace cv;
 #define MAX_PHASE        30000.0 //温度矫正
 #define MAX_DIST_VALUE 	30000 //最远距离值
 #define OFFSET_PHASE_DEFAULT 0  //深度补偿值
+
 class Imagedepthprocess
 {
 public:

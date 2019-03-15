@@ -1,5 +1,5 @@
 #include"Depthprocess.h"
-uint16_t fameDepthArray2[MAXLINE];
+
 Imagedepthprocess::Imagedepthprocess()
 {
 	 _matimg_short.create(240, 320, CV_16UC1);
@@ -13,6 +13,7 @@ Imagedepthprocess::~Imagedepthprocess()
 //∑µªÿ£∫mat¿‡–Õ
 Mat Imagedepthprocess::depthProcess()
 {
+	uint16_t fameDepthArray2[MAXLINE];
 	for (int j = 0; j < bytecount / 2; j++)
 	{
 		raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];

@@ -39,6 +39,8 @@ private:
 	bool isPointCloudConvert = false;	//是否点云转换
 	std::string ip = "192.168.7.2";		//相机IP
 	int port = 50660;					//相机端口
-	char* sendline = "getDistanceSorted";   //发送获取深度数据指令
+	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
+	char* send_temp = "getTemperature";//发送获取温度数据指令
 
 };
+

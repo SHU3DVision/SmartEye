@@ -24,15 +24,15 @@ void sk_cleanup(void)
 //destport 相机端口号
 //返回：成功后返回1
 //      失败后返回0
-int CTinySocket:: socket_com(char sendline[], int length, const char* destip, const int destport)
+int CTinySocket::socket_com(char sendline[], int length, const char* destip, const int destport, char* buf)
 {
 	//socket connect
 	sk_startup();
-	char* ptr_buf = buf;
+	char tempbuf[MAXLINE];      //接收缓冲区
 	int count = 0;             //接收总字节计数
 	int rec_len, Ret;          //发送、接收状态
 	static struct sockaddr_in servaddr;
-
+	databuf = buf;
 	//socket初始化
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == INVALID_SOCKET)
@@ -76,11 +76,11 @@ int CTinySocket:: socket_com(char sendline[], int length, const char* destip, co
 	int i2 = 0;
 	while (count < length) //153600
 	{
-		rec_len = recv(sockfd, buf, MAXLINE, 0);
+		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
 		for (int i = 0; i < rec_len; i++)
 		{
 
-			ptr_buf2[i2] = buf[i];
+			buf[i2] = tempbuf[i];
 			i2++;
 
 		}
@@ -103,4 +103,13 @@ CTinySocket::~CTinySocket()
 {
 	
 
+}
+//获取深度数据
+void CTinySocket::receive_depth()
+{
+
+}
+//获取温度数据
+void CTinySocket::receive_temperature()
+{
 }

@@ -32,19 +32,24 @@ void DCam::run()
 	{
 		g_Tcpsocket._ip = ip;
 		g_Tcpsocket._port = port;
-		int flag = g_Tcpsocket.socket_com(sendline, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port);	//获取数据
+		char ptr_buf[MAXLINE];  //存储缓存区
+		int n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取数据
 		cv::Mat img_show;
 
-		if (flag == 1)
+		if (n == 1)
 		{
 			//获取数据成功
-			g_depthprocess.ptr_buf_unsigned = (unsigned char*)g_Tcpsocket.ptr_buf2;
+			g_depthprocess.ptr_buf_unsigned = (unsigned char*)ptr_buf;
 			img_show = g_depthprocess.depthProcess();
 			if (isPointCloudConvert)
 			{
 				PointCloudT::Ptr cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth());
 				emit(getPointCloud(cloud));
 			}
+		}
+		else if (n == 12)
+		{
+
 		}
 
 		emit getImage(img_show);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
