@@ -82,3 +82,18 @@ bool DCam::getRunState()
 {
 	return isRun;
 }
+//显示相机温度
+//输入：buf 温度数据指针（16位
+int DCam::setrealtemperature(char *buf)
+{
+	int i;
+	ushort temp = 0;
+	for (i = 0; i < 4; i++){
+		temp += (uchar)*(buf + i * 2) + (ushort)(*(buf + i * 2 + 1)) * 256;
+	}
+	//温度转换
+	realTempChip = temp / 4;
+	realTempBoard1 = (uchar)*(buf + 8) + (ushort)(*(buf + 9)) * 256;
+	realTempBoard2 = (uchar)*(buf + 10) + (ushort)(*(buf + 11)) * 256;
+	return realTempChip;
+}

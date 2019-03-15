@@ -22,6 +22,7 @@ public:
 	void setNet(std::string ip, int port);	//设置相机IP，端口
 	void setPointcloudConvert(bool isConvert);	//设置点云显示
 	void setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置相机内参、畸变系数
+	int setrealtemperature(char *buf);    //获取相机温度
 	bool getRunState();						//获取运行状态
 
 signals:
@@ -39,8 +40,13 @@ private:
 	bool isPointCloudConvert = false;	//是否点云转换
 	std::string ip = "192.168.7.2";		//相机IP
 	int port = 50660;					//相机端口
+	int g_TempReadDelay = 0;                 //获取相机温度延迟信号
+	int g_TempReadEnable = 1;                //获取相机温度信号
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
 	char* send_temp = "getTemperature";//发送获取温度数据指令
+	ushort	realTempChip;		//温度
+	ushort	realTempBoard1;
+	ushort	realTempBoard2;
 
 };
 

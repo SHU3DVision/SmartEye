@@ -37,7 +37,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == INVALID_SOCKET)
 	{
-		return 0;
+		return -1;
 		exit(0);
 	}
 	else
@@ -53,7 +53,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	Ret = connect(sockfd, (SOCKADDR*)&servaddr, sizeof(servaddr));
 	if (Ret == SOCKET_ERROR)
 	{
-		return 0;
+		return -1;
 		exit(0);
 	}
 
@@ -65,16 +65,39 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	Ret = send(sockfd, sendline, strlen(sendline), 0);
 	if (Ret == SOCKET_ERROR)
 	{
-		return 0;
+		return -1;
 		exit(0);
 	}
 	else
 	{
 		
 	}
-	//接收返回图像数据
 	int i2 = 0;
-	while (count < length) //153600
+	if (strlen(sendline) == 17)
+	{
+		//接收返回图像数据
+		
+		while (count < length) //153600
+		{
+			rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
+			for (int i = 0; i < rec_len; i++)
+			{
+
+				buf[i2] = tempbuf[i];
+				i2++;
+
+			}
+			if (rec_len == SOCKET_ERROR)
+			{
+				//cout << "接受Error::" << GetLastError() << endl;
+				exit(0);
+			}
+
+			count = count + rec_len;
+
+		}
+	}
+	else
 	{
 		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
 		for (int i = 0; i < rec_len; i++)
@@ -89,15 +112,22 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 			//cout << "接受Error::" << GetLastError() << endl;
 			exit(0);
 		}
-
-		count = count + rec_len;
-
+		
 	}
+	
 	//关闭套接字
 	closesocket(sockfd);
 	//终止使用 DLL
 	sk_cleanup();
-	return 1;
+	if (count != 0)
+	{
+		return 1;
+	}
+	else
+	{
+		return rec_len;
+	}
+	
 }
 CTinySocket::~CTinySocket()
 {

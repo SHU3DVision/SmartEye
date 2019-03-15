@@ -312,7 +312,7 @@ public:
     void retranslateUi(QMainWindow *SmartEyeClass)
     {
         SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye", 0));
-        Img_label->setText(QApplication::translate("SmartEyeClass", "TextLabel", 0));
+        Img_label->setText(QString());
         dockWidget->setWindowTitle(QApplication::translate("SmartEyeClass", "Socket", 0));
         label->setText(QApplication::translate("SmartEyeClass", "IP\357\274\232", 0));
         IplineEdit->setText(QApplication::translate("SmartEyeClass", "192.168.7.2", 0));
