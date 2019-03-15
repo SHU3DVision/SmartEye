@@ -25,7 +25,7 @@ public:
 	bool getRunState();						//获取运行状态
 
 signals:
-	void getImage(cv::Mat);				//获取图像后信号
+	void getImage(cv::Mat,int);				//获取图像后信号,Mat格式传回图像信息，int传回是否是图像0不是图像，1是图像，-1异常
 	void getPointCloud(PointCloudT::Ptr);	//获取点云信号
 
 protected:
