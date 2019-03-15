@@ -7,6 +7,8 @@ SmartEye::SmartEye(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	getCameraParameterFromFile();	//从config.ini读取相机配置参数
+
 	//点云初始化
 	cloud.reset(new PointCloudT);
 	cloud->resize(1);
@@ -15,7 +17,7 @@ SmartEye::SmartEye(QWidget *parent)
 	viewer.reset(new pcl::visualization::PCLVisualizer("viewer", false));
 	ui.screen->SetRenderWindow(viewer->getRenderWindow());
 	viewer->setupInteractor(ui.screen->GetInteractor(), ui.screen->GetRenderWindow());
-	viewer->setCameraPosition(-557.379, 9640.31, -6123, -0.00374522, -0.795958, -0.60534);	//设置相机视角
+	viewer->setCameraPosition(151, -6402, -10771, 0.0133335, 0.945376, -0.325708);	//设置相机视角
 	ui.screen->update();	
 
 	ui.screen->hide();	//隐藏点云界面
@@ -158,9 +160,37 @@ void SmartEye::showPointCloud()
 	viewer->removeAllPointClouds();
 	viewer->addPointCloud(cloud, "cloud");
 	viewer->updatePointCloud(cloud, "cloud");
-	pcl::visualization::Camera c;
-	viewer->getCameraParameters(c);
-	qDebug() << "pos1:" << c.pos[0] << "\tpos2:" << c.pos[1] <<"\tpos3:"<< c.pos[2] << endl;
-	qDebug() << "view1:" << c.view[0] << "\tview2:" << c.view[1] << "\tview3:" << c.view[2] << endl;
 	ui.screen->update();
+}
+
+void SmartEye::getCameraParameterFromFile()
+{
+	QFile file("config.ini");
+	if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		int count = 0;
+		while (!file.atEnd())
+		{
+			QByteArray line = file.readLine();
+			if (line[0] == '\n')
+				break;
+
+			if (line[0] != '#')
+			{
+				QString str(line);
+				switch (count++)
+				{
+				case 0: ui.FXlineEdit->setText(str); break;
+				case 1: ui.FYlineEdit->setText(str); break;
+				case 2: ui.CXlineEdit->setText(str); break;
+				case 3: ui.CYlineEdit->setText(str); break;
+				case 5: ui.k1lineEdit->setText(str); break;
+				case 6: ui.k2lineEdit->setText(str); break;
+				default:
+					break;
+				}
+			}
+		}
+		file.close();
+	}
 }

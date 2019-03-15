@@ -161,7 +161,7 @@
          <item>
           <widget class="QLineEdit" name="FXlineEdit">
            <property name="text">
-            <string>287.037753 </string>
+            <string>290</string>
            </property>
           </widget>
          </item>
@@ -179,7 +179,7 @@
          <item>
           <widget class="QLineEdit" name="FYlineEdit">
            <property name="text">
-            <string>288.1155963 </string>
+            <string>288</string>
            </property>
           </widget>
          </item>
@@ -197,7 +197,7 @@
          <item>
           <widget class="QLineEdit" name="CXlineEdit">
            <property name="text">
-            <string>179.8002737 </string>
+            <string>160</string>
            </property>
           </widget>
          </item>
@@ -215,7 +215,7 @@
          <item>
           <widget class="QLineEdit" name="CYlineEdit">
            <property name="text">
-            <string>119.8945818 </string>
+            <string>120</string>
            </property>
           </widget>
          </item>
@@ -233,7 +233,7 @@
          <item>
           <widget class="QLineEdit" name="k1lineEdit">
            <property name="text">
-            <string>-0.126345354 </string>
+            <string>0</string>
            </property>
           </widget>
          </item>
@@ -251,7 +251,7 @@
          <item>
           <widget class="QLineEdit" name="k2lineEdit">
            <property name="text">
-            <string>0.149484016 </string>
+            <string>0</string>
            </property>
           </widget>
          </item>

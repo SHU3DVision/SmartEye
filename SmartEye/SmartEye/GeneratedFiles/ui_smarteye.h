@@ -322,17 +322,17 @@ public:
         statelabel->setText(QApplication::translate("SmartEyeClass", "NO", 0));
         dockWidget_2->setWindowTitle(QApplication::translate("SmartEyeClass", "Paraments", 0));
         label_3->setText(QApplication::translate("SmartEyeClass", "FX", 0));
-        FXlineEdit->setText(QApplication::translate("SmartEyeClass", "287.037753 ", 0));
+        FXlineEdit->setText(QApplication::translate("SmartEyeClass", "290", 0));
         label_4->setText(QApplication::translate("SmartEyeClass", "FY", 0));
-        FYlineEdit->setText(QApplication::translate("SmartEyeClass", "288.1155963 ", 0));
+        FYlineEdit->setText(QApplication::translate("SmartEyeClass", "288", 0));
         label_5->setText(QApplication::translate("SmartEyeClass", "CX", 0));
-        CXlineEdit->setText(QApplication::translate("SmartEyeClass", "179.8002737 ", 0));
+        CXlineEdit->setText(QApplication::translate("SmartEyeClass", "160", 0));
         label_6->setText(QApplication::translate("SmartEyeClass", "CY", 0));
-        CYlineEdit->setText(QApplication::translate("SmartEyeClass", "119.8945818 ", 0));
+        CYlineEdit->setText(QApplication::translate("SmartEyeClass", "120", 0));
         label_7->setText(QApplication::translate("SmartEyeClass", "k1", 0));
-        k1lineEdit->setText(QApplication::translate("SmartEyeClass", "-0.126345354 ", 0));
+        k1lineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         label_8->setText(QApplication::translate("SmartEyeClass", "k2", 0));
-        k2lineEdit->setText(QApplication::translate("SmartEyeClass", "0.149484016 ", 0));
+        k2lineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         pclBtn->setText(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
     } // retranslateUi
 
