@@ -165,6 +165,8 @@ public:
 
         statelabel = new QLabel(dockWidgetContents);
         statelabel->setObjectName(QStringLiteral("statelabel"));
+        statelabel->setStyleSheet(QStringLiteral("color: rgb(231, 231, 231);text-align: center;"));
+        statelabel->setTextFormat(Qt::AutoText);
 
         horizontalLayout_3->addWidget(statelabel);
 
@@ -303,7 +305,6 @@ public:
         SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_2);
 
         retranslateUi(SmartEyeClass);
-        QObject::connect(connectButton, SIGNAL(clicked()), SmartEyeClass, SLOT(connectStateSlot()));
 
         QMetaObject::connectSlotsByName(SmartEyeClass);
     } // setupUi

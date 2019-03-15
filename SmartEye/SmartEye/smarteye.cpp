@@ -22,6 +22,14 @@ SmartEye::SmartEye(QWidget *parent)
 
 	g_dcam = new DCam();
 
+	//lable颜色设置
+	ui.statelabel->setAlignment(Qt::AlignCenter);	//连接状态剧中
+	ui.statelabel->setAutoFillBackground(true);		//填充背景
+	QPalette pa;
+	pa.setColor(QPalette::Background, Qt::darkRed);
+	ui.statelabel->setPalette(pa);					//更改颜色
+
+
 	//槽连接
 	QObject::connect(ui.connectButton, SIGNAL(clicked()), this, SLOT(connectButtonPressedSlot()));
 	QObject::connect(ui.pclBtn, SIGNAL(clicked()), this, SLOT(pclButtonPressedSlot()));
@@ -43,15 +51,22 @@ void SmartEye::connectButtonPressedSlot()
 		g_dcam = new DCam(ip,port);						 //初始化相机类
 		connect(g_dcam, SIGNAL(getImage(cv::Mat)), this, SLOT(imageUpdateSlot(cv::Mat)));	//设置连接槽
 		g_dcam->start();	//线程启动
-
-		ui.statelabel->setText("Connecting");
+		
+		QPalette pa;
+		pa.setColor(QPalette::Background, Qt::darkYellow);
+		ui.statelabel->setPalette(pa);					//更改颜色
+		ui.statelabel->setText("Connecting");			//更改文字
 		ui.connectButton->setText("Disconnect");
 		connectState++;
 	}
 	else
 	{
 		g_dcam->setRun(false);
-		ui.statelabel->setText("Disconnect");
+
+		QPalette pa;
+		pa.setColor(QPalette::Background, Qt::darkRed);
+		ui.statelabel->setPalette(pa);					//更改颜色
+		ui.statelabel->setText("No");
 		ui.connectButton->setText("Connect");
 		connectState--;
 	}
@@ -61,17 +76,28 @@ void SmartEye::connectButtonPressedSlot()
 //更新图片槽
 void SmartEye::imageUpdateSlot(cv::Mat img)
 {
-	if (img.size().height != 0)
+	if (img.size().height != 0 && g_dcam->getRunState())		//获取数据正常
 	{
+		//ui更新
+		QPalette pa;
+		pa.setColor(QPalette::Background, Qt::darkGreen);
+		ui.statelabel->setPalette(pa);					//更改颜色
 		ui.statelabel->setText("Connected");
+		ui.connectButton->setText("Disconnect");
+		
 		//处理原始数据
 		cv::Mat imshowsrc = img;
 		//显示灰度图
 		showImage(imshowsrc);
 	}
-	else
+	else							//获取数据失败
 	{
 		g_dcam->setRun(false);
+		
+		//ui更新
+		QPalette pa;
+		pa.setColor(QPalette::Background, Qt::darkRed);
+		ui.statelabel->setPalette(pa);					//更改颜色
 		ui.statelabel->setText("No");
 		ui.connectButton->setText("Connect");
 		return;

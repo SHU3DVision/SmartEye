@@ -107,8 +107,14 @@
          </item>
          <item>
           <widget class="QLabel" name="statelabel">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(231, 231, 231);text-align: center;</string>
+           </property>
            <property name="text">
             <string>NO</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::AutoText</enum>
            </property>
           </widget>
          </item>
@@ -288,24 +294,7 @@
  <resources>
   <include location="smarteye.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>connectButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SmartEyeClass</receiver>
-   <slot>connectStateSlot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>51</x>
-     <y>140</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>246</x>
-     <y>189</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>TCPSocketSlot()</slot>
   <slot>connectStateSlot()</slot>
