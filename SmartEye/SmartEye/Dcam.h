@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <QMetaType>
+#include<qdebug.h>
 
 #include "TinySocket.h"
 #include "Depthprocess.h"
@@ -41,7 +42,7 @@ private:
 	std::string ip = "192.168.7.2";		//相机IP
 	int port = 50660;					//相机端口
 	int g_TempReadDelay = 0;                 //获取相机温度延迟信号
-	int g_TempReadEnable = 1;                //获取相机温度信号
+	int g_TempReadEnable = 0;                //获取相机温度信号
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
 	char* send_temp = "getTemperature";//发送获取温度数据指令
 	ushort	realTempChip;		//温度

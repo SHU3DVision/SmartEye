@@ -33,7 +33,24 @@ void DCam::run()
 		g_Tcpsocket._ip = ip;
 		g_Tcpsocket._port = port;
 		char ptr_buf[MAXLINE];  //存储缓存区
-		int n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取数据
+		int n = -1;
+		if (g_TempReadEnable == 1)
+		{
+			n = g_Tcpsocket.socket_com(send_temp, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取温度数据
+			g_TempReadEnable = 0;
+		}
+		else
+		{
+			n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
+			g_TempReadDelay++;
+		}
+		
+		//读取深度五十次后，读取温度
+		if (g_TempReadDelay > 5)
+		{
+			g_TempReadDelay = 0;
+			g_TempReadEnable = 1;
+		}
 		cv::Mat img_show;
 
 		if (n == 1)
@@ -49,10 +66,11 @@ void DCam::run()
 		}
 		else if (n == 12)
 		{
-
+			g_depthprocess.realTempChip=setrealtemperature(ptr_buf);
+			n = 0;
 		}
 
-		emit getImage(img_show,1);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
+		emit getImage(img_show,n);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
 
 	}
 }

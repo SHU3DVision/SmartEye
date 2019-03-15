@@ -38,7 +38,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	if (sockfd == INVALID_SOCKET)
 	{
 		return -1;
-		exit(0);
+		
 	}
 	else
 	{
@@ -54,7 +54,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	if (Ret == SOCKET_ERROR)
 	{
 		return -1;
-		exit(0);
+		
 	}
 
 	else
@@ -66,7 +66,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	if (Ret == SOCKET_ERROR)
 	{
 		return -1;
-		exit(0);
+		
 	}
 	else
 	{
@@ -89,8 +89,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 			}
 			if (rec_len == SOCKET_ERROR)
 			{
-				//cout << "½ÓÊÜError::" << GetLastError() << endl;
-				exit(0);
+				
 			}
 
 			count = count + rec_len;

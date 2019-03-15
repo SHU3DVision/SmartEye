@@ -29,6 +29,7 @@ public:
 	unsigned char* ptr_buf_unsigned;
 	cv::Mat _matimg_short;   //16bit数据
 	cv::Mat _matimg_show;    //8bit数据
+	ushort realTempChip;    //相机温度
 	//void calibrate();
 private:
 	void calibrate(ushort *img);       //滤波
@@ -39,4 +40,5 @@ private:
 	uint16_t raw_dep;
 	int realindex, realrow, realcol;
 	int		drnuLut[50][252][328];				//温度矫正用表
+	
 };
