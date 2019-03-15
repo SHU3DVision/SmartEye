@@ -22,6 +22,7 @@ VTK_MODULE_INIT(vtkInteractionStyle);
 #include "DCam.h"
 #include <qtimer.h>
 #include <qdebug.h>
+#include <qfile.h>
 
 #include "QVTKWidget.h"
 #include <vtkRenderWindow.h>
@@ -56,13 +57,14 @@ private:
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
 	PointCloudT::Ptr cloud;					//点云指针
 	
-	void showPointCloud();	  //点云显示
+	void showPointCloud();				//点云显示更新
+	void getCameraParameterFromFile();	//从config.ini获取参数
 
 private slots:
 	void imageUpdateSlot(cv::Mat img);	//更新图像信号
 	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//更新点云信息
 	void connectButtonPressedSlot();	//连接按钮点击槽
-	void pclButtonPressedSlot();			//点云转换功能 
+	void pclButtonPressedSlot();		//点云转换功能 
 	 
 
 };

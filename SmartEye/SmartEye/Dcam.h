@@ -34,7 +34,7 @@ protected:
 private:
 	Imagedepthprocess g_depthprocess;	//原始图像处理类
 	CTinySocket	g_Tcpsocket;			//SOCKET类
-	PCLConvert	g_pclConvert;		//点云转换使用
+	PCLConvert	g_pclConvert;			//点云转换使用
 	bool isRun = false;					//是否运行
 	bool isPointCloudConvert = false;	//是否点云转换
 	std::string ip = "192.168.7.2";		//相机IP
