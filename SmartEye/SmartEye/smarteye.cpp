@@ -51,7 +51,7 @@ void SmartEye::connectButtonPressedSlot()
 		std::string ip = ui.IplineEdit->text().toStdString();    //获取相机IP
 		int port = ui.PortlineEdit->text().toInt();      //获取相机端口号
 		g_dcam = new DCam(ip,port);						 //初始化相机类
-		connect(g_dcam, SIGNAL(getImage(cv::Mat)), this, SLOT(imageUpdateSlot(cv::Mat)));	//设置连接槽
+		connect(g_dcam, SIGNAL(getImage(cv::Mat,int)), this, SLOT(imageUpdateSlot(cv::Mat,int)));	//设置连接槽
 		g_dcam->start();	//线程启动
 		
 		QPalette pa;
@@ -76,26 +76,43 @@ void SmartEye::connectButtonPressedSlot()
 }
 
 //更新图片槽
-void SmartEye::imageUpdateSlot(cv::Mat img)
+//输入：img 传入图像Mat格式
+//输入：isImg 是否是图像，避免读取温度造成跳帧
+void SmartEye::imageUpdateSlot(cv::Mat img,int isImg)
 {
-	if (img.size().height != 0 && g_dcam->getRunState())		//获取数据正常
+	if (isImg == 1)			//读入图片
 	{
-		//ui更新
-		QPalette pa;
-		pa.setColor(QPalette::Background, Qt::darkGreen);
-		ui.statelabel->setPalette(pa);					//更改颜色
-		ui.statelabel->setText("Connected");
-		ui.connectButton->setText("Disconnect");
-		
-		//处理原始数据
-		cv::Mat imshowsrc = img;
-		//显示灰度图
-		showImage(imshowsrc);
+		if (img.size().height != 0 && g_dcam->getRunState())		//获取数据正常
+		{
+			//ui更新
+			QPalette pa;
+			pa.setColor(QPalette::Background, Qt::darkGreen);
+			ui.statelabel->setPalette(pa);					//更改颜色
+			ui.statelabel->setText("Connected");
+			ui.connectButton->setText("Disconnect");
+
+			//处理原始数据
+			cv::Mat imshowsrc = img;
+			//显示灰度图
+			showImage(imshowsrc);
+		}
+		else							//获取数据失败
+		{
+			g_dcam->setRun(false);
+
+			//ui更新
+			QPalette pa;
+			pa.setColor(QPalette::Background, Qt::darkRed);
+			ui.statelabel->setPalette(pa);					//更改颜色
+			ui.statelabel->setText("No");
+			ui.connectButton->setText("Connect");
+			return;
+		}
 	}
-	else							//获取数据失败
+	else if (isImg == -1)		//读取异常
 	{
 		g_dcam->setRun(false);
-		
+
 		//ui更新
 		QPalette pa;
 		pa.setColor(QPalette::Background, Qt::darkRed);
@@ -104,6 +121,7 @@ void SmartEye::imageUpdateSlot(cv::Mat img)
 		ui.connectButton->setText("Connect");
 		return;
 	}
+	
 	return;
 		
 }

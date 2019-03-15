@@ -52,7 +52,7 @@ void DCam::run()
 
 		}
 
-		emit getImage(img_show);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
+		emit getImage(img_show,1);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
 
 	}
 }
