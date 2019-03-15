@@ -6,11 +6,7 @@
 
 
 #define MAXLINE 253600
-#define MAX_NUM_PIX	82656	//328 * 252
-#define LOW_AMPLITUDE 	32500
-#define MAX_PHASE        30000.0
-#define MAX_DIST_VALUE 	30000
-#define offsetPhaseDefault 0
+
 
 using namespace std;
 class CTinySocket
