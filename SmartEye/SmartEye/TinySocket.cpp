@@ -30,7 +30,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	sk_startup();
 	char tempbuf[MAXLINE];      //接收缓冲区
 	int count = 0;             //接收总字节计数
-	int rec_len, Ret;          //发送、接收状态
+	int rec_len, Ret;          //发送、接收状
 	static struct sockaddr_in servaddr;
 	databuf = buf;
 	//socket初始化
@@ -96,7 +96,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 
 		}
 	}
-	else
+	else if (strlen(sendline) == 14)
 	{
 		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
 		for (int i = 0; i < rec_len; i++)
@@ -108,23 +108,36 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 		}
 		if (rec_len == SOCKET_ERROR)
 		{
-			//cout << "接受Error::" << GetLastError() << endl;
-			exit(0);
+			return -1;
 		}
 		
+	}
+	else
+	{
+		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
+		qDebug() << "-------------------" << rec_len;
+		qDebug() << "-------------------" << tempbuf;
+		if (rec_len == SOCKET_ERROR)
+		{
+			return -1;
+		}
 	}
 	
 	//关闭套接字
 	closesocket(sockfd);
 	//终止使用 DLL
 	sk_cleanup();
-	if (count != 0)
+	if (strlen(sendline) == 17)
 	{
 		return 1;
 	}
-	else
+	else if (strlen(sendline) == 14)
 	{
 		return rec_len;
+	}
+	else
+	{
+		return 0;
 	}
 	
 }

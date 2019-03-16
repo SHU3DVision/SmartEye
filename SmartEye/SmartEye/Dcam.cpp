@@ -34,16 +34,28 @@ void DCam::run()
 		g_Tcpsocket._port = port;
 		char ptr_buf[MAXLINE];  //存储缓存区
 		int n = -1;
-		if (g_TempReadEnable == 1)
+		if (integrationtime3Dflag ==0)
 		{
-			n = g_Tcpsocket.socket_com(send_temp, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取温度数据
-			g_TempReadEnable = 0;
+			if (g_TempReadEnable == 1)
+			{
+				n = g_Tcpsocket.socket_com(send_temp, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取温度数据
+				g_TempReadEnable = 0;
+			}
+			else
+			{
+				n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
+				g_TempReadDelay++;
+			}
 		}
 		else
 		{
-			n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
-			g_TempReadDelay++;
+			QString send_inter;
+			send_inter = send_integrationtime3D + integrationtime3D;
+			n = g_Tcpsocket.socket_com(send_inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送3D积分时间
+
+			integrationtime3Dflag = 0;
 		}
+		
 		
 		//读取深度五十次后，读取温度
 		if (g_TempReadDelay > 5)

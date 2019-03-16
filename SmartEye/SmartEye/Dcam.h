@@ -3,6 +3,7 @@
 #include <QThread>
 #include <opencv2/opencv.hpp>
 #include <string>
+#include<qstring.h>
 #include <QMetaType>
 #include<qdebug.h>
 
@@ -25,6 +26,8 @@ public:
 	void setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置相机内参、畸变系数
 	int setrealtemperature(char *buf);    //获取相机温度
 	bool getRunState();						//获取运行状态
+	bool  integrationtime3Dflag = 0;     //积分时间标志位
+	QString integrationtime3D="0";   //相机积分时间
 
 signals:
 	void getImage(cv::Mat,int);				//获取图像后信号,Mat格式传回图像信息，int传回是否是图像0不是图像，1是图像，-1异常
@@ -45,9 +48,11 @@ private:
 	int g_TempReadEnable = 0;                //获取相机温度信号
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
 	char* send_temp = "getTemperature";//发送获取温度数据指令
+	QString send_integrationtime3D = "setIntegrationTime3D ";   //发送3D积分时间指令
 	ushort	realTempChip;		//温度
 	ushort	realTempBoard1;
 	ushort	realTempBoard2;
+	
 
 };
 

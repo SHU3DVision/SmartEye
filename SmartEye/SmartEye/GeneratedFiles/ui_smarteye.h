@@ -46,6 +46,7 @@ public:
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
+    QSpacerItem *horizontalSpacer;
     QLineEdit *IplineEdit;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_2;
@@ -78,12 +79,19 @@ public:
     QLineEdit *k2lineEdit;
     QPushButton *pclBtn;
     QSpacerItem *verticalSpacer_2;
+    QDockWidget *dockWidget_3;
+    QWidget *dockWidgetContents_3;
+    QVBoxLayout *verticalLayout_5;
+    QHBoxLayout *horizontalLayout_11;
+    QLabel *label_9;
+    QLineEdit *IntegrationtimelineEdit;
+    QSpacerItem *verticalSpacer_3;
 
     void setupUi(QMainWindow *SmartEyeClass)
     {
         if (SmartEyeClass->objectName().isEmpty())
             SmartEyeClass->setObjectName(QStringLiteral("SmartEyeClass"));
-        SmartEyeClass->resize(1093, 429);
+        SmartEyeClass->resize(1126, 502);
         centralWidget = new QWidget(SmartEyeClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         horizontalLayout_10 = new QHBoxLayout(centralWidget);
@@ -104,7 +112,7 @@ public:
         SmartEyeClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SmartEyeClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1093, 23));
+        menuBar->setGeometry(QRect(0, 0, 1126, 23));
         SmartEyeClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(SmartEyeClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -130,6 +138,10 @@ public:
         label->setObjectName(QStringLiteral("label"));
 
         horizontalLayout->addWidget(label);
+
+        horizontalSpacer = new QSpacerItem(1, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
 
         IplineEdit = new QLineEdit(dockWidgetContents);
         IplineEdit->setObjectName(QStringLiteral("IplineEdit"));
@@ -303,6 +315,36 @@ public:
 
         dockWidget_2->setWidget(dockWidgetContents_2);
         SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_2);
+        dockWidget_3 = new QDockWidget(SmartEyeClass);
+        dockWidget_3->setObjectName(QStringLiteral("dockWidget_3"));
+        dockWidgetContents_3 = new QWidget();
+        dockWidgetContents_3->setObjectName(QStringLiteral("dockWidgetContents_3"));
+        verticalLayout_5 = new QVBoxLayout(dockWidgetContents_3);
+        verticalLayout_5->setSpacing(6);
+        verticalLayout_5->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        horizontalLayout_11 = new QHBoxLayout();
+        horizontalLayout_11->setSpacing(6);
+        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        label_9 = new QLabel(dockWidgetContents_3);
+        label_9->setObjectName(QStringLiteral("label_9"));
+
+        horizontalLayout_11->addWidget(label_9);
+
+        IntegrationtimelineEdit = new QLineEdit(dockWidgetContents_3);
+        IntegrationtimelineEdit->setObjectName(QStringLiteral("IntegrationtimelineEdit"));
+
+        horizontalLayout_11->addWidget(IntegrationtimelineEdit);
+
+
+        verticalLayout_5->addLayout(horizontalLayout_11);
+
+        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_5->addItem(verticalSpacer_3);
+
+        dockWidget_3->setWidget(dockWidgetContents_3);
+        SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_3);
 
         retranslateUi(SmartEyeClass);
 
@@ -320,7 +362,7 @@ public:
         PortlineEdit->setText(QApplication::translate("SmartEyeClass", "50660", 0));
         connectButton->setText(QApplication::translate("SmartEyeClass", "Connect", 0));
         statelabel->setText(QApplication::translate("SmartEyeClass", "NO", 0));
-        dockWidget_2->setWindowTitle(QApplication::translate("SmartEyeClass", "Paraments", 0));
+        dockWidget_2->setWindowTitle(QApplication::translate("SmartEyeClass", "PointCloudParaments", 0));
         label_3->setText(QApplication::translate("SmartEyeClass", "FX", 0));
         FXlineEdit->setText(QApplication::translate("SmartEyeClass", "290", 0));
         label_4->setText(QApplication::translate("SmartEyeClass", "FY", 0));
@@ -334,6 +376,8 @@ public:
         label_8->setText(QApplication::translate("SmartEyeClass", "k2", 0));
         k2lineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         pclBtn->setText(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
+        dockWidget_3->setWindowTitle(QApplication::translate("SmartEyeClass", "SetIntegrationTime", 0));
+        label_9->setText(QApplication::translate("SmartEyeClass", "TOF(1st)", 0));
     } // retranslateUi
 
 };

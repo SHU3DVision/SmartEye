@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include<string>
 #include<iostream>
+#include<qdebug.h>
 
 
 #define MAXLINE 253600

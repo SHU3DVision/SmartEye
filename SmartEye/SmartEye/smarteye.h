@@ -52,7 +52,6 @@ public:
 private:
 	Ui::SmartEyeClass ui;
 	int connectState = 0;					//socket连接状态，用于更新连接按钮ui
-	char* sendline = "getDistanceSorted";   //发送获取深度数据指令
 	bool isPCLShow = false;					//是否点云转换标志
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
 	PointCloudT::Ptr cloud;					//点云指针
@@ -65,6 +64,7 @@ private slots:
 	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//更新点云信息
 	void connectButtonPressedSlot();	//连接按钮点击槽
 	void pclButtonPressedSlot();		//点云转换功能 
+	void setIntegrationTime3DSlot();   //设置3D积分时间
 	 
 
 };

@@ -35,6 +35,7 @@ SmartEye::SmartEye(QWidget *parent)
 	//槽连接
 	QObject::connect(ui.connectButton, SIGNAL(clicked()), this, SLOT(connectButtonPressedSlot()));
 	QObject::connect(ui.pclBtn, SIGNAL(clicked()), this, SLOT(pclButtonPressedSlot()));
+	QObject::connect(ui.IntegrationtimelineEdit, SIGNAL(editingFinished()), this, SLOT(setIntegrationTime3DSlot()));
 }
 
 SmartEye::~SmartEye()
@@ -53,7 +54,6 @@ void SmartEye::connectButtonPressedSlot()
 		g_dcam = new DCam(ip,port);						 //初始化相机类
 		connect(g_dcam, SIGNAL(getImage(cv::Mat,int)), this, SLOT(imageUpdateSlot(cv::Mat,int)));	//设置连接槽
 		g_dcam->start();	//线程启动
-		
 		QPalette pa;
 		pa.setColor(QPalette::Background, Qt::darkYellow);
 		ui.statelabel->setPalette(pa);					//更改颜色
@@ -211,4 +211,10 @@ void SmartEye::getCameraParameterFromFile()
 		}
 		file.close();
 	}
+}
+//设置3D积分时间
+void SmartEye::setIntegrationTime3DSlot()
+{
+	g_dcam->integrationtime3D = ui.IntegrationtimelineEdit->text();
+	g_dcam->integrationtime3Dflag = 1;
 }
