@@ -2,8 +2,9 @@
 
 Imagedepthprocess::Imagedepthprocess()
 {
-	 _matimg_short.create(240, 320, CV_16UC1);
-	 _matimg_show.create(240, 320, CV_8UC1);
+	_matimg_short.create(Img_height, Img_width, CV_16UC1);
+	_matimg_show.create(Img_height, Img_width, CV_8UC1);
+	 img_color.create(Img_height, Img_width, CV_8UC3);//构造RGB图像
 }
 Imagedepthprocess::~Imagedepthprocess()
 {
@@ -46,17 +47,10 @@ Mat Imagedepthprocess::depthProcess()
 		}
 
 	}
-	//8bit显示数据
-	for (int i = 0; i < 240; i++)
-	{
-		for (int j = 0; j < 320; j++)
-		{
-			_matimg_show.at<uchar>(i, j) = 255 - _matimg_short.at<ushort>(i, j) * 25 / 3000;
-			//cout << src2.at<uchar>(i, j) << endl;
-		}
+	setColorImage();
+	
 
-	}
-	return _matimg_show.clone();
+	return img_color.clone();
 }
 //获取深度数据
 //返回：Mat类型
@@ -208,4 +202,71 @@ int Imagedepthprocess::calculationCorrectDRNU(ushort *img)
 	//}	//end height
 	////printf(" pMem = %d, %d, %d\n", pMem[1300], pMem[1301], pMem[1302]);
 	return 0;
+}
+//设置伪彩色参数
+void Imagedepthprocess::setColorImage()
+{
+	Mat depthzip = _matimg_short.clone();
+	double interdepth = 255.0 / (maxdepth - mindepth);
+	//距离压缩成0到255空间
+	for (int i = 0; i < 240; i++)
+	{
+		for (int j = 0; j < 320; j++)
+		{
+			if (depthzip.at<ushort>(i, j) > maxdepth)
+			{
+				depthzip.at<ushort>(i, j) = maxdepth;
+			}
+			else if (depthzip.at<ushort>(i, j) < mindepth)
+			{
+				depthzip.at<ushort>(i, j) = mindepth;
+			}
+			_matimg_show.at<uchar>(i, j) = (uchar)((depthzip.at<ushort>(i, j) - mindepth)*interdepth);
+		}
+	}
+	//根据距离增加伪彩色
+	
+	ushort img_tmp;
+	for (int y = 0; y < Img_height; y++)
+	{
+		for (int x = 0; x < Img_width; x++)
+		{
+			img_tmp = _matimg_show.at<uchar>(y, x);
+			if (img_tmp < 51)
+			{
+				IMG_B(img_color, y, x) = 0;
+				IMG_G(img_color, y, x) = img_tmp * 5;
+				IMG_R(img_color, y, x) = 0;
+			}
+			else if (img_tmp < 102)
+			{
+				img_tmp -= 51;
+				IMG_B(img_color, y, x) = 255 - img_tmp * 5;
+				IMG_G(img_color, y, x) = 255;
+				IMG_R(img_color, y, x) = 0;
+			}
+			else if (img_tmp < 153)
+			{
+				img_tmp -= 102;
+				IMG_B(img_color, y, x) = 0;
+				IMG_G(img_color, y, x) = 255;
+				IMG_R(img_color, y, x) = img_tmp * 5;
+			}
+			else if (img_tmp <= 204)
+			{
+				img_tmp -= 153;
+				IMG_B(img_color, y, x) = 0;
+				IMG_G(img_color, y, x) = 255 - uchar(128.0*img_tmp / 51 + 0.5);
+				IMG_R(img_color, y, x) = 255;
+			}
+			else
+			{
+				img_tmp -= 204;
+				IMG_B(img_color, y, x) = 0;
+				IMG_G(img_color, y, x) = 127 - uchar(127.0*img_tmp / 51 + 0.5);
+				IMG_R(img_color, y, x) = 255;
+			}
+		}
+	}
+	
 }

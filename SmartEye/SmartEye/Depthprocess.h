@@ -18,6 +18,9 @@ using namespace cv;
 #define MAX_PHASE        30000.0 //温度矫正
 #define MAX_DIST_VALUE 	30000 //最远距离值
 #define OFFSET_PHASE_DEFAULT 0  //深度补偿值
+#define IMG_B(img,y,x) img.at<Vec3b>(y,x)[0]
+#define IMG_G(img,y,x) img.at<Vec3b>(y,x)[1]
+#define IMG_R(img,y,x) img.at<Vec3b>(y,x)[2]
 
 class Imagedepthprocess
 {
@@ -29,13 +32,16 @@ public:
 	unsigned char* ptr_buf_unsigned;
 	cv::Mat _matimg_short;   //16bit数据
 	cv::Mat _matimg_show;    //8bit数据
+	cv::Mat  img_color;  //伪彩色数据
 	ushort realTempChip;    //相机温度
-	//void calibrate();
+	int maxdepth=30000;           //映射最远距离    
+	int mindepth=0;           //映射最近距离
 private:
 	void calibrate(ushort *img);       //滤波
 	void imageAverageEightConnectivity(ushort *depthdata);  //均值滤波
 	void calculationAddOffset(ushort *img);     //深度补偿
 	int calculationCorrectDRNU(ushort * img);   //温度矫正
+	void setColorImage();                     //设置伪彩色图
 
 	uint16_t raw_dep;
 	int realindex, realrow, realcol;

@@ -32,6 +32,8 @@ void DCam::run()
 	{
 		g_Tcpsocket._ip = ip;
 		g_Tcpsocket._port = port;
+		g_depthprocess.maxdepth = maxdepth;
+		g_depthprocess.mindepth = mindepth;
 		char ptr_buf[MAXLINE];  //存储缓存区
 		int n = -1;
 		if (integrationtime3Dflag ==0)
@@ -113,7 +115,7 @@ bool DCam::getRunState()
 	return isRun;
 }
 //显示相机温度
-//输入：buf 温度数据指针（16位
+//输入：buf 温度数据指针（16位)
 int DCam::setrealtemperature(char *buf)
 {
 	int i;

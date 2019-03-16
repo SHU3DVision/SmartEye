@@ -25,6 +25,8 @@ public:
 	void setPointcloudConvert(bool isConvert);	//设置点云显示
 	void setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置相机内参、畸变系数
 	int setrealtemperature(char *buf);    //获取相机温度
+	int maxdepth=30000;           //映射最远距离    
+	int mindepth=0;           //映射最近距离
 	bool getRunState();						//获取运行状态
 	bool  integrationtime3Dflag = 0;     //积分时间标志位
 	QString integrationtime3D="0";   //相机积分时间

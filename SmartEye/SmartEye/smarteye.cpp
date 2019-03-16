@@ -36,6 +36,8 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.connectButton, SIGNAL(clicked()), this, SLOT(connectButtonPressedSlot()));
 	QObject::connect(ui.pclBtn, SIGNAL(clicked()), this, SLOT(pclButtonPressedSlot()));
 	QObject::connect(ui.IntegrationtimelineEdit, SIGNAL(editingFinished()), this, SLOT(setIntegrationTime3DSlot()));
+	QObject::connect(ui.maxdepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
+	QObject::connect(ui.mindepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 }
 
 SmartEye::~SmartEye()
@@ -93,7 +95,7 @@ void SmartEye::imageUpdateSlot(cv::Mat img,int isImg)
 
 			//处理原始数据
 			cv::Mat imshowsrc = img;
-			//显示灰度图
+			//显示伪彩色图
 			showImage(imshowsrc);
 		}
 		else							//获取数据失败
@@ -137,10 +139,13 @@ void SmartEye::pointCloudUpdateSlot(PointCloudT::Ptr c)
 //QT显示图像
 void SmartEye::showImage(Mat imshowsrc)
 {
-	QImage img = QImage((const unsigned char*)(imshowsrc.data), imshowsrc.cols, imshowsrc.rows, QImage::Format_Indexed8);
-	label = new QLabel();
+	
+	cv::cvtColor(imshowsrc, imshowsrc, CV_BGR2RGB);//Opencv默认BGR存储，Qt需要RGB
+	QImage img = QImage((uchar*)(imshowsrc.data), imshowsrc.cols, imshowsrc.rows, QImage::Format_RGB888);
 	ui.Img_label->setAlignment(Qt::AlignCenter);		//居中显示
 	ui.Img_label->setPixmap(QPixmap::fromImage(img));
+	
+
 }
 
 void SmartEye::pclButtonPressedSlot()
@@ -217,4 +222,14 @@ void SmartEye::setIntegrationTime3DSlot()
 {
 	g_dcam->integrationtime3D = ui.IntegrationtimelineEdit->text();
 	g_dcam->integrationtime3Dflag = 1;
+}
+//设置映射距离
+void SmartEye::setMappingDistanceSlot()
+{
+	g_dcam->maxdepth = (ui.maxdepthlineEdit->text()).toInt();
+	g_dcam->mindepth = (ui.mindepthlineEdit->text()).toInt();
+	if (g_dcam->mindepth > g_dcam->maxdepth)
+	{
+		QMessageBox::information(this, "Error Message", "Please Enter The Correct Format");
+	}
 }
