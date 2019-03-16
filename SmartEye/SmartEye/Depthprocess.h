@@ -36,13 +36,16 @@ public:
 	ushort realTempChip;    //相机温度
 	int maxdepth=30000;           //映射最远距离    
 	int mindepth=0;           //映射最近距离
+	int saveimagestate = 0;     //保存图片状态
+	int imagecount = 0;   //保存图片序号
+	QString  savestr;              //保存路径
 private:
 	void calibrate(ushort *img);       //滤波
 	void imageAverageEightConnectivity(ushort *depthdata);  //均值滤波
 	void calculationAddOffset(ushort *img);     //深度补偿
 	int calculationCorrectDRNU(ushort * img);   //温度矫正
 	void setColorImage();                     //设置伪彩色图
-
+	void saveImage();                        //保存深度图
 	uint16_t raw_dep;
 	int realindex, realrow, realcol;
 	int		drnuLut[50][252][328];				//温度矫正用表

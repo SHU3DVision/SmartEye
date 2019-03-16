@@ -28,8 +28,10 @@ public:
 	int maxdepth=30000;           //映射最远距离    
 	int mindepth=0;           //映射最近距离
 	bool getRunState();						//获取运行状态
+	int saveimagestate = 0;                         //save状态
 	bool  integrationtime3Dflag = 0;     //积分时间标志位
 	QString integrationtime3D="0";   //相机积分时间
+	QString  savestr;                 //保存路径
 
 signals:
 	void getImage(cv::Mat,int);				//获取图像后信号,Mat格式传回图像信息，int传回是否是图像0不是图像，1是图像，-1异常

@@ -34,6 +34,8 @@ void DCam::run()
 		g_Tcpsocket._port = port;
 		g_depthprocess.maxdepth = maxdepth;
 		g_depthprocess.mindepth = mindepth;
+		g_depthprocess.saveimagestate = saveimagestate;
+		g_depthprocess.savestr = savestr;
 		char ptr_buf[MAXLINE];  //´æ´¢»º´æÇø
 		int n = -1;
 		if (integrationtime3Dflag ==0)

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1474</width>
-    <height>676</height>
+    <height>846</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,6 +18,9 @@
     <item>
      <widget class="QLabel" name="Img_label">
       <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="autoFillBackground">
        <bool>true</bool>
       </property>
       <property name="text">
@@ -404,7 +407,7 @@
        <item>
         <widget class="QLabel" name="savestatelabel">
          <property name="text">
-          <string/>
+          <string>Saved</string>
          </property>
         </widget>
        </item>

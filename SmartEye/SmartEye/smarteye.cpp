@@ -32,12 +32,21 @@ SmartEye::SmartEye(QWidget *parent)
 	ui.statelabel->setPalette(pa);					//更改颜色
 
 
+	//savestatelable颜色设置
+	ui.savestatelabel->setAlignment(Qt::AlignCenter);	//连接状态剧中
+	ui.savestatelabel->setAutoFillBackground(true);		//填充背景
+	QPalette pac;
+	pa.setColor(QPalette::Background, Qt::darkRed);
+	ui.savestatelabel->setPalette(pa);					//更改颜色
+
+
 	//槽连接
 	QObject::connect(ui.connectButton, SIGNAL(clicked()), this, SLOT(connectButtonPressedSlot()));
 	QObject::connect(ui.pclBtn, SIGNAL(clicked()), this, SLOT(pclButtonPressedSlot()));
 	QObject::connect(ui.IntegrationtimelineEdit, SIGNAL(editingFinished()), this, SLOT(setIntegrationTime3DSlot()));
 	QObject::connect(ui.maxdepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.mindepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
+	QObject::connect(ui.Savebutton, SIGNAL(clicked()), this, SLOT(saveFileSlot()));
 }
 
 SmartEye::~SmartEye()
@@ -73,6 +82,10 @@ void SmartEye::connectButtonPressedSlot()
 		ui.statelabel->setText("No");
 		ui.connectButton->setText("Connect");
 		connectState--;
+	}
+	if (connectState == 0)
+	{
+		saveFileSlot();
 	}
 	
 }
@@ -232,4 +245,52 @@ void SmartEye::setMappingDistanceSlot()
 	{
 		QMessageBox::information(this, "Error Message", "Please Enter The Correct Format");
 	}
+}
+//保存深度数据
+void SmartEye::saveFileSlot()
+{
+	if (g_dcam->getRunState() == true)
+	{
+			if (savestate % 2 == 0)
+			{
+				
+				g_dcam->savestr = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/home", QFileDialog::ShowDirsOnly);
+				if (g_dcam->savestr.isEmpty())//如果未选择文件便确认，即返回
+					return;
+				QPalette pac;
+				pac.setColor(QPalette::Background, Qt::darkYellow);
+				ui.savestatelabel->setPalette(pac);					//更改颜色
+				ui.savestatelabel->setText("Saving");			//更改文字
+				ui.Savebutton->setText("Dis_save");
+				if (savestate == 0)
+					savestate++;
+				g_dcam->saveimagestate=1;
+			}
+			else
+			{
+				QPalette pac;
+				pac.setColor(QPalette::Background, Qt::darkRed);
+				ui.savestatelabel->setPalette(pac);					//更改颜色
+				ui.savestatelabel->setText("Saved");			//更改文字
+				ui.Savebutton->setText("save");
+				if (savestate == 1)
+					savestate--;
+				g_dcam->saveimagestate = 0;
+			}
+		
+	}
+	else
+	{
+		QPalette pac;
+		pac.setColor(QPalette::Background, Qt::darkRed);
+		ui.savestatelabel->setPalette(pac);					//更改颜色
+		ui.savestatelabel->setText("Saved");			//更改文字
+		ui.Savebutton->setText("save");
+		if (savestate == 1)
+			savestate--;
+		g_dcam->saveimagestate = 0;
+	}
+	
+	
+
 }

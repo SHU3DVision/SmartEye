@@ -47,8 +47,9 @@ Mat Imagedepthprocess::depthProcess()
 		}
 
 	}
+
 	setColorImage();
-	
+	saveImage();
 
 	return img_color.clone();
 }
@@ -269,4 +270,18 @@ void Imagedepthprocess::setColorImage()
 		}
 	}
 	
+}
+//±£¥Ê…Ó∂»Õº
+void Imagedepthprocess::saveImage()
+{
+	string fileassave = string(savestr.toLocal8Bit());
+	if (saveimagestate == 1)
+	{
+		imwrite(fileassave+"/"+to_string(imagecount) + ".png", _matimg_short);
+		imagecount++;
+	}
+	else
+	{
+		imagecount = 0;
+	}
 }

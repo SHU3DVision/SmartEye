@@ -108,7 +108,7 @@ public:
     {
         if (SmartEyeClass->objectName().isEmpty())
             SmartEyeClass->setObjectName(QStringLiteral("SmartEyeClass"));
-        SmartEyeClass->resize(1474, 676);
+        SmartEyeClass->resize(1474, 846);
         centralWidget = new QWidget(SmartEyeClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         horizontalLayout_10 = new QHBoxLayout(centralWidget);
@@ -118,6 +118,7 @@ public:
         Img_label = new QLabel(centralWidget);
         Img_label->setObjectName(QStringLiteral("Img_label"));
         Img_label->setEnabled(true);
+        Img_label->setAutoFillBackground(true);
 
         horizontalLayout_10->addWidget(Img_label);
 
@@ -474,7 +475,7 @@ public:
         mindepthlineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         dockWidget_5->setWindowTitle(QApplication::translate("SmartEyeClass", "Save", 0));
         Savebutton->setText(QApplication::translate("SmartEyeClass", "Save", 0));
-        savestatelabel->setText(QString());
+        savestatelabel->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
     } // retranslateUi
 
 };
