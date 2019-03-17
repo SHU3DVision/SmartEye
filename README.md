@@ -31,6 +31,6 @@ PCL1.8.0 64bit
 # Contents
 
 双击SmartEye.exe即可运行，界面如下：
-![]() 
+![](https://github.com/dongmuliu/SmartEye/blob/master/SmartEye/Image/2.png) 
 
 release版本
