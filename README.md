@@ -29,4 +29,7 @@ PCL1.8.0 64bit
 * 编辑调试
 
 # Contents
-*
+
+双击SmartEye.exe即可运行，界面如下：
+
+release版本
