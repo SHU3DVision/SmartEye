@@ -48,6 +48,6 @@ private:
 	void saveImage();                        //保存深度图
 	uint16_t raw_dep;
 	int realindex, realrow, realcol;
-	int		drnuLut[50][252][328];				//温度矫正用表
+	//int		drnuLut[50][252][328];				//温度矫正用表
 	
 };
