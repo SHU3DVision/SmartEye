@@ -23,6 +23,7 @@ public:
 	void setRun(bool isRun);				//设置线程停止
 	void setNet(std::string ip, int port);	//设置相机IP，端口
 	void setPointcloudConvert(bool isConvert);	//设置点云显示
+	Mat getDepth();                          //获取深度图像
 	void setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置相机内参、畸变系数
 	int setrealtemperature(char *buf);    //获取相机温度
 	int maxdepth=30000;           //映射最远距离    
@@ -32,6 +33,7 @@ public:
 	bool  integrationtime3Dflag = 0;     //积分时间标志位
 	QString integrationtime3D="0";   //相机积分时间
 	QString  savestr;                 //保存路径
+	cv::Mat dcam_imageinfor;             //深度图像
 
 signals:
 	void getImage(cv::Mat,int);				//获取图像后信号,Mat格式传回图像信息，int传回是否是图像0不是图像，1是图像，-1异常

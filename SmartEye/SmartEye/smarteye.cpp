@@ -39,6 +39,8 @@ SmartEye::SmartEye(QWidget *parent)
 	pa.setColor(QPalette::Background, Qt::darkRed);
 	ui.savestatelabel->setPalette(pa);					//更改颜色
 
+	//图像显示
+	//ui.Img_label->setScaledContents(true);
 
 	//槽连接
 	QObject::connect(ui.connectButton, SIGNAL(clicked()), this, SLOT(connectButtonPressedSlot()));
@@ -156,6 +158,8 @@ void SmartEye::showImage(Mat imshowsrc)
 	cv::cvtColor(imshowsrc, imshowsrc, CV_BGR2RGB);//Opencv默认BGR存储，Qt需要RGB
 	QImage img = QImage((uchar*)(imshowsrc.data), imshowsrc.cols, imshowsrc.rows, QImage::Format_RGB888);
 	ui.Img_label->setAlignment(Qt::AlignCenter);		//居中显示
+	
+	
 	ui.Img_label->setPixmap(QPixmap::fromImage(img));
 	
 
@@ -292,5 +296,39 @@ void SmartEye::saveFileSlot()
 	}
 	
 	
+
+}
+// 鼠标单击相应，获取当前深度值
+void SmartEye::mousePressEvent(QMouseEvent *event)
+{
+
+	Mat img_infor = g_dcam->getDepth();
+	//获得相对于屏幕的坐标
+	QPoint sPoint1 = event->globalPos();
+	//qDebug() << "相对于屏幕坐标1:" << "(" << sPoint1.rx() << "," << sPoint1.ry() << ")";
+	//获得相对于控件的坐标
+	QPoint widgetPoint = ui.Img_label->mapFromGlobal(sPoint1);
+	//qDebug() << "相对于控件坐标:" << "(" << widgetPoint.rx() << "," << widgetPoint.ry() << ")";
+	QString image_x;
+	QString image_y;
+	int img_depth;
+	if (sPoint1.rx() >= (sPoint1.rx() - widgetPoint.rx()) & sPoint1.rx() <= (sPoint1.rx() - widgetPoint.rx() + Img_width) & sPoint1.ry() >= (sPoint1.ry() - widgetPoint.ry()) & sPoint1.ry() <= (sPoint1.ry() - widgetPoint.ry() + Img_height))
+	{
+		//qDebug() << "偏移量:" << "(" << (sPoint1.rx() - widgetPoint.rx()) << "," << (sPoint1.ry()- widgetPoint.ry()) << ")";
+		image_x = QString::number(widgetPoint.rx());
+		ui.xlineEdit->setText(image_x);
+		image_y = QString::number(widgetPoint.ry());
+		ui.ylineEdit->setText(image_y);
+		img_depth = img_infor.at<ushort>(image_y.toInt(), image_x.toInt());
+		QString point_depth = QString::number(img_depth);
+		ui.depthlineEdit->setText(point_depth);
+		
+	}
+	else
+	{
+		//QMessageBox::information(this, "Error Message", "Please Select a Right Place");
+	}
+
+
 
 }

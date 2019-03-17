@@ -79,6 +79,7 @@ void DCam::run()
 				PointCloudT::Ptr cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth());
 				emit(getPointCloud(cloud));
 			}
+			getDepth();   //获取深度图像，传到ui
 		}
 		else if (n == 12)
 		{
@@ -130,4 +131,10 @@ int DCam::setrealtemperature(char *buf)
 	realTempBoard1 = (uchar)*(buf + 8) + (ushort)(*(buf + 9)) * 256;
 	realTempBoard2 = (uchar)*(buf + 10) + (ushort)(*(buf + 11)) * 256;
 	return realTempChip;
+}
+//获取深度图像
+Mat DCam::getDepth()
+{
+	dcam_imageinfor = g_depthprocess.getDepth();
+	return dcam_imageinfor.clone();
 }

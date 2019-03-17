@@ -35,7 +35,7 @@ class Ui_SmartEyeClass
 {
 public:
     QWidget *centralWidget;
-    QHBoxLayout *horizontalLayout_10;
+    QHBoxLayout *horizontalLayout_13;
     QLabel *Img_label;
     QVTKWidget *screen;
     QMenuBar *menuBar;
@@ -96,42 +96,55 @@ public:
     QLabel *label_12;
     QLineEdit *mindepthlineEdit;
     QSpacerItem *verticalSpacer_4;
-    QDockWidget *dockWidget_5;
-    QWidget *dockWidgetContents_5;
-    QVBoxLayout *verticalLayout_7;
-    QHBoxLayout *horizontalLayout;
+    QDockWidget *dockWidget_6;
+    QWidget *dockWidgetContents_6;
+    QVBoxLayout *verticalLayout_8;
+    QGridLayout *gridLayout_3;
+    QLabel *label_10;
+    QLabel *label_13;
+    QLabel *label_14;
+    QLineEdit *depthlineEdit;
+    QLineEdit *ylineEdit;
+    QLineEdit *xlineEdit;
+    QDockWidget *dockWidget_7;
+    QWidget *dockWidgetContents_7;
+    QVBoxLayout *verticalLayout_9;
+    QHBoxLayout *horizontalLayout_10;
     QPushButton *Savebutton;
     QLabel *savestatelabel;
-    QSpacerItem *verticalSpacer_5;
+    QSpacerItem *verticalSpacer_7;
+    QSpacerItem *verticalSpacer_6;
 
     void setupUi(QMainWindow *SmartEyeClass)
     {
         if (SmartEyeClass->objectName().isEmpty())
             SmartEyeClass->setObjectName(QStringLiteral("SmartEyeClass"));
-        SmartEyeClass->resize(1474, 846);
+        SmartEyeClass->resize(1482, 830);
         centralWidget = new QWidget(SmartEyeClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        horizontalLayout_10 = new QHBoxLayout(centralWidget);
-        horizontalLayout_10->setSpacing(6);
-        horizontalLayout_10->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        horizontalLayout_13 = new QHBoxLayout(centralWidget);
+        horizontalLayout_13->setSpacing(6);
+        horizontalLayout_13->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_13->setObjectName(QStringLiteral("horizontalLayout_13"));
         Img_label = new QLabel(centralWidget);
         Img_label->setObjectName(QStringLiteral("Img_label"));
         Img_label->setEnabled(true);
+        Img_label->setMinimumSize(QSize(320, 240));
+        Img_label->setMaximumSize(QSize(320, 240));
         Img_label->setAutoFillBackground(true);
-        Img_label->setScaledContents(true);
+        Img_label->setScaledContents(false);
 
-        horizontalLayout_10->addWidget(Img_label);
+        horizontalLayout_13->addWidget(Img_label);
 
         screen = new QVTKWidget(centralWidget);
         screen->setObjectName(QStringLiteral("screen"));
 
-        horizontalLayout_10->addWidget(screen);
+        horizontalLayout_13->addWidget(screen);
 
         SmartEyeClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SmartEyeClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1474, 23));
+        menuBar->setGeometry(QRect(0, 0, 1482, 23));
         SmartEyeClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(SmartEyeClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -406,36 +419,89 @@ public:
 
         dockWidget_4->setWidget(dockWidgetContents_4);
         SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_4);
-        dockWidget_5 = new QDockWidget(SmartEyeClass);
-        dockWidget_5->setObjectName(QStringLiteral("dockWidget_5"));
-        dockWidgetContents_5 = new QWidget();
-        dockWidgetContents_5->setObjectName(QStringLiteral("dockWidgetContents_5"));
-        verticalLayout_7 = new QVBoxLayout(dockWidgetContents_5);
-        verticalLayout_7->setSpacing(6);
-        verticalLayout_7->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        Savebutton = new QPushButton(dockWidgetContents_5);
+        dockWidget_6 = new QDockWidget(SmartEyeClass);
+        dockWidget_6->setObjectName(QStringLiteral("dockWidget_6"));
+        dockWidgetContents_6 = new QWidget();
+        dockWidgetContents_6->setObjectName(QStringLiteral("dockWidgetContents_6"));
+        verticalLayout_8 = new QVBoxLayout(dockWidgetContents_6);
+        verticalLayout_8->setSpacing(6);
+        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
+        gridLayout_3 = new QGridLayout();
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        label_10 = new QLabel(dockWidgetContents_6);
+        label_10->setObjectName(QStringLiteral("label_10"));
+
+        gridLayout_3->addWidget(label_10, 0, 0, 1, 1);
+
+        label_13 = new QLabel(dockWidgetContents_6);
+        label_13->setObjectName(QStringLiteral("label_13"));
+
+        gridLayout_3->addWidget(label_13, 1, 0, 1, 1);
+
+        label_14 = new QLabel(dockWidgetContents_6);
+        label_14->setObjectName(QStringLiteral("label_14"));
+
+        gridLayout_3->addWidget(label_14, 2, 0, 1, 2);
+
+        depthlineEdit = new QLineEdit(dockWidgetContents_6);
+        depthlineEdit->setObjectName(QStringLiteral("depthlineEdit"));
+
+        gridLayout_3->addWidget(depthlineEdit, 2, 2, 1, 1);
+
+        ylineEdit = new QLineEdit(dockWidgetContents_6);
+        ylineEdit->setObjectName(QStringLiteral("ylineEdit"));
+
+        gridLayout_3->addWidget(ylineEdit, 1, 2, 1, 1);
+
+        xlineEdit = new QLineEdit(dockWidgetContents_6);
+        xlineEdit->setObjectName(QStringLiteral("xlineEdit"));
+
+        gridLayout_3->addWidget(xlineEdit, 0, 2, 1, 1);
+
+
+        verticalLayout_8->addLayout(gridLayout_3);
+
+        dockWidget_7 = new QDockWidget(dockWidgetContents_6);
+        dockWidget_7->setObjectName(QStringLiteral("dockWidget_7"));
+        dockWidgetContents_7 = new QWidget();
+        dockWidgetContents_7->setObjectName(QStringLiteral("dockWidgetContents_7"));
+        verticalLayout_9 = new QVBoxLayout(dockWidgetContents_7);
+        verticalLayout_9->setSpacing(6);
+        verticalLayout_9->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_9->setObjectName(QStringLiteral("verticalLayout_9"));
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        Savebutton = new QPushButton(dockWidgetContents_7);
         Savebutton->setObjectName(QStringLiteral("Savebutton"));
 
-        horizontalLayout->addWidget(Savebutton);
+        horizontalLayout_10->addWidget(Savebutton);
 
-        savestatelabel = new QLabel(dockWidgetContents_5);
+        savestatelabel = new QLabel(dockWidgetContents_7);
         savestatelabel->setObjectName(QStringLiteral("savestatelabel"));
 
-        horizontalLayout->addWidget(savestatelabel);
+        horizontalLayout_10->addWidget(savestatelabel);
 
 
-        verticalLayout_7->addLayout(horizontalLayout);
+        verticalLayout_9->addLayout(horizontalLayout_10);
 
-        verticalSpacer_5 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer_7 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        verticalLayout_7->addItem(verticalSpacer_5);
+        verticalLayout_9->addItem(verticalSpacer_7);
 
-        dockWidget_5->setWidget(dockWidgetContents_5);
-        SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_5);
+        dockWidget_7->setWidget(dockWidgetContents_7);
+
+        verticalLayout_8->addWidget(dockWidget_7);
+
+        verticalSpacer_6 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_8->addItem(verticalSpacer_6);
+
+        dockWidget_6->setWidget(dockWidgetContents_6);
+        SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_6);
+        dockWidget_6->raise();
 
         retranslateUi(SmartEyeClass);
 
@@ -474,7 +540,11 @@ public:
         maxdepthlineEdit->setText(QApplication::translate("SmartEyeClass", "30000", 0));
         label_12->setText(QApplication::translate("SmartEyeClass", "MinDepth", 0));
         mindepthlineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
-        dockWidget_5->setWindowTitle(QApplication::translate("SmartEyeClass", "Save", 0));
+        dockWidget_6->setWindowTitle(QApplication::translate("SmartEyeClass", "DepthInformation", 0));
+        label_10->setText(QApplication::translate("SmartEyeClass", "x:", 0));
+        label_13->setText(QApplication::translate("SmartEyeClass", "y:", 0));
+        label_14->setText(QApplication::translate("SmartEyeClass", "Depth:", 0));
+        dockWidget_7->setWindowTitle(QApplication::translate("SmartEyeClass", "Save", 0));
         Savebutton->setText(QApplication::translate("SmartEyeClass", "Save", 0));
         savestatelabel->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
     } // retranslateUi

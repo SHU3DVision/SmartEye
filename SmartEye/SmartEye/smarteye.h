@@ -24,6 +24,7 @@ VTK_MODULE_INIT(vtkInteractionStyle);
 #include <qdebug.h>
 #include <qfile.h>
 #include <qfiledialog.h>  
+#include<QMouseEvent>
 
 #include "QVTKWidget.h"
 #include <vtkRenderWindow.h>
@@ -60,6 +61,7 @@ private:
 	
 	void showPointCloud();				//点云显示更新
 	void getCameraParameterFromFile();	//从config.ini获取参数
+	void mousePressEvent(QMouseEvent *event);   //鼠标单击响应，获取当前深度值
 
 private slots:
 	void imageUpdateSlot(cv::Mat img,int isImg);	//更新图像信号
@@ -69,6 +71,7 @@ private slots:
 	void setIntegrationTime3DSlot();   //设置3D积分时间
 	void setMappingDistanceSlot();    //设置映射距离
 	void saveFileSlot();  //保存数据
+	
 	 
 
 };
