@@ -1,15 +1,20 @@
 # Description
 
-与实验室EPC660相机建立tcp-socket通信
+基于QT、PCL和Opencv与实验室EPC660相机建立tcp-socket通信操作软件，提供实时显示点云、保存16位深度图像等功能
 
 # Environmet
 
-vs2013
+Windows 10
 
-qt5.7.0
+VS2013
 
-opencv2.4.13
+QT5.7.0 64bit
 
-pcl1.8.0
+OenCV2.4.13
+
+PCL1.8.0 64bit
+
+#Compiling
+
 
 # Contents
