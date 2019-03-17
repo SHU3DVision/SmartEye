@@ -119,6 +119,7 @@ public:
         Img_label->setObjectName(QStringLiteral("Img_label"));
         Img_label->setEnabled(true);
         Img_label->setAutoFillBackground(true);
+        Img_label->setScaledContents(true);
 
         horizontalLayout_10->addWidget(Img_label);
 
