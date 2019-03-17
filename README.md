@@ -10,4 +10,6 @@ qt5.7.0
 
 opencv2.4.13
 
+pcl1.8.0
+
 # Contents
