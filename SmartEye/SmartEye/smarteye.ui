@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1482</width>
-    <height>830</height>
+    <width>1553</width>
+    <height>881</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,7 +53,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1482</width>
+     <width>1553</width>
      <height>23</height>
     </rect>
    </property>
@@ -450,7 +450,7 @@
         <string>Save</string>
        </property>
        <widget class="QWidget" name="dockWidgetContents_7">
-        <layout class="QVBoxLayout" name="verticalLayout_9">
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_10">
            <item>
@@ -469,25 +469,55 @@
            </item>
           </layout>
          </item>
-         <item>
-          <spacer name="verticalSpacer_7">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
         </layout>
        </widget>
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer_6">
+      <spacer name="verticalSpacer_8">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget_5">
+   <property name="windowTitle">
+    <string>ShowColor</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_5">
+    <layout class="QVBoxLayout" name="verticalLayout_7">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_14">
+       <item>
+        <widget class="QPushButton" name="showpushButton">
+         <property name="text">
+          <string>ShowColorImage</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="colorimagelabel">
+         <property name="text">
+          <string>Closed</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_5">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -503,6 +533,7 @@
    </widget>
   </widget>
   <zorder>dockWidget_6</zorder>
+  <zorder>dockWidget_5</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -515,9 +546,27 @@
  <resources>
   <include location="smarteye.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>showpushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SmartEyeClass</receiver>
+   <slot>showImageSlot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>110</x>
+     <y>825</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>724</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <slots>
   <slot>TCPSocketSlot()</slot>
   <slot>connectStateSlot()</slot>
+  <slot>showImageSlot()</slot>
  </slots>
 </ui>

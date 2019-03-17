@@ -115,8 +115,8 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	else
 	{
 		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
-		qDebug() << "-------------------" << rec_len;
-		qDebug() << "-------------------" << tempbuf;
+		/*qDebug() << "-------------------" << rec_len;
+		qDebug() << "-------------------" << tempbuf;*/
 		if (rec_len == SOCKET_ERROR)
 		{
 			return -1;

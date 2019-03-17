@@ -35,9 +35,12 @@ SmartEye::SmartEye(QWidget *parent)
 	//savestatelable颜色设置
 	ui.savestatelabel->setAlignment(Qt::AlignCenter);	//连接状态剧中
 	ui.savestatelabel->setAutoFillBackground(true);		//填充背景
-	QPalette pac;
-	pa.setColor(QPalette::Background, Qt::darkRed);
 	ui.savestatelabel->setPalette(pa);					//更改颜色
+
+	//colorimagelabel颜色设置
+	ui.colorimagelabel->setAlignment(Qt::AlignCenter);	//连接状态剧中
+	ui.colorimagelabel->setAutoFillBackground(true);		//填充背景
+	ui.colorimagelabel->setPalette(pa);					//更改颜色
 
 	//图像显示
 	//ui.Img_label->setScaledContents(true);
@@ -49,6 +52,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.maxdepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.mindepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.Savebutton, SIGNAL(clicked()), this, SLOT(saveFileSlot()));
+	QObject::connect(ui.showpushButton, SIGNAL(releaseMouse()), this, SLOT(showImageSlot()));  //clicked会触发两次
 }
 
 SmartEye::~SmartEye()
@@ -156,6 +160,11 @@ void SmartEye::showImage(Mat imshowsrc)
 {
 	
 	cv::cvtColor(imshowsrc, imshowsrc, CV_BGR2RGB);//Opencv默认BGR存储，Qt需要RGB
+	testimage = imshowsrc.clone();
+	if (Imageshowstate==1)
+	{
+		showColorImage();
+	}
 	QImage img = QImage((uchar*)(imshowsrc.data), imshowsrc.cols, imshowsrc.rows, QImage::Format_RGB888);
 	ui.Img_label->setAlignment(Qt::AlignCenter);		//居中显示
 	
@@ -330,5 +339,39 @@ void SmartEye::mousePressEvent(QMouseEvent *event)
 	}
 
 
+
+}
+//弹出新窗口显示伪彩色图像
+void SmartEye::showImageSlot()
+{
+	if (Imageshowstate == 0)
+	{
+		Imageshowstate = 1;
+		QPalette pa;
+		pa.setColor(QPalette::Background, Qt::darkYellow);
+		ui.colorimagelabel->setPalette(pa);					//更改颜色
+		ui.colorimagelabel->setText("Showing");
+		ui.showpushButton->setText("Close");
+
+		showColorImage();
+	}
+	else
+	{
+		Imageshowstate = 0;
+		QPalette pa;
+		pa.setColor(QPalette::Background, Qt::darkRed);
+		ui.colorimagelabel->setText("Closed");
+		ui.showpushButton->setText("ShowColorImage");
+	}
+		
+	
+}
+//新窗口显示伪彩色图像
+void SmartEye::showColorImage()
+{
+
+	imagewin->showimage = testimage.clone();
+	imagewin->showColorImage();
+	imagewin->show();
 
 }
