@@ -62,4 +62,5 @@ PCL1.8.0 64bit
    点击PointCloud Convert ，可以实时显示点云。再次点击，则关闭点云显示。
    
 # release版本：
- 
+
+ https://github.com/dongmuliu/SmartEye/releases
