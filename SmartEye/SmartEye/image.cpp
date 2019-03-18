@@ -16,7 +16,7 @@ Image::~Image()
 void Image::showColorImage()
 {
 	QImage img = QImage((uchar*)(showimage.data), showimage.cols, showimage.rows, QImage::Format_RGB888);
-	QImage image2 = img.scaled(320, 240, Qt::KeepAspectRatio);
-	ui.imagelabel->setAlignment(Qt::AlignCenter);		//居中显示
+	QImage image2 = img.scaled(320, 240, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	//ui.imagelabel->setAlignment(Qt::AlignCenter);		//居中显示
 	ui.imagelabel->setPixmap(QPixmap::fromImage(image2));
 }

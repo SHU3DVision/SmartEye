@@ -252,8 +252,28 @@ void SmartEye::setIntegrationTime3DSlot()
 //设置映射距离
 void SmartEye::setMappingDistanceSlot()
 {
-	g_dcam->maxdepth = (ui.maxdepthlineEdit->text()).toInt();
-	g_dcam->mindepth = (ui.mindepthlineEdit->text()).toInt();
+	int maxDepth = (ui.maxdepthlineEdit->text()).toInt();
+	int minDepth = (ui.mindepthlineEdit->text()).toInt();
+
+	//限制最大范围
+	if (maxDepth > COLORMAP_MAX_DEPTH)
+	{
+		maxDepth = COLORMAP_MAX_DEPTH;
+		ui.maxdepthlineEdit->setText(QString::number(COLORMAP_MAX_DEPTH));
+	}
+	
+	//限制最小范围
+	if (minDepth < COLORMAP_MIN_DEPTH)
+	{
+		minDepth = COLORMAP_MIN_DEPTH;
+		ui.mindepthlineEdit->setText(QString::number(COLORMAP_MIN_DEPTH));
+	}
+
+	g_dcam->maxdepth = maxDepth;
+	g_dcam->mindepth = minDepth;
+
+	
+
 	if (g_dcam->mindepth > g_dcam->maxdepth)
 	{
 		QMessageBox::information(this, "Error Message", "Please Enter The Correct Format");
@@ -354,14 +374,18 @@ void SmartEye::showImageSlot()
 		ui.showpushButton->setText("Close");
 
 		showColorImage();
+
 	}
 	else
 	{
 		Imageshowstate = 0;
 		QPalette pa;
 		pa.setColor(QPalette::Background, Qt::darkRed);
+		ui.colorimagelabel->setPalette(pa);					//更改颜色
 		ui.colorimagelabel->setText("Closed");
 		ui.showpushButton->setText("ShowColorImage");
+
+		imagewin->close();
 	}
 		
 	
@@ -372,6 +396,6 @@ void SmartEye::showColorImage()
 
 	imagewin->showimage = testimage.clone();
 	imagewin->showColorImage();
+	
 	imagewin->show();
-
 }

@@ -41,7 +41,7 @@ public:
         imagelabel = new QLabel(Image);
         imagelabel->setObjectName(QStringLiteral("imagelabel"));
         imagelabel->setLayoutDirection(Qt::LeftToRight);
-        imagelabel->setAutoFillBackground(true);
+        imagelabel->setAutoFillBackground(false);
         imagelabel->setScaledContents(true);
 
         horizontalLayout->addWidget(imagelabel);

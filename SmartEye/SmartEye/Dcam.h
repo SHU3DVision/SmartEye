@@ -11,6 +11,11 @@
 #include "Depthprocess.h"
 #include "PCLConvert.h"
 
+
+#define COLORMAP_MAX_DEPTH 30000
+#define COLORMAP_MIN_DEPTH 0
+
+
 class DCam : public QThread
 {
 	Q_OBJECT

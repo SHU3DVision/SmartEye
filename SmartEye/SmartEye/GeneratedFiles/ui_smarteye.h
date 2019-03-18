@@ -99,6 +99,7 @@ public:
     QDockWidget *dockWidget_6;
     QWidget *dockWidgetContents_6;
     QVBoxLayout *verticalLayout_8;
+    QSpacerItem *verticalSpacer_8;
     QGridLayout *gridLayout_3;
     QLabel *label_10;
     QLabel *label_13;
@@ -106,13 +107,6 @@ public:
     QLineEdit *depthlineEdit;
     QLineEdit *ylineEdit;
     QLineEdit *xlineEdit;
-    QDockWidget *dockWidget_7;
-    QWidget *dockWidgetContents_7;
-    QHBoxLayout *horizontalLayout;
-    QHBoxLayout *horizontalLayout_10;
-    QPushButton *Savebutton;
-    QLabel *savestatelabel;
-    QSpacerItem *verticalSpacer_8;
     QDockWidget *dockWidget_5;
     QWidget *dockWidgetContents_5;
     QVBoxLayout *verticalLayout_7;
@@ -120,6 +114,12 @@ public:
     QPushButton *showpushButton;
     QLabel *colorimagelabel;
     QSpacerItem *verticalSpacer_5;
+    QDockWidget *dockWidget_8;
+    QWidget *dockWidgetContents_8;
+    QHBoxLayout *horizontalLayout;
+    QHBoxLayout *horizontalLayout_10;
+    QPushButton *Savebutton;
+    QLabel *savestatelabel;
 
     void setupUi(QMainWindow *SmartEyeClass)
     {
@@ -433,6 +433,10 @@ public:
         verticalLayout_8->setSpacing(6);
         verticalLayout_8->setContentsMargins(11, 11, 11, 11);
         verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
+        verticalSpacer_8 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_8->addItem(verticalSpacer_8);
+
         gridLayout_3 = new QGridLayout();
         gridLayout_3->setSpacing(6);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
@@ -469,38 +473,6 @@ public:
 
         verticalLayout_8->addLayout(gridLayout_3);
 
-        dockWidget_7 = new QDockWidget(dockWidgetContents_6);
-        dockWidget_7->setObjectName(QStringLiteral("dockWidget_7"));
-        dockWidgetContents_7 = new QWidget();
-        dockWidgetContents_7->setObjectName(QStringLiteral("dockWidgetContents_7"));
-        horizontalLayout = new QHBoxLayout(dockWidgetContents_7);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout_10 = new QHBoxLayout();
-        horizontalLayout_10->setSpacing(6);
-        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
-        Savebutton = new QPushButton(dockWidgetContents_7);
-        Savebutton->setObjectName(QStringLiteral("Savebutton"));
-
-        horizontalLayout_10->addWidget(Savebutton);
-
-        savestatelabel = new QLabel(dockWidgetContents_7);
-        savestatelabel->setObjectName(QStringLiteral("savestatelabel"));
-
-        horizontalLayout_10->addWidget(savestatelabel);
-
-
-        horizontalLayout->addLayout(horizontalLayout_10);
-
-        dockWidget_7->setWidget(dockWidgetContents_7);
-
-        verticalLayout_8->addWidget(dockWidget_7);
-
-        verticalSpacer_8 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout_8->addItem(verticalSpacer_8);
-
         dockWidget_6->setWidget(dockWidgetContents_6);
         SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_6);
         dockWidget_5 = new QDockWidget(SmartEyeClass);
@@ -521,6 +493,7 @@ public:
 
         colorimagelabel = new QLabel(dockWidgetContents_5);
         colorimagelabel->setObjectName(QStringLiteral("colorimagelabel"));
+        colorimagelabel->setStyleSheet(QStringLiteral("color: rgb(231, 231, 231);"));
 
         horizontalLayout_14->addWidget(colorimagelabel);
 
@@ -533,8 +506,37 @@ public:
 
         dockWidget_5->setWidget(dockWidgetContents_5);
         SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_5);
+        dockWidget_8 = new QDockWidget(SmartEyeClass);
+        dockWidget_8->setObjectName(QStringLiteral("dockWidget_8"));
+        dockWidget_8->setFloating(false);
+        dockWidgetContents_8 = new QWidget();
+        dockWidgetContents_8->setObjectName(QStringLiteral("dockWidgetContents_8"));
+        horizontalLayout = new QHBoxLayout(dockWidgetContents_8);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setSpacing(6);
+        horizontalLayout_10->setObjectName(QStringLiteral("horizontalLayout_10"));
+        Savebutton = new QPushButton(dockWidgetContents_8);
+        Savebutton->setObjectName(QStringLiteral("Savebutton"));
+
+        horizontalLayout_10->addWidget(Savebutton);
+
+        savestatelabel = new QLabel(dockWidgetContents_8);
+        savestatelabel->setObjectName(QStringLiteral("savestatelabel"));
+        savestatelabel->setStyleSheet(QStringLiteral("color: rgb(231, 231, 231);"));
+
+        horizontalLayout_10->addWidget(savestatelabel);
+
+
+        horizontalLayout->addLayout(horizontalLayout_10);
+
+        dockWidget_8->setWidget(dockWidgetContents_8);
+        SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget_8);
         dockWidget_6->raise();
         dockWidget_5->raise();
+        dockWidget_8->raise();
 
         retranslateUi(SmartEyeClass);
         QObject::connect(showpushButton, SIGNAL(clicked()), SmartEyeClass, SLOT(showImageSlot()));
@@ -578,12 +580,12 @@ public:
         label_10->setText(QApplication::translate("SmartEyeClass", "x:", 0));
         label_13->setText(QApplication::translate("SmartEyeClass", "y:", 0));
         label_14->setText(QApplication::translate("SmartEyeClass", "Depth:", 0));
-        dockWidget_7->setWindowTitle(QApplication::translate("SmartEyeClass", "Save", 0));
-        Savebutton->setText(QApplication::translate("SmartEyeClass", "Save", 0));
-        savestatelabel->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
         dockWidget_5->setWindowTitle(QApplication::translate("SmartEyeClass", "ShowColor", 0));
         showpushButton->setText(QApplication::translate("SmartEyeClass", "ShowColorImage", 0));
         colorimagelabel->setText(QApplication::translate("SmartEyeClass", "Closed", 0));
+        dockWidget_8->setWindowTitle(QApplication::translate("SmartEyeClass", "Save", 0));
+        Savebutton->setText(QApplication::translate("SmartEyeClass", "Save", 0));
+        savestatelabel->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
     } // retranslateUi
 
 };
