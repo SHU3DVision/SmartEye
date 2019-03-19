@@ -25,7 +25,6 @@ VTK_MODULE_INIT(vtkInteractionStyle);
 #include <qfile.h>
 #include <qfiledialog.h>  
 #include<QMouseEvent>
-#include"image.h"
 
 #include "QVTKWidget.h"
 #include <vtkRenderWindow.h>
@@ -52,19 +51,21 @@ public:
 	//void depthprocess(); //深度图像处理
 	void showImage(Mat imshowsrc);//显示图像
 
+protected:
+	bool eventFilter(QObject *, QEvent *);	//过滤图片label点击事件，获取坐标位置
+
 private:
 	Ui::SmartEyeClass ui;
 	int connectState = 0;					//socket连接状态，用于更新连接按钮ui
 	int savestate = 0;                    //保存状态
-	int Imageshowstate = 0;                //弹出界面开启关闭状态
 	bool isPCLShow = false;					//是否点云转换标志
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
 	PointCloudT::Ptr cloud;					//点云指针          
+
+	
+
 	void showPointCloud();				//点云显示更新
 	void getCameraParameterFromFile();	//从config.ini获取参数
-	void mousePressEvent(QMouseEvent *event);   //鼠标单击响应，获取当前深度值
-	cv::Mat testimage;
-	Image *imagewin = new Image();   //初始化显示图像的类
 	
 
 private slots:
@@ -75,9 +76,6 @@ private slots:
 	void setIntegrationTime3DSlot();   //设置3D积分时间
 	void setMappingDistanceSlot();    //设置映射距离
 	void saveFileSlot();  //保存数据
-	void showImageSlot(); //弹出显示伪彩色界面
-	void showColorImage(); //显示弹出界面图像
-	
 	 
 
 };

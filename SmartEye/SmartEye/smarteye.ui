@@ -6,45 +6,396 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1553</width>
-    <height>881</height>
+    <width>826</width>
+    <height>741</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>SmartEye</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_13">
-    <item>
-     <widget class="QLabel" name="Img_label">
-      <property name="enabled">
-       <bool>true</bool>
+   <layout class="QGridLayout" name="gridLayout_4">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_10">
+      <property name="leftMargin">
+       <number>0</number>
       </property>
-      <property name="minimumSize">
-       <size>
-        <width>320</width>
-        <height>240</height>
-       </size>
+      <property name="topMargin">
+       <number>0</number>
       </property>
-      <property name="maximumSize">
-       <size>
-        <width>320</width>
-        <height>240</height>
-       </size>
+      <property name="rightMargin">
+       <number>0</number>
       </property>
-      <property name="autoFillBackground">
-       <bool>true</bool>
+      <property name="bottomMargin">
+       <number>0</number>
       </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="scaledContents">
-       <bool>false</bool>
-      </property>
-     </widget>
+      <item>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>IP Address</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="IplineEdit">
+               <property name="text">
+                <string>192.168.7.2</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="PortlineEdit">
+               <property name="text">
+                <string>50660</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>IP：</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Port:</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QPushButton" name="connectButton">
+               <property name="text">
+                <string>Connect</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="statelabel">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(231, 231, 231);text-align: center;</string>
+               </property>
+               <property name="text">
+                <string>NO</string>
+               </property>
+               <property name="textFormat">
+                <enum>Qt::AutoText</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>PointCloud Convert</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_12">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>FX</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="FXlineEdit">
+               <property name="text">
+                <string>290</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>FY</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="FYlineEdit">
+               <property name="text">
+                <string>288</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>CX</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="CXlineEdit">
+               <property name="text">
+                <string>160</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>CY</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="CYlineEdit">
+               <property name="text">
+                <string>120</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>k1</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="k1lineEdit">
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>k2</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="k2lineEdit">
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pclBtn">
+             <property name="text">
+              <string>PointCloud Convert</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </item>
-    <item>
-     <widget class="QVTKWidget" name="screen"/>
+    <item row="0" column="1">
+     <layout class="QVBoxLayout" name="verticalLayout_16">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Integration Time</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_13">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <item>
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>TOF(us)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="IntegrationtimelineEdit">
+             <property name="text">
+              <string>1000</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="title">
+         <string>Colormap</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_14">
+         <item>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>MaxDepth</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="maxdepthlineEdit">
+               <property name="text">
+                <string>30000</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <item>
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string>MinDepth</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="mindepthlineEdit">
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+         <string>Depth Information</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_15">
+         <item>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="2" column="0" colspan="2">
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>Depth:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLineEdit" name="ylineEdit"/>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLineEdit" name="depthlineEdit"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>y:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>x:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLineEdit" name="xlineEdit"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <widget class="QPushButton" name="Savebutton">
+             <property name="text">
+              <string>Save</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="savestatelabel">
+             <property name="styleSheet">
+              <string notr="true">color: rgb(231, 231, 231);</string>
+             </property>
+             <property name="text">
+              <string>Saved</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -53,7 +404,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1553</width>
+     <width>826</width>
      <height>23</height>
     </rect>
    </property>
@@ -67,484 +418,90 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QDockWidget" name="dockWidget">
+  <widget class="QDockWidget" name="pointCloudDock">
+   <property name="minimumSize">
+    <size>
+     <width>500</width>
+     <height>400</height>
+    </size>
+   </property>
+   <property name="floating">
+    <bool>true</bool>
+   </property>
    <property name="windowTitle">
-    <string>Socket</string>
+    <string>Point Cloud</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>1</number>
+    <number>2</number>
    </attribute>
-   <widget class="QWidget" name="dockWidgetContents">
+   <widget class="QWidget" name="dockWidgetContents_7">
+    <layout class="QVBoxLayout" name="verticalLayout_9">
+     <item>
+      <widget class="QVTKWidget" name="screen"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="imageDock">
+   <property name="floating">
+    <bool>true</bool>
+   </property>
+   <property name="windowTitle">
+    <string>Depth Image</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_9">
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>IP：</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="IplineEdit">
-           <property name="text">
-            <string>192.168.7.2</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Port:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="PortlineEdit">
-           <property name="text">
-            <string>50660</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QPushButton" name="connectButton">
-           <property name="text">
-            <string>Connect</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="statelabel">
-           <property name="styleSheet">
-            <string notr="true">color: rgb(231, 231, 231);text-align: center;</string>
-           </property>
-           <property name="text">
-            <string>NO</string>
-           </property>
-           <property name="textFormat">
-            <enum>Qt::AutoText</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
+      <widget class="QLabel" name="Img_label">
+       <property name="enabled">
+        <bool>true</bool>
        </property>
-       <property name="sizeHint" stdset="0">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
         <size>
-         <width>20</width>
-         <height>40</height>
+         <width>320</width>
+         <height>240</height>
         </size>
        </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget_2">
-   <property name="windowTitle">
-    <string>PointCloudParaments</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QVBoxLayout" name="verticalLayout_4">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>FX</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="FXlineEdit">
-           <property name="text">
-            <string>290</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>FY</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="FYlineEdit">
-           <property name="text">
-            <string>288</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>CX</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="CXlineEdit">
-           <property name="text">
-            <string>160</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>CY</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="CYlineEdit">
-           <property name="text">
-            <string>120</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_8">
-         <item>
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>k1</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="k1lineEdit">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
-         <item>
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>k2</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="k2lineEdit">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pclBtn">
-         <property name="text">
-          <string>PointCloud Convert</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
+       <property name="maximumSize">
         <size>
-         <width>20</width>
-         <height>40</height>
+         <width>1000000</width>
+         <height>10000000</height>
         </size>
        </property>
-      </spacer>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="dockWidget_3">
-   <property name="windowTitle">
-    <string>SetIntegrationTime</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_3">
-    <layout class="QVBoxLayout" name="verticalLayout_5">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_11">
-       <item>
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>TOF(us)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="IntegrationtimelineEdit">
-         <property name="text">
-          <string>1000</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget_4">
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_4">
-    <layout class="QVBoxLayout" name="verticalLayout_6">
-     <item>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>MaxDepth</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="maxdepthlineEdit">
-           <property name="text">
-            <string>30000</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="1" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_12">
-         <item>
-          <widget class="QLabel" name="label_12">
-           <property name="text">
-            <string>MinDepth</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="mindepthlineEdit">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_4">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget_6">
-   <property name="windowTitle">
-    <string>DepthInformation</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_6">
-    <layout class="QVBoxLayout" name="verticalLayout_8">
-     <item>
-      <spacer name="verticalSpacer_8">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>x:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>y:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="2">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>Depth:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLineEdit" name="depthlineEdit"/>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLineEdit" name="ylineEdit"/>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLineEdit" name="xlineEdit"/>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget_5">
-   <property name="windowTitle">
-    <string>ShowColor</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_5">
-    <layout class="QVBoxLayout" name="verticalLayout_7">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_14">
-       <item>
-        <widget class="QPushButton" name="showpushButton">
-         <property name="text">
-          <string>ShowColorImage</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="colorimagelabel">
-         <property name="styleSheet">
-          <string notr="true">color: rgb(231, 231, 231);</string>
-         </property>
-         <property name="text">
-          <string>Closed</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_5">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget_8">
-   <property name="floating">
-    <bool>false</bool>
-   </property>
-   <property name="windowTitle">
-    <string>Save</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_8">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_10">
-       <item>
-        <widget class="QPushButton" name="Savebutton">
-         <property name="text">
-          <string>Save</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="savestatelabel">
-         <property name="styleSheet">
-          <string notr="true">color: rgb(231, 231, 231);</string>
-         </property>
-         <property name="text">
-          <string>Saved</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <zorder>dockWidget_6</zorder>
-  <zorder>dockWidget_5</zorder>
-  <zorder>dockWidget_8</zorder>
+  <zorder>pointCloudDock</zorder>
+  <zorder>imageDock</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -557,24 +514,7 @@
  <resources>
   <include location="smarteye.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>showpushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>SmartEyeClass</receiver>
-   <slot>showImageSlot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>110</x>
-     <y>825</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>724</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>TCPSocketSlot()</slot>
   <slot>connectStateSlot()</slot>

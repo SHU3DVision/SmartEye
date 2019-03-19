@@ -20,7 +20,8 @@ SmartEye::SmartEye(QWidget *parent)
 	viewer->setCameraPosition(151, -6402, -10771, 0.0133335, 0.945376, -0.325708);	//设置相机视角
 	ui.screen->update();	
 
-	ui.screen->hide();	//隐藏点云界面
+	ui.pointCloudDock->hide();	//隐藏点云界面
+	ui.imageDock->hide();
 
 	g_dcam = new DCam();
 
@@ -30,20 +31,21 @@ SmartEye::SmartEye(QWidget *parent)
 	QPalette pa;
 	pa.setColor(QPalette::Background, Qt::darkRed);
 	ui.statelabel->setPalette(pa);					//更改颜色
-
-
+	
 	//savestatelable颜色设置
 	ui.savestatelabel->setAlignment(Qt::AlignCenter);	//连接状态剧中
 	ui.savestatelabel->setAutoFillBackground(true);		//填充背景
 	ui.savestatelabel->setPalette(pa);					//更改颜色
 
-	//colorimagelabel颜色设置
-	ui.colorimagelabel->setAlignment(Qt::AlignCenter);	//连接状态剧中
-	ui.colorimagelabel->setAutoFillBackground(true);		//填充背景
-	ui.colorimagelabel->setPalette(pa);					//更改颜色
+	//设置窗口大小
+	this->setFixedSize(408, 408);
 
 	//图像显示
 	//ui.Img_label->setScaledContents(true);
+
+	//图像点击事件
+	ui.Img_label->installEventFilter(this);
+
 
 	//槽连接
 	QObject::connect(ui.connectButton, SIGNAL(clicked()), this, SLOT(connectButtonPressedSlot()));
@@ -52,7 +54,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.maxdepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.mindepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.Savebutton, SIGNAL(clicked()), this, SLOT(saveFileSlot()));
-	QObject::connect(ui.showpushButton, SIGNAL(releaseMouse()), this, SLOT(showImageSlot()));  //clicked会触发两次
+	
 }
 
 SmartEye::~SmartEye()
@@ -62,20 +64,25 @@ SmartEye::~SmartEye()
 //通信状态
 void SmartEye::connectButtonPressedSlot()
 {
-	
 	if (connectState == 0)
 	{
 		//启动相机，获取图像
 		std::string ip = ui.IplineEdit->text().toStdString();    //获取相机IP
 		int port = ui.PortlineEdit->text().toInt();      //获取相机端口号
-		g_dcam = new DCam(ip,port);						 //初始化相机类
+		g_dcam->setNet(ip,port);						 //初始化相机类
 		connect(g_dcam, SIGNAL(getImage(cv::Mat,int)), this, SLOT(imageUpdateSlot(cv::Mat,int)));	//设置连接槽
 		g_dcam->start();	//线程启动
+		
+		//按钮状态改变
 		QPalette pa;
 		pa.setColor(QPalette::Background, Qt::darkYellow);
 		ui.statelabel->setPalette(pa);					//更改颜色
 		ui.statelabel->setText("Connecting");			//更改文字
 		ui.connectButton->setText("Disconnect");
+
+		//dock显示
+		ui.imageDock->show();
+
 		connectState++;
 	}
 	else
@@ -87,8 +94,15 @@ void SmartEye::connectButtonPressedSlot()
 		ui.statelabel->setPalette(pa);					//更改颜色
 		ui.statelabel->setText("No");
 		ui.connectButton->setText("Connect");
+
+		disconnect(g_dcam, SIGNAL(cvGetImage(cv::Mat, int)), this, SLOT(imageUpdateSlot(cv::Mat, int)));	//断开槽
+
+		//dock隐藏
+		ui.imageDock->hide();
+
 		connectState--;
 	}
+
 	if (connectState == 0)
 	{
 		saveFileSlot();
@@ -158,17 +172,28 @@ void SmartEye::pointCloudUpdateSlot(PointCloudT::Ptr c)
 //QT显示图像
 void SmartEye::showImage(Mat imshowsrc)
 {
+	Mat imgShow = imshowsrc.clone();
+	cv::cvtColor(imgShow, imgShow, CV_BGR2RGB);//Opencv默认BGR存储，Qt需要RGB
+	QImage img = QImage((uchar*)(imgShow.data), imgShow.cols, imgShow.rows, QImage::Format_RGB888);
 	
-	cv::cvtColor(imshowsrc, imshowsrc, CV_BGR2RGB);//Opencv默认BGR存储，Qt需要RGB
-	testimage = imshowsrc.clone();
-	if (Imageshowstate==1)
+	int width = ui.Img_label->size().width();
+	int height = ui.Img_label->size().height();
+	qDebug() << "width:" << width << "; height:" << height;
+	qDebug() << "Dock" << ui.imageDock->size().width() << " " << ui.imageDock->size().height();
+	//自适应长宽比
+	if ((height / 240.0) > (width / 320.0))
 	{
-		showColorImage();
+		//按照宽调整大小
+		height = width / 320.0 * 240.0;
 	}
-	QImage img = QImage((uchar*)(imshowsrc.data), imshowsrc.cols, imshowsrc.rows, QImage::Format_RGB888);
+	else
+	{
+		//按照高调整大小
+		width = height / 240.0 * 320.0;
+	}
+
+	img = img.scaled(width,height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	ui.Img_label->setAlignment(Qt::AlignCenter);		//居中显示
-	
-	
 	ui.Img_label->setPixmap(QPixmap::fromImage(img));
 	
 
@@ -191,14 +216,14 @@ void SmartEye::pclButtonPressedSlot()
 	{
 		//关闭更新
 		isPCLShow = false;
-		ui.screen->hide();
+		ui.pointCloudDock->hide();
 		g_dcam->setPointcloudConvert(false);
 	}
 	else
 	{
 		//显示点云
 		isPCLShow = true;
-		ui.screen->show();
+		ui.pointCloudDock->show();
 		connect(g_dcam, SIGNAL(getPointCloud(PointCloudT::Ptr)), this, SLOT(pointCloudUpdateSlot(PointCloudT::Ptr)));
 		g_dcam->setPointcloudConvert(true);
 	}
@@ -327,75 +352,42 @@ void SmartEye::saveFileSlot()
 	
 
 }
-// 鼠标单击相应，获取当前深度值
-void SmartEye::mousePressEvent(QMouseEvent *event)
+
+
+bool SmartEye::eventFilter(QObject *obj, QEvent *e)
 {
-
-	Mat img_infor = g_dcam->getDepth();
-	//获得相对于屏幕的坐标
-	QPoint sPoint1 = event->globalPos();
-	//qDebug() << "相对于屏幕坐标1:" << "(" << sPoint1.rx() << "," << sPoint1.ry() << ")";
-	//获得相对于控件的坐标
-	QPoint widgetPoint = ui.Img_label->mapFromGlobal(sPoint1);
-	//qDebug() << "相对于控件坐标:" << "(" << widgetPoint.rx() << "," << widgetPoint.ry() << ")";
-	QString image_x;
-	QString image_y;
-	int img_depth;
-	if (sPoint1.rx() >= (sPoint1.rx() - widgetPoint.rx()) & sPoint1.rx() <= (sPoint1.rx() - widgetPoint.rx() + Img_width) & sPoint1.ry() >= (sPoint1.ry() - widgetPoint.ry()) & sPoint1.ry() <= (sPoint1.ry() - widgetPoint.ry() + Img_height))
+	if (e->type() == QEvent::MouseButtonPress)
 	{
-		//qDebug() << "偏移量:" << "(" << (sPoint1.rx() - widgetPoint.rx()) << "," << (sPoint1.ry()- widgetPoint.ry()) << ")";
-		image_x = QString::number(widgetPoint.rx());
-		ui.xlineEdit->setText(image_x);
-		image_y = QString::number(widgetPoint.ry());
-		ui.ylineEdit->setText(image_y);
-		img_depth = img_infor.at<ushort>(image_y.toInt(), image_x.toInt());
-		QString point_depth = QString::number(img_depth);
-		ui.depthlineEdit->setText(point_depth);
-		
+		QMouseEvent *env = static_cast<QMouseEvent *>(e);
+		if (ui.Img_label == obj)
+		{
+			
+			int img_x = env->x() * 320 / ui.Img_label->size().width();
+			int img_y = env->y() * 240 / ui.Img_label->size().height();
+
+			//安全过滤检查
+			if (img_x >= 320)
+				img_x = 319;
+			if (img_x < 0)
+				img_x = 0;
+			if (img_y >= 240)
+				img_y = 239;
+			if (img_y < 0)
+				img_y = 0;
+
+			//ui显示
+			ui.xlineEdit->setText(QString::number(img_x));
+			ui.ylineEdit->setText(QString::number(img_y));
+			Mat img_infor = g_dcam->getDepth();
+			int point_depth = img_infor.at<ushort>(img_y, img_x);
+			ui.depthlineEdit->setText(QString::number(point_depth));
+
+			return true;		//阻止事件传递
+		}
 	}
-	else
-	{
-		//QMessageBox::information(this, "Error Message", "Please Select a Right Place");
-	}
-
-
-
-}
-//弹出新窗口显示伪彩色图像
-void SmartEye::showImageSlot()
-{
-	if (Imageshowstate == 0)
-	{
-		Imageshowstate = 1;
-		QPalette pa;
-		pa.setColor(QPalette::Background, Qt::darkYellow);
-		ui.colorimagelabel->setPalette(pa);					//更改颜色
-		ui.colorimagelabel->setText("Showing");
-		ui.showpushButton->setText("Close");
-
-		showColorImage();
-
-	}
-	else
-	{
-		Imageshowstate = 0;
-		QPalette pa;
-		pa.setColor(QPalette::Background, Qt::darkRed);
-		ui.colorimagelabel->setPalette(pa);					//更改颜色
-		ui.colorimagelabel->setText("Closed");
-		ui.showpushButton->setText("ShowColorImage");
-
-		imagewin->close();
-	}
-		
 	
+	return false;				//事件不做处理，继续传递
 }
-//新窗口显示伪彩色图像
-void SmartEye::showColorImage()
-{
 
-	imagewin->showimage = testimage.clone();
-	imagewin->showColorImage();
-	
-	imagewin->show();
-}
+
+
