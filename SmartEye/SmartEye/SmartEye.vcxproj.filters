@@ -96,5 +96,14 @@
     <ClInclude Include="PCLConvert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SmartEye.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\exe-512.ico" />
   </ItemGroup>
 </Project>

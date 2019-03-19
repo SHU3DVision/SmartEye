@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>SmartEye</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="smarteye.qrc">
+    <normaloff>:/SmartEye/Resource/exe.png</normaloff>:/SmartEye/Resource/exe.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_4">
     <item row="0" column="0">

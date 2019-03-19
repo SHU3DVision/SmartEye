@@ -56,8 +56,8 @@ protected:
 
 private:
 	Ui::SmartEyeClass ui;
-	int connectState = 0;					//socket连接状态，用于更新连接按钮ui
-	int savestate = 0;                    //保存状态
+	int connectState = 0;					//socket连接状态，用于更新连接按钮ui 0无连接 1连接
+	int savestate = 0;						//保存状态 0未保存 1正在保存
 	bool isPCLShow = false;					//是否点云转换标志
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
 	PointCloudT::Ptr cloud;					//点云指针          
@@ -73,9 +73,9 @@ private slots:
 	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//更新点云信息
 	void connectButtonPressedSlot();	//连接按钮点击槽
 	void pclButtonPressedSlot();		//点云转换功能 
-	void setIntegrationTime3DSlot();   //设置3D积分时间
-	void setMappingDistanceSlot();    //设置映射距离
-	void saveFileSlot();  //保存数据
+	void setIntegrationTime3DSlot();	//设置3D积分时间
+	void setMappingDistanceSlot();		//设置映射距离
+	void saveFileSlot();				//保存数据
 	 
 
 };

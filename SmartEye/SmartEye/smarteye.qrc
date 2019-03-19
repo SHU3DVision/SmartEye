@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="SmartEye">
+    <qresource prefix="/SmartEye">
+        <file>Resource/exe.png</file>
     </qresource>
 </RCC>
