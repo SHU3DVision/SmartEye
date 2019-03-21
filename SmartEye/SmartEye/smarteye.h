@@ -61,6 +61,7 @@ private:
 	bool isPCLShow = false;					//是否点云转换标志
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
 	PointCloudT::Ptr cloud;					//点云指针          
+	int pointSize=1;						//点云显示大小
 
 	
 
@@ -76,6 +77,7 @@ private slots:
 	void setIntegrationTime3DSlot();	//设置3D积分时间
 	void setMappingDistanceSlot();		//设置映射距离
 	void saveFileSlot();				//保存数据
+	void pointSizeSliderReleaseSlot();	//点云大小设置
 	 
 
 };

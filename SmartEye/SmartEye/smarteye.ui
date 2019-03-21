@@ -232,6 +232,19 @@
             </layout>
            </item>
            <item>
+            <widget class="QSlider" name="pointSizeSlider">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>10</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="pclBtn">
              <property name="text">
               <string>PointCloud Convert</string>

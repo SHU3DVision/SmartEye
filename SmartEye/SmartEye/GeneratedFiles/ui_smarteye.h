@@ -23,6 +23,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
@@ -71,6 +72,7 @@ public:
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_8;
     QLineEdit *k2lineEdit;
+    QSlider *pointSizeSlider;
     QPushButton *pclBtn;
     QVBoxLayout *verticalLayout_16;
     QGroupBox *groupBox_3;
@@ -296,6 +298,14 @@ public:
 
 
         verticalLayout_3->addLayout(horizontalLayout_9);
+
+        pointSizeSlider = new QSlider(groupBox_2);
+        pointSizeSlider->setObjectName(QStringLiteral("pointSizeSlider"));
+        pointSizeSlider->setMinimum(1);
+        pointSizeSlider->setMaximum(10);
+        pointSizeSlider->setOrientation(Qt::Horizontal);
+
+        verticalLayout_3->addWidget(pointSizeSlider);
 
         pclBtn = new QPushButton(groupBox_2);
         pclBtn->setObjectName(QStringLiteral("pclBtn"));

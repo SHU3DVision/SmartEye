@@ -51,6 +51,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.maxdepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.mindepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.Savebutton, SIGNAL(clicked()), this, SLOT(saveFileSlot()));
+	QObject::connect(ui.pointSizeSlider, SIGNAL(sliderReleased()), this, SLOT(pointSizeSliderReleaseSlot()));
 	
 }
 
@@ -238,6 +239,7 @@ void SmartEye::showPointCloud()
 	viewer->removeAllPointClouds();
 	viewer->addPointCloud(cloud, "cloud");
 	viewer->updatePointCloud(cloud, "cloud");
+	viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, pointSize, "cloud");
 	ui.screen->update();
 }
 
@@ -401,4 +403,8 @@ bool SmartEye::eventFilter(QObject *obj, QEvent *e)
 }
 
 
-
+void SmartEye::pointSizeSliderReleaseSlot()
+{
+	pointSize = ui.pointSizeSlider->value();
+	showPointCloud();
+}
