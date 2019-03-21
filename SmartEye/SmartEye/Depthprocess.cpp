@@ -25,6 +25,8 @@ Mat Imagedepthprocess::depthProcess()
 		fameDepthArray2[realindex] = raw_dep;
 
 	}
+	//ÂË²¨
+	calibrate(fameDepthArray2);
 	uint16_t depth[240][320];
 	for (int i = 0; i < 240; i++)
 	{
