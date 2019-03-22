@@ -25,7 +25,7 @@ void PCLConvert::setConvertParameter(double fx = 296, double fy = 296, double cx
 
 }
 
-PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img)
+PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img,cv::Mat colorMat, bool colormap)
 {
 	PointCloudT::Ptr pointcloud(new PointCloudT);
 
@@ -45,8 +45,8 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img)
 			float dist = img.at<ushort>(i, j);				//原始图像深度
 
 			//降低点云数量
-			if ((i % 3) || (j % 3))
-				continue;
+			/*if ((i % 3) || (j % 3))
+				continue;*/
 
 			//过滤无效点
 			if (dist == 0 || dist >= 30000)
@@ -57,9 +57,18 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img)
 			p.x = -dist*sin(angle)*cos(picAngle);
 			p.y = -dist*sin(angle)*sin(picAngle);
 
-			p.r = 250;
-			p.g = 250;
-			p.b = 250;
+			if (colormap)
+			{
+				p.b = colorMat.at<cv::Vec3b>(i, j)[0];
+				p.g = colorMat.at<cv::Vec3b>(i, j)[1];
+				p.r = colorMat.at<cv::Vec3b>(i, j)[2];
+			}
+			else
+			{
+				p.r = 250;
+				p.g = 250;
+				p.b = 250;
+			}
 			p.a = 255;
 
 			pointcloud->points.push_back(p);

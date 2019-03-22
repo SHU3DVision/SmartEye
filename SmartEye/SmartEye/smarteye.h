@@ -78,6 +78,7 @@ private slots:
 	void setMappingDistanceSlot();		//设置映射距离
 	void saveFileSlot();				//保存数据
 	void pointSizeSliderReleaseSlot();	//点云大小设置
+	void colormapPointCheckBoxSlot(int value);	//伪彩色点云槽
 	 
 
 };

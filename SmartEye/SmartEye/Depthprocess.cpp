@@ -11,7 +11,7 @@ Imagedepthprocess::~Imagedepthprocess()
 
 }
 //深度数据处理
-//返回：mat类型
+//返回：CV_U8C3 mat类型
 Mat Imagedepthprocess::depthProcess()
 {
 	uint16_t fameDepthArray2[MAXLINE];

@@ -32,6 +32,7 @@ public:
 	void setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置相机内参、畸变系数
 	int  setRealTemperature(char *buf);			//获取相机温度
 	bool getRunState();							//获取运行状态
+	void setColormapPoint(bool stat);			//设置点云伪彩色标志
 
 	int maxdepth=30000;					//映射最远距离    
 	int mindepth=0;						//映射最近距离
@@ -54,6 +55,7 @@ private:
 	PCLConvert	g_pclConvert;			//点云转换使用
 	bool isRun = false;					//是否运行
 	bool isPointCloudConvert = false;	//是否点云转换
+	bool isColormapPoint = true;		//是否点云伪彩色
 	std::string ip = "192.168.7.2";		//相机IP
 	int port = 50660;					//相机端口
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令

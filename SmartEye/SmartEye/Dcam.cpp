@@ -86,7 +86,7 @@ void DCam::run()
 			if (isPointCloudConvert)
 			{
 				//点云变换
-				PointCloudT::Ptr cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth());
+				PointCloudT::Ptr cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth(),img_show,isColormapPoint);
 				emit(getPointCloud(cloud));
 			}
 
@@ -161,4 +161,11 @@ Mat DCam::getDepth()
 	cv::Mat dcam_imageinfor;            //深度图像
 	dcam_imageinfor = g_depthprocess.getDepth();
 	return dcam_imageinfor.clone();
+}
+
+//设置点云是否需要加伪彩色
+//stat true加伪彩色 false全白色
+void DCam::setColormapPoint(bool stat = true)
+{
+	isColormapPoint = stat;
 }

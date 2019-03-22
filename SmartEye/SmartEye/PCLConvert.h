@@ -15,7 +15,7 @@ public:
 	PCLConvert();
 	~PCLConvert();
 	void setConvertParameter(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置转换参数
-	PointCloudT::Ptr getPointCloud(cv::Mat img);		//计算点云
+	PointCloudT::Ptr getPointCloud(cv::Mat img, cv::Mat colorMat, bool colormap);		//计算点云
 
 private:
 	cv::Mat undistImg(cv::Mat src);		//畸变矫正

@@ -52,6 +52,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.mindepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.Savebutton, SIGNAL(clicked()), this, SLOT(saveFileSlot()));
 	QObject::connect(ui.pointSizeSlider, SIGNAL(sliderReleased()), this, SLOT(pointSizeSliderReleaseSlot()));
+	QObject::connect(ui.colormapPointCheckBox, SIGNAL(stateChanged(int)), this, SLOT(colormapPointCheckBoxSlot(int)));
 	
 }
 
@@ -407,4 +408,19 @@ void SmartEye::pointSizeSliderReleaseSlot()
 {
 	pointSize = ui.pointSizeSlider->value();
 	showPointCloud();
+}
+
+void SmartEye::colormapPointCheckBoxSlot(int value)
+{
+	switch (value)
+	{
+	case 0:
+		g_dcam->setColormapPoint(false);
+		break;
+	case 2:
+		g_dcam->setColormapPoint(true);
+		break;
+	}
+
+	ui.screen->update();
 }

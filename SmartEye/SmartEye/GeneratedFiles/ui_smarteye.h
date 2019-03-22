@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDockWidget>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
@@ -89,6 +90,7 @@ public:
     QHBoxLayout *horizontalLayout_12;
     QLabel *label_12;
     QLineEdit *mindepthlineEdit;
+    QCheckBox *colormapPointCheckBox;
     QGroupBox *groupBox_5;
     QVBoxLayout *verticalLayout_15;
     QGridLayout *gridLayout_3;
@@ -394,6 +396,13 @@ public:
 
         verticalLayout_14->addLayout(gridLayout_2);
 
+        colormapPointCheckBox = new QCheckBox(groupBox_4);
+        colormapPointCheckBox->setObjectName(QStringLiteral("colormapPointCheckBox"));
+        colormapPointCheckBox->setChecked(true);
+        colormapPointCheckBox->setTristate(false);
+
+        verticalLayout_14->addWidget(colormapPointCheckBox);
+
 
         verticalLayout_16->addWidget(groupBox_4);
 
@@ -562,6 +571,7 @@ public:
         maxdepthlineEdit->setText(QApplication::translate("SmartEyeClass", "30000", 0));
         label_12->setText(QApplication::translate("SmartEyeClass", "MinDepth", 0));
         mindepthlineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
+        colormapPointCheckBox->setText(QApplication::translate("SmartEyeClass", "Clolormap Point", 0));
         groupBox_5->setTitle(QApplication::translate("SmartEyeClass", "Depth Information", 0));
         label_14->setText(QApplication::translate("SmartEyeClass", "Depth:", 0));
         label_13->setText(QApplication::translate("SmartEyeClass", "y:", 0));

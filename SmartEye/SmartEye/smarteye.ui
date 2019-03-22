@@ -345,6 +345,19 @@
            </item>
           </layout>
          </item>
+         <item>
+          <widget class="QCheckBox" name="colormapPointCheckBox">
+           <property name="text">
+            <string>Clolormap Point</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="tristate">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
