@@ -53,6 +53,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.Savebutton, SIGNAL(clicked()), this, SLOT(saveFileSlot()));
 	QObject::connect(ui.pointSizeSlider, SIGNAL(sliderReleased()), this, SLOT(pointSizeSliderReleaseSlot()));
 	QObject::connect(ui.colormapPointCheckBox, SIGNAL(stateChanged(int)), this, SLOT(colormapPointCheckBoxSlot(int)));
+	QObject::connect(ui.pointFilterEdit, SIGNAL(editingFinished()), this, SLOT(pointFilterSlot()));
 	
 }
 
@@ -403,13 +404,14 @@ bool SmartEye::eventFilter(QObject *obj, QEvent *e)
 	return false;				//事件不做处理，继续传递
 }
 
-
+//点云点大小设置槽
 void SmartEye::pointSizeSliderReleaseSlot()
 {
 	pointSize = ui.pointSizeSlider->value();
 	showPointCloud();
 }
 
+//点云伪彩色染色设置
 void SmartEye::colormapPointCheckBoxSlot(int value)
 {
 	switch (value)
@@ -423,4 +425,16 @@ void SmartEye::colormapPointCheckBoxSlot(int value)
 	}
 
 	ui.screen->update();
+}
+
+//设置点云显示点的密度
+void SmartEye::pointFilterSlot()
+{
+	int value = ui.pointFilterEdit->text().toInt();
+	//过滤
+	if (value < 0)
+		value = 0;
+	ui.pointFilterEdit->setText(QString::number(value));
+
+	g_dcam->setPointFilterSize(value);
 }

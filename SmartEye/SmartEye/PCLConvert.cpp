@@ -25,7 +25,12 @@ void PCLConvert::setConvertParameter(double fx = 296, double fy = 296, double cx
 
 }
 
-PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img,cv::Mat colorMat, bool colormap)
+//点云生成
+//img：原始深度图像，CV_U16格式
+//colorMat：伪彩色图像，CV_U8C3格式
+//colormap：点云是否染色 true点云根据伪彩色图像染色 false全白色
+//filterLevel：点云过滤等级
+PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool colormap, int filterLevel)
 {
 	PointCloudT::Ptr pointcloud(new PointCloudT);
 
@@ -45,8 +50,9 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img,cv::Mat colorMat, bool co
 			float dist = img.at<ushort>(i, j);				//原始图像深度
 
 			//降低点云数量
-			/*if ((i % 3) || (j % 3))
-				continue;*/
+			if (filterLevel)
+				if ((i % filterLevel) || (j % filterLevel))
+					continue;
 
 			//过滤无效点
 			if (dist == 0 || dist >= 30000)

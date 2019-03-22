@@ -124,108 +124,102 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="0" column="0">
               <widget class="QLabel" name="label_3">
                <property name="text">
                 <string>FX</string>
                </property>
               </widget>
              </item>
-             <item>
+             <item row="0" column="1">
               <widget class="QLineEdit" name="FXlineEdit">
                <property name="text">
                 <string>290</string>
                </property>
               </widget>
              </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="QLabel" name="label_4">
-               <property name="text">
-                <string>FY</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="FYlineEdit">
-               <property name="text">
-                <string>288</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QLabel" name="label_5">
-               <property name="text">
-                <string>CX</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="CXlineEdit">
-               <property name="text">
-                <string>160</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <item>
-              <widget class="QLabel" name="label_6">
-               <property name="text">
-                <string>CY</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="CYlineEdit">
-               <property name="text">
-                <string>120</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
-             <item>
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>k1</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="k1lineEdit">
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_9">
-             <item>
+             <item row="5" column="0">
               <widget class="QLabel" name="label_8">
                <property name="text">
                 <string>k2</string>
                </property>
               </widget>
              </item>
-             <item>
+             <item row="5" column="1">
               <widget class="QLineEdit" name="k2lineEdit">
                <property name="text">
                 <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="FYlineEdit">
+               <property name="text">
+                <string>288</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>CY</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>CX</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>k1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="k1lineEdit">
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="CYlineEdit">
+               <property name="text">
+                <string>120</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>FY</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="CXlineEdit">
+               <property name="text">
+                <string>160</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>Density</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLineEdit" name="pointFilterEdit">
+               <property name="text">
+                <string>3</string>
                </property>
               </widget>
              </item>

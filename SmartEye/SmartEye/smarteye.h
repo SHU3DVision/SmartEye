@@ -79,7 +79,7 @@ private slots:
 	void saveFileSlot();				//保存数据
 	void pointSizeSliderReleaseSlot();	//点云大小设置
 	void colormapPointCheckBoxSlot(int value);	//伪彩色点云槽
-	 
+	void pointFilterSlot();				//点云过滤槽（为了平衡显示和点云密度，设置点的过滤程度）
 
 };
 

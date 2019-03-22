@@ -55,24 +55,21 @@ public:
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_12;
     QVBoxLayout *verticalLayout_3;
-    QHBoxLayout *horizontalLayout_4;
+    QGridLayout *gridLayout_5;
     QLabel *label_3;
     QLineEdit *FXlineEdit;
-    QHBoxLayout *horizontalLayout_5;
-    QLabel *label_4;
-    QLineEdit *FYlineEdit;
-    QHBoxLayout *horizontalLayout_6;
-    QLabel *label_5;
-    QLineEdit *CXlineEdit;
-    QHBoxLayout *horizontalLayout_7;
-    QLabel *label_6;
-    QLineEdit *CYlineEdit;
-    QHBoxLayout *horizontalLayout_8;
-    QLabel *label_7;
-    QLineEdit *k1lineEdit;
-    QHBoxLayout *horizontalLayout_9;
     QLabel *label_8;
     QLineEdit *k2lineEdit;
+    QLineEdit *FYlineEdit;
+    QLabel *label_6;
+    QLabel *label_5;
+    QLabel *label_7;
+    QLineEdit *k1lineEdit;
+    QLineEdit *CYlineEdit;
+    QLabel *label_4;
+    QLineEdit *CXlineEdit;
+    QLabel *label_15;
+    QLineEdit *pointFilterEdit;
     QSlider *pointSizeSlider;
     QPushButton *pclBtn;
     QVBoxLayout *verticalLayout_16;
@@ -205,101 +202,81 @@ public:
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setSpacing(6);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        gridLayout_5 = new QGridLayout();
+        gridLayout_5->setSpacing(6);
+        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
         label_3 = new QLabel(groupBox_2);
         label_3->setObjectName(QStringLiteral("label_3"));
 
-        horizontalLayout_4->addWidget(label_3);
+        gridLayout_5->addWidget(label_3, 0, 0, 1, 1);
 
         FXlineEdit = new QLineEdit(groupBox_2);
         FXlineEdit->setObjectName(QStringLiteral("FXlineEdit"));
 
-        horizontalLayout_4->addWidget(FXlineEdit);
+        gridLayout_5->addWidget(FXlineEdit, 0, 1, 1, 1);
 
-
-        verticalLayout_3->addLayout(horizontalLayout_4);
-
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setSpacing(6);
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        label_4 = new QLabel(groupBox_2);
-        label_4->setObjectName(QStringLiteral("label_4"));
-
-        horizontalLayout_5->addWidget(label_4);
-
-        FYlineEdit = new QLineEdit(groupBox_2);
-        FYlineEdit->setObjectName(QStringLiteral("FYlineEdit"));
-
-        horizontalLayout_5->addWidget(FYlineEdit);
-
-
-        verticalLayout_3->addLayout(horizontalLayout_5);
-
-        horizontalLayout_6 = new QHBoxLayout();
-        horizontalLayout_6->setSpacing(6);
-        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
-        label_5 = new QLabel(groupBox_2);
-        label_5->setObjectName(QStringLiteral("label_5"));
-
-        horizontalLayout_6->addWidget(label_5);
-
-        CXlineEdit = new QLineEdit(groupBox_2);
-        CXlineEdit->setObjectName(QStringLiteral("CXlineEdit"));
-
-        horizontalLayout_6->addWidget(CXlineEdit);
-
-
-        verticalLayout_3->addLayout(horizontalLayout_6);
-
-        horizontalLayout_7 = new QHBoxLayout();
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setObjectName(QStringLiteral("horizontalLayout_7"));
-        label_6 = new QLabel(groupBox_2);
-        label_6->setObjectName(QStringLiteral("label_6"));
-
-        horizontalLayout_7->addWidget(label_6);
-
-        CYlineEdit = new QLineEdit(groupBox_2);
-        CYlineEdit->setObjectName(QStringLiteral("CYlineEdit"));
-
-        horizontalLayout_7->addWidget(CYlineEdit);
-
-
-        verticalLayout_3->addLayout(horizontalLayout_7);
-
-        horizontalLayout_8 = new QHBoxLayout();
-        horizontalLayout_8->setSpacing(6);
-        horizontalLayout_8->setObjectName(QStringLiteral("horizontalLayout_8"));
-        label_7 = new QLabel(groupBox_2);
-        label_7->setObjectName(QStringLiteral("label_7"));
-
-        horizontalLayout_8->addWidget(label_7);
-
-        k1lineEdit = new QLineEdit(groupBox_2);
-        k1lineEdit->setObjectName(QStringLiteral("k1lineEdit"));
-
-        horizontalLayout_8->addWidget(k1lineEdit);
-
-
-        verticalLayout_3->addLayout(horizontalLayout_8);
-
-        horizontalLayout_9 = new QHBoxLayout();
-        horizontalLayout_9->setSpacing(6);
-        horizontalLayout_9->setObjectName(QStringLiteral("horizontalLayout_9"));
         label_8 = new QLabel(groupBox_2);
         label_8->setObjectName(QStringLiteral("label_8"));
 
-        horizontalLayout_9->addWidget(label_8);
+        gridLayout_5->addWidget(label_8, 5, 0, 1, 1);
 
         k2lineEdit = new QLineEdit(groupBox_2);
         k2lineEdit->setObjectName(QStringLiteral("k2lineEdit"));
 
-        horizontalLayout_9->addWidget(k2lineEdit);
+        gridLayout_5->addWidget(k2lineEdit, 5, 1, 1, 1);
+
+        FYlineEdit = new QLineEdit(groupBox_2);
+        FYlineEdit->setObjectName(QStringLiteral("FYlineEdit"));
+
+        gridLayout_5->addWidget(FYlineEdit, 1, 1, 1, 1);
+
+        label_6 = new QLabel(groupBox_2);
+        label_6->setObjectName(QStringLiteral("label_6"));
+
+        gridLayout_5->addWidget(label_6, 3, 0, 1, 1);
+
+        label_5 = new QLabel(groupBox_2);
+        label_5->setObjectName(QStringLiteral("label_5"));
+
+        gridLayout_5->addWidget(label_5, 2, 0, 1, 1);
+
+        label_7 = new QLabel(groupBox_2);
+        label_7->setObjectName(QStringLiteral("label_7"));
+
+        gridLayout_5->addWidget(label_7, 4, 0, 1, 1);
+
+        k1lineEdit = new QLineEdit(groupBox_2);
+        k1lineEdit->setObjectName(QStringLiteral("k1lineEdit"));
+
+        gridLayout_5->addWidget(k1lineEdit, 4, 1, 1, 1);
+
+        CYlineEdit = new QLineEdit(groupBox_2);
+        CYlineEdit->setObjectName(QStringLiteral("CYlineEdit"));
+
+        gridLayout_5->addWidget(CYlineEdit, 3, 1, 1, 1);
+
+        label_4 = new QLabel(groupBox_2);
+        label_4->setObjectName(QStringLiteral("label_4"));
+
+        gridLayout_5->addWidget(label_4, 1, 0, 1, 1);
+
+        CXlineEdit = new QLineEdit(groupBox_2);
+        CXlineEdit->setObjectName(QStringLiteral("CXlineEdit"));
+
+        gridLayout_5->addWidget(CXlineEdit, 2, 1, 1, 1);
+
+        label_15 = new QLabel(groupBox_2);
+        label_15->setObjectName(QStringLiteral("label_15"));
+
+        gridLayout_5->addWidget(label_15, 6, 0, 1, 1);
+
+        pointFilterEdit = new QLineEdit(groupBox_2);
+        pointFilterEdit->setObjectName(QStringLiteral("pointFilterEdit"));
+
+        gridLayout_5->addWidget(pointFilterEdit, 6, 1, 1, 1);
 
 
-        verticalLayout_3->addLayout(horizontalLayout_9);
+        verticalLayout_3->addLayout(gridLayout_5);
 
         pointSizeSlider = new QSlider(groupBox_2);
         pointSizeSlider->setObjectName(QStringLiteral("pointSizeSlider"));
@@ -552,16 +529,18 @@ public:
         groupBox_2->setTitle(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
         label_3->setText(QApplication::translate("SmartEyeClass", "FX", 0));
         FXlineEdit->setText(QApplication::translate("SmartEyeClass", "290", 0));
-        label_4->setText(QApplication::translate("SmartEyeClass", "FY", 0));
-        FYlineEdit->setText(QApplication::translate("SmartEyeClass", "288", 0));
-        label_5->setText(QApplication::translate("SmartEyeClass", "CX", 0));
-        CXlineEdit->setText(QApplication::translate("SmartEyeClass", "160", 0));
-        label_6->setText(QApplication::translate("SmartEyeClass", "CY", 0));
-        CYlineEdit->setText(QApplication::translate("SmartEyeClass", "120", 0));
-        label_7->setText(QApplication::translate("SmartEyeClass", "k1", 0));
-        k1lineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         label_8->setText(QApplication::translate("SmartEyeClass", "k2", 0));
         k2lineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
+        FYlineEdit->setText(QApplication::translate("SmartEyeClass", "288", 0));
+        label_6->setText(QApplication::translate("SmartEyeClass", "CY", 0));
+        label_5->setText(QApplication::translate("SmartEyeClass", "CX", 0));
+        label_7->setText(QApplication::translate("SmartEyeClass", "k1", 0));
+        k1lineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
+        CYlineEdit->setText(QApplication::translate("SmartEyeClass", "120", 0));
+        label_4->setText(QApplication::translate("SmartEyeClass", "FY", 0));
+        CXlineEdit->setText(QApplication::translate("SmartEyeClass", "160", 0));
+        label_15->setText(QApplication::translate("SmartEyeClass", "Density", 0));
+        pointFilterEdit->setText(QApplication::translate("SmartEyeClass", "3", 0));
         pclBtn->setText(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
         groupBox_3->setTitle(QApplication::translate("SmartEyeClass", "Integration Time", 0));
         label_9->setText(QApplication::translate("SmartEyeClass", "TOF(us)", 0));

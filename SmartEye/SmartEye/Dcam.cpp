@@ -86,7 +86,7 @@ void DCam::run()
 			if (isPointCloudConvert)
 			{
 				//点云变换
-				PointCloudT::Ptr cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth(),img_show,isColormapPoint);
+				PointCloudT::Ptr cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth(),img_show,isColormapPoint,pointFilterSize);
 				emit(getPointCloud(cloud));
 			}
 
@@ -168,4 +168,11 @@ Mat DCam::getDepth()
 void DCam::setColormapPoint(bool stat = true)
 {
 	isColormapPoint = stat;
+}
+
+//平衡显示效果与点密度，设置点密度
+//value： 过滤密度
+void DCam::setPointFilterSize(int value)
+{
+	pointFilterSize = value;
 }
