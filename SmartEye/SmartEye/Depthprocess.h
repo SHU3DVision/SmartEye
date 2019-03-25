@@ -14,8 +14,9 @@ using namespace cv;
 #define   Img_height  (240)
 #define MAXLINE 253600     
 #define MAX_NUM_PIX	82656	//328 * 252
-#define LOW_AMPLITUDE 	32500  //强度过低值
-#define MAX_PHASE        30000.0 //温度矫正
+#define LOW_AMPLITUDE 	32500   //强度过低值
+#define OVER_EXPOSED	32700	//过曝值
+#define MAX_PHASE       30000.0 //温度矫正
 #define MAX_DIST_VALUE 	30000 //最远距离值
 #define OFFSET_PHASE_DEFAULT 0  //深度补偿值
 #define IMG_B(img,y,x) img.at<Vec3b>(y,x)[0]

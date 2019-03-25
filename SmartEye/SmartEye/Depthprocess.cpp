@@ -131,7 +131,11 @@ void  Imagedepthprocess::imageAverageEightConnectivity(ushort *depthdata)
 			}
 			//如果周围有效数据小于6记为无效点
 			if (pixelCounter < 6) {
-				*(depthdata + index) = LOW_AMPLITUDE;
+				//无效点
+				if (*(depthdata + index) > LOW_AMPLITUDE)
+					*(depthdata + index) = OVER_EXPOSED;	//过曝点
+				else
+					*(depthdata + index) = LOW_AMPLITUDE;	//无效点
 			}
 			else {
 				*(depthdata + index) = pixdata / pixelCounter;
@@ -216,6 +220,24 @@ void Imagedepthprocess::setColorImage()
 	{
 		for (int j = 0; j < 320; j++)
 		{
+			if (depthzip.at<ushort>(i, j) == LOW_AMPLITUDE)
+			{
+				//无效点
+				IMG_B(img_color, i, j) = 0;
+				IMG_G(img_color, i, j) = 0;
+				IMG_R(img_color, i, j) = 0;
+				continue;
+			}
+			else if (depthzip.at<ushort>(i, j) == OVER_EXPOSED)
+			{
+				//过曝点
+				IMG_B(img_color, i, j) = 255;
+				IMG_G(img_color, i, j) = 14;
+				IMG_R(img_color, i, j) = 169;
+				continue;
+			}
+
+			//正常点缩放
 			if (depthzip.at<ushort>(i, j) > maxdepth)
 			{
 				depthzip.at<ushort>(i, j) = maxdepth;
@@ -225,49 +247,41 @@ void Imagedepthprocess::setColorImage()
 				depthzip.at<ushort>(i, j) = mindepth;
 			}
 			_matimg_show.at<uchar>(i, j) = (uchar)((depthzip.at<ushort>(i, j) - mindepth)*interdepth);
-		}
-	}
-	//根据距离增加伪彩色
-	
-	ushort img_tmp;
-	for (int y = 0; y < Img_height; y++)
-	{
-		for (int x = 0; x < Img_width; x++)
-		{
-			img_tmp = 255 - _matimg_show.at<uchar>(y, x);
+
+			unsigned char img_tmp = 255 - _matimg_show.at<uchar>(i, j);
 			if (img_tmp < 51)
 			{
-				IMG_B(img_color, y, x) = 0;
-				IMG_G(img_color, y, x) = img_tmp * 5;
-				IMG_R(img_color, y, x) = 0;
+				IMG_B(img_color, i, j) = 0;
+				IMG_G(img_color, i, j) = img_tmp * 5;
+				IMG_R(img_color, i, j) = 0;
 			}
 			else if (img_tmp < 102)
 			{
 				img_tmp -= 51;
-				IMG_B(img_color, y, x) = 255 - img_tmp * 5;
-				IMG_G(img_color, y, x) = 255;
-				IMG_R(img_color, y, x) = 0;
+				IMG_B(img_color, i, j) = 255 - img_tmp * 5;
+				IMG_G(img_color, i, j) = 255;
+				IMG_R(img_color, i, j) = 0;
 			}
 			else if (img_tmp < 153)
 			{
 				img_tmp -= 102;
-				IMG_B(img_color, y, x) = 0;
-				IMG_G(img_color, y, x) = 255;
-				IMG_R(img_color, y, x) = img_tmp * 5;
+				IMG_B(img_color, i, j) = 0;
+				IMG_G(img_color, i, j) = 255;
+				IMG_R(img_color, i, j) = img_tmp * 5;
 			}
 			else if (img_tmp <= 204)
 			{
 				img_tmp -= 153;
-				IMG_B(img_color, y, x) = 0;
-				IMG_G(img_color, y, x) = 255 - uchar(128.0*img_tmp / 51 + 0.5);
-				IMG_R(img_color, y, x) = 255;
+				IMG_B(img_color, i, j) = 0;
+				IMG_G(img_color, i, j) = 255 - uchar(128.0*img_tmp / 51 + 0.5);
+				IMG_R(img_color, i, j) = 255;
 			}
 			else
 			{
 				img_tmp -= 204;
-				IMG_B(img_color, y, x) = 0;
-				IMG_G(img_color, y, x) = 127 - uchar(127.0*img_tmp / 51 + 0.5);
-				IMG_R(img_color, y, x) = 255;
+				IMG_B(img_color, i, j) = 0;
+				IMG_G(img_color, i, j) = 127 - uchar(127.0*img_tmp / 51 + 0.5);
+				IMG_R(img_color, i, j) = 255;
 			}
 		}
 	}
