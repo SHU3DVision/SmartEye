@@ -58,7 +58,6 @@ void DCam::run()
 			//发送信号强度指令
 			QString send_inter;
 			send_inter = send_minamp + MinAmp;
-			qDebug() << "-------------" << send_inter;
 			n = g_Tcpsocket.socket_com(send_inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送信号强度
 			setAmpFlag = 0;
 		}

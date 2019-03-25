@@ -388,18 +388,36 @@ bool SmartEye::eventFilter(QObject *obj, QEvent *e)
 		if (ui.Img_label == obj)
 		{
 			//label点击，获取图像坐标
-			int img_x = env->x() * 320 / ui.Img_label->size().width();
-			int img_y = env->y() * 240 / ui.Img_label->size().height();
+			int img_x;
+			int img_y;
+			//获取label长宽
+			int width = ui.Img_label->size().width();
+			int height = ui.Img_label->size().height();
+			//判断长宽比
+			if ((height / 240.0) > (width / 320.0))
+			{
+				img_x = env->x() * 320 / ui.Img_label->size().width();
+				int img_height = width / 320.0 * 240.0;
+				int div = (height - img_height) / 2.0;
+				img_y = (env->y() - div) * 240.0 / img_height;
+			}
+			else
+			{
+				img_y = env->y() * 240 / ui.Img_label->size().height();
+				int img_width = height / 240.0 * 320.0;
+				int div = (width - img_width) / 2.0;
+				img_x = (env->x() - div) * 320.0 / img_width;
+			}
 
 			//安全过滤检查
 			if (img_x >= 320)
-				img_x = 319;
+				return true;
 			if (img_x < 0)
-				img_x = 0;
+				return true;
 			if (img_y >= 240)
-				img_y = 239;
+				return true;
 			if (img_y < 0)
-				img_y = 0;
+				return true;
 
 			//ui显示
 			ui.xlineEdit->setText(QString::number(img_x));

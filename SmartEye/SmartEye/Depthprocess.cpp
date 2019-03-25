@@ -42,7 +42,7 @@ Mat Imagedepthprocess::depthProcess()
 		{
 			if (depth[i][j] > 30000)
 			{
-				depth[i][j] = 30000;
+				//depth[i][j] = 30000;
 			}
 			_matimg_short.at<ushort>(i, j) = depth[i][j];
 
@@ -234,7 +234,7 @@ void Imagedepthprocess::setColorImage()
 	{
 		for (int x = 0; x < Img_width; x++)
 		{
-			img_tmp = _matimg_show.at<uchar>(y, x);
+			img_tmp = 255 - _matimg_show.at<uchar>(y, x);
 			if (img_tmp < 51)
 			{
 				IMG_B(img_color, y, x) = 0;
