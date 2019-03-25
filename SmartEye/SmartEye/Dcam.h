@@ -39,7 +39,9 @@ public:
 	int mindepth=0;						//映射最近距离
 	int saveimagestate = 0;             //save状态	0不保存 1保存图像
 	bool integrationtime3Dflag = 0;		//积分时间标志位，1发送积分时间指令 0无
+	bool setAmpFlag = 0;                //设置信号强度，1发送最小信号强度指令
 	QString integrationtime3D="1000";	//相机积分时间
+	QString MinAmp = "100";             //相机强度
 	QString  savestr;					//保存路径
 	
 
@@ -63,6 +65,7 @@ private:
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
 	char* send_temp = "getTemperature";//发送获取温度数据指令
 	QString send_integrationtime3D = "setIntegrationTime3D ";   //发送3D积分时间指令
+	QString send_minamp = "setMinAmplitude ";              //发送设置最小强度指令
 	ushort	realTempChip;		//温度
 	
 	

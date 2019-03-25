@@ -75,9 +75,11 @@ public:
     QVBoxLayout *verticalLayout_16;
     QGroupBox *groupBox_3;
     QVBoxLayout *verticalLayout_13;
-    QHBoxLayout *horizontalLayout_11;
+    QGridLayout *gridLayout_6;
+    QLabel *label_16;
     QLabel *label_9;
     QLineEdit *IntegrationtimelineEdit;
+    QLineEdit *setAmplineEdit;
     QGroupBox *groupBox_4;
     QVBoxLayout *verticalLayout_14;
     QGridLayout *gridLayout_2;
@@ -310,21 +312,31 @@ public:
         verticalLayout_13->setSpacing(6);
         verticalLayout_13->setContentsMargins(11, 11, 11, 11);
         verticalLayout_13->setObjectName(QStringLiteral("verticalLayout_13"));
-        horizontalLayout_11 = new QHBoxLayout();
-        horizontalLayout_11->setSpacing(6);
-        horizontalLayout_11->setObjectName(QStringLiteral("horizontalLayout_11"));
+        gridLayout_6 = new QGridLayout();
+        gridLayout_6->setSpacing(6);
+        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
+        label_16 = new QLabel(groupBox_3);
+        label_16->setObjectName(QStringLiteral("label_16"));
+
+        gridLayout_6->addWidget(label_16, 1, 0, 1, 1);
+
         label_9 = new QLabel(groupBox_3);
         label_9->setObjectName(QStringLiteral("label_9"));
 
-        horizontalLayout_11->addWidget(label_9);
+        gridLayout_6->addWidget(label_9, 0, 0, 1, 1);
 
         IntegrationtimelineEdit = new QLineEdit(groupBox_3);
         IntegrationtimelineEdit->setObjectName(QStringLiteral("IntegrationtimelineEdit"));
 
-        horizontalLayout_11->addWidget(IntegrationtimelineEdit);
+        gridLayout_6->addWidget(IntegrationtimelineEdit, 0, 2, 1, 1);
+
+        setAmplineEdit = new QLineEdit(groupBox_3);
+        setAmplineEdit->setObjectName(QStringLiteral("setAmplineEdit"));
+
+        gridLayout_6->addWidget(setAmplineEdit, 1, 2, 1, 1);
 
 
-        verticalLayout_13->addLayout(horizontalLayout_11);
+        verticalLayout_13->addLayout(gridLayout_6);
 
 
         verticalLayout_16->addWidget(groupBox_3);
@@ -542,9 +554,11 @@ public:
         label_15->setText(QApplication::translate("SmartEyeClass", "Density", 0));
         pointFilterEdit->setText(QApplication::translate("SmartEyeClass", "3", 0));
         pclBtn->setText(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
-        groupBox_3->setTitle(QApplication::translate("SmartEyeClass", "Integration Time", 0));
+        groupBox_3->setTitle(QApplication::translate("SmartEyeClass", "Set Parametre", 0));
+        label_16->setText(QApplication::translate("SmartEyeClass", "MinAmp", 0));
         label_9->setText(QApplication::translate("SmartEyeClass", "TOF(us)", 0));
         IntegrationtimelineEdit->setText(QApplication::translate("SmartEyeClass", "1000", 0));
+        setAmplineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         groupBox_4->setTitle(QApplication::translate("SmartEyeClass", "Colormap", 0));
         label_11->setText(QApplication::translate("SmartEyeClass", "MaxDepth", 0));
         maxdepthlineEdit->setText(QApplication::translate("SmartEyeClass", "30000", 0));

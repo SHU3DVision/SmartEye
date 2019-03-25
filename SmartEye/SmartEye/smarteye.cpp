@@ -54,6 +54,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.pointSizeSlider, SIGNAL(sliderReleased()), this, SLOT(pointSizeSliderReleaseSlot()));
 	QObject::connect(ui.colormapPointCheckBox, SIGNAL(stateChanged(int)), this, SLOT(colormapPointCheckBoxSlot(int)));
 	QObject::connect(ui.pointFilterEdit, SIGNAL(editingFinished()), this, SLOT(pointFilterSlot()));
+	QObject::connect(ui.setAmplineEdit, SIGNAL(editingFinished()), this, SLOT(setMinAmpSlot()));
 	
 }
 
@@ -286,7 +287,18 @@ void SmartEye::setIntegrationTime3DSlot()
 	g_dcam->integrationtime3D = ui.IntegrationtimelineEdit->text();
 	g_dcam->integrationtime3Dflag = 1;
 }
-
+//设置信号强度
+void SmartEye::setMinAmpSlot()
+{
+	g_dcam->MinAmp = ui.setAmplineEdit->text();
+	int MinAmpsize = g_dcam->MinAmp.toInt();
+	if (MinAmpsize < 10)
+	{
+		g_dcam->MinAmp = "10";
+		ui.setAmplineEdit->setText("10");
+	}
+	g_dcam->setAmpFlag = 1;
+}
 //设置映射距离
 void SmartEye::setMappingDistanceSlot()
 {

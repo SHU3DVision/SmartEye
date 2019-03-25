@@ -75,6 +75,7 @@ private slots:
 	void connectButtonPressedSlot();	//连接按钮点击槽
 	void pclButtonPressedSlot();		//点云转换功能 
 	void setIntegrationTime3DSlot();	//设置3D积分时间
+	void setMinAmpSlot();                //设置最小信号强度指令
 	void setMappingDistanceSlot();		//设置映射距离
 	void saveFileSlot();				//保存数据
 	void pointSizeSliderReleaseSlot();	//点云大小设置

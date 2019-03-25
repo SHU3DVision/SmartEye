@@ -269,22 +269,36 @@
       <item>
        <widget class="QGroupBox" name="groupBox_3">
         <property name="title">
-         <string>Integration Time</string>
+         <string>Set Parametre</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_13">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_11">
-           <item>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_16">
+             <property name="text">
+              <string>MinAmp</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
             <widget class="QLabel" name="label_9">
              <property name="text">
               <string>TOF(us)</string>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="0" column="2">
             <widget class="QLineEdit" name="IntegrationtimelineEdit">
              <property name="text">
               <string>1000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLineEdit" name="setAmplineEdit">
+             <property name="text">
+              <string>0</string>
              </property>
             </widget>
            </item>

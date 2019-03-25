@@ -44,22 +44,7 @@ void DCam::run()
 		g_depthprocess.savestr = savestr;
 		char ptr_buf[MAXLINE];  //存储缓存区
 		int n = -1;
-		if (integrationtime3Dflag ==0)
-		{
-			if (tempReadEnable == 1)
-			{
-				//获取温度数据
-				n = g_Tcpsocket.socket_com(send_temp, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取温度数据
-				tempReadEnable = 0;
-			}
-			else
-			{
-				//获取深度数据
-				n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
-				tempReadDelay++;
-			}
-		}
-		else
+		if (integrationtime3Dflag)
 		{
 			//发送积分时间指令
 			QString send_inter;
@@ -68,6 +53,29 @@ void DCam::run()
 
 			integrationtime3Dflag = 0;
 		}
+		else if (setAmpFlag)
+		{
+			//发送信号强度指令
+			QString send_inter;
+			send_inter = send_minamp + MinAmp;
+			qDebug() << "-------------" << send_inter;
+			n = g_Tcpsocket.socket_com(send_inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送信号强度
+			setAmpFlag = 0;
+		}
+		else if (tempReadEnable)
+		{
+			//获取温度数据
+			n = g_Tcpsocket.socket_com(send_temp, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取温度数据
+			tempReadEnable = 0;
+		}
+		else
+		{
+			//获取深度数据
+			n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
+			tempReadDelay++;
+		}
+
+
 		
 		
 		//读取深度五十次后，读取温度
