@@ -38,7 +38,9 @@ SmartEye::SmartEye(QWidget *parent)
 	ui.savestatelabel->setPalette(pa);					//更改颜色
 
 	//设置窗口大小
-	this->setFixedSize(408, 408);
+	this->resize(409, 409);
+	//this->setBaseSize(408, 409);
+	//this->setFixedSize(408, 408);
 
 	//图像点击事件
 	ui.Img_label->installEventFilter(this);		//label点击事件会调用eventFilter函数
@@ -79,8 +81,8 @@ void SmartEye::connectButtonPressedSlot()
 		QPalette pa;
 		pa.setColor(QPalette::Background, Qt::darkYellow);
 		ui.statelabel->setPalette(pa);					//更改颜色
-		ui.statelabel->setText("Connecting");			//更改文字
-		ui.connectButton->setText("Disconnect");
+		ui.statelabel->setText(tr("Connecting"));			//更改文字
+		ui.connectButton->setText(tr("Disconnect"));
 
 		//dock显示
 		ui.imageDock->show();
@@ -95,10 +97,10 @@ void SmartEye::connectButtonPressedSlot()
 		QPalette pa;
 		pa.setColor(QPalette::Background, Qt::darkRed);
 		ui.statelabel->setPalette(pa);					//更改颜色
-		ui.statelabel->setText("No");
-		ui.connectButton->setText("Connect");
+		ui.statelabel->setText(tr("No"));
+		ui.connectButton->setText(tr("Connect"));
 
-		disconnect(g_dcam, SIGNAL(cvGetImage(cv::Mat, int)), this, SLOT(imageUpdateSlot(cv::Mat, int)));	//断开槽
+		disconnect(g_dcam, SIGNAL(getImage(cv::Mat, int)), this, SLOT(imageUpdateSlot(cv::Mat, int)));	//断开槽
 
 		//dock隐藏
 		ui.imageDock->hide();
@@ -127,8 +129,8 @@ void SmartEye::imageUpdateSlot(cv::Mat img,int isImg)
 			QPalette pa;
 			pa.setColor(QPalette::Background, Qt::darkGreen);
 			ui.statelabel->setPalette(pa);					//更改颜色
-			ui.statelabel->setText("Connected");
-			ui.connectButton->setText("Disconnect");
+			ui.statelabel->setText(tr("Connected"));
+			ui.connectButton->setText(tr("Disconnect"));
 
 			//处理原始数据
 			cv::Mat imshowsrc = img;
@@ -143,8 +145,8 @@ void SmartEye::imageUpdateSlot(cv::Mat img,int isImg)
 			QPalette pa;
 			pa.setColor(QPalette::Background, Qt::darkRed);
 			ui.statelabel->setPalette(pa);					//更改颜色
-			ui.statelabel->setText("No");
-			ui.connectButton->setText("Connect");
+			ui.statelabel->setText(tr("No"));
+			ui.connectButton->setText(tr("Connect"));
 			return;
 		}
 	}
@@ -156,8 +158,8 @@ void SmartEye::imageUpdateSlot(cv::Mat img,int isImg)
 		QPalette pa;
 		pa.setColor(QPalette::Background, Qt::darkRed);
 		ui.statelabel->setPalette(pa);					//更改颜色
-		ui.statelabel->setText("No");
-		ui.connectButton->setText("Connect");
+		ui.statelabel->setText(tr("No"));
+		ui.connectButton->setText(tr("Connect"));
 		return;
 	}
 	
@@ -326,7 +328,7 @@ void SmartEye::setMappingDistanceSlot()
 	//错误输入提醒
 	if (g_dcam->mindepth > g_dcam->maxdepth)
 	{
-		QMessageBox::information(this, "Error Message", "Please Enter The Correct Format");
+		QMessageBox::information(this, tr("Error Message"), tr("Please Enter The Correct Format"));
 	}
 }
 
@@ -344,8 +346,8 @@ void SmartEye::saveFileSlot()
 				QPalette pac;
 				pac.setColor(QPalette::Background, Qt::darkYellow);
 				ui.savestatelabel->setPalette(pac);					//更改颜色
-				ui.savestatelabel->setText("Saving");			//更改文字
-				ui.Savebutton->setText("Dis_save");
+				ui.savestatelabel->setText(tr("Saving"));			//更改文字
+				ui.Savebutton->setText(tr("Dis_save"));
 				if (savestate == 0)
 					savestate++;
 				g_dcam->saveimagestate=1;
@@ -355,8 +357,8 @@ void SmartEye::saveFileSlot()
 				QPalette pac;
 				pac.setColor(QPalette::Background, Qt::darkRed);
 				ui.savestatelabel->setPalette(pac);					//更改颜色
-				ui.savestatelabel->setText("Saved");			//更改文字
-				ui.Savebutton->setText("save");
+				ui.savestatelabel->setText(tr("Saved"));			//更改文字
+				ui.Savebutton->setText(tr("save"));
 				if (savestate == 1)
 					savestate--;
 				g_dcam->saveimagestate = 0;
@@ -368,8 +370,8 @@ void SmartEye::saveFileSlot()
 		QPalette pac;
 		pac.setColor(QPalette::Background, Qt::darkRed);
 		ui.savestatelabel->setPalette(pac);					//更改颜色
-		ui.savestatelabel->setText("Saved");			//更改文字
-		ui.Savebutton->setText("save");
+		ui.savestatelabel->setText(tr("Saved"));			//更改文字
+		ui.Savebutton->setText(tr("save"));
 		if (savestate == 1)
 			savestate--;
 		g_dcam->saveimagestate = 0;

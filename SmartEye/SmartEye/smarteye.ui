@@ -77,6 +77,12 @@
             <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
               <widget class="QPushButton" name="connectButton">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>23</height>
+                </size>
+               </property>
                <property name="text">
                 <string>Connect</string>
                </property>
@@ -84,6 +90,12 @@
              </item>
              <item>
               <widget class="QLabel" name="statelabel">
+               <property name="minimumSize">
+                <size>
+                 <width>75</width>
+                 <height>23</height>
+                </size>
+               </property>
                <property name="styleSheet">
                 <string notr="true">color: rgb(231, 231, 231);text-align: center;</string>
                </property>
@@ -420,6 +432,12 @@
            </item>
            <item>
             <widget class="QLabel" name="savestatelabel">
+             <property name="minimumSize">
+              <size>
+               <width>75</width>
+               <height>23</height>
+              </size>
+             </property>
              <property name="styleSheet">
               <string notr="true">color: rgb(231, 231, 231);</string>
              </property>
@@ -429,6 +447,19 @@
             </widget>
            </item>
           </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </widget>

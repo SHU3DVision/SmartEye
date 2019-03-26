@@ -130,7 +130,7 @@ void  Imagedepthprocess::imageAverageEightConnectivity(ushort *depthdata)
 				pixelCounter++;
 			}
 			//如果周围有效数据小于6记为无效点
-			if (pixelCounter < 6) {
+			if (pixelCounter < 8) {
 				//无效点
 				if (*(depthdata + index) > LOW_AMPLITUDE)
 					*(depthdata + index) = OVER_EXPOSED;	//过曝点

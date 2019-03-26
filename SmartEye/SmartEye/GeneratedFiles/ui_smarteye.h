@@ -102,6 +102,7 @@ public:
     QHBoxLayout *horizontalLayout_10;
     QPushButton *Savebutton;
     QLabel *savestatelabel;
+    QSpacerItem *verticalSpacer_2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -172,11 +173,13 @@ public:
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         connectButton = new QPushButton(groupBox);
         connectButton->setObjectName(QStringLiteral("connectButton"));
+        connectButton->setMinimumSize(QSize(0, 23));
 
         horizontalLayout_3->addWidget(connectButton);
 
         statelabel = new QLabel(groupBox);
         statelabel->setObjectName(QStringLiteral("statelabel"));
+        statelabel->setMinimumSize(QSize(75, 23));
         statelabel->setStyleSheet(QStringLiteral("color: rgb(231, 231, 231);text-align: center;"));
         statelabel->setTextFormat(Qt::AutoText);
 
@@ -447,12 +450,17 @@ public:
 
         savestatelabel = new QLabel(groupBox_5);
         savestatelabel->setObjectName(QStringLiteral("savestatelabel"));
+        savestatelabel->setMinimumSize(QSize(75, 23));
         savestatelabel->setStyleSheet(QStringLiteral("color: rgb(231, 231, 231);"));
 
         horizontalLayout_10->addWidget(savestatelabel);
 
 
         verticalLayout_15->addLayout(horizontalLayout_10);
+
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_15->addItem(verticalSpacer_2);
 
 
         verticalLayout_16->addWidget(groupBox_5);
