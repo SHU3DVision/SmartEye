@@ -35,6 +35,10 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool c
 	PointCloudT::Ptr pointcloud(new PointCloudT);
 
 	img = undistImg(img);		//畸变矫正
+	//因为畸变矫正存在坐标变换，部分坐标点的像素值通过插值法填补上
+	//但是这些点可能是有效点无效点交界处，插值法会算出一个平均距离
+	//但是这些点其实都应该是无效点，点云转换前做一次滤波
+	img = filterImg(img);		//图像滤波
 	
 	//点云变换
 	int imgWidth = img.size().width;
@@ -90,6 +94,9 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool c
 	return pointcloud;
 }
 
+//图像畸变矫正
+//src：CV_U16C1格式图像
+//return：畸变矫正后图像
 cv::Mat PCLConvert::undistImg(cv::Mat src)
 {
 	cv::Mat dst;
@@ -130,4 +137,61 @@ cv::Mat PCLConvert::undistImg(cv::Mat src)
 	remap(src, dst, map1, map2, cv::INTER_LINEAR);
 
 	return dst.clone();
+}
+
+//畸变矫正后图像滤波
+//src：待滤波图像CV_16UC1
+//return：滤波后图像
+cv::Mat PCLConvert::filterImg(cv::Mat src)
+{
+	cv::Mat rst = src.clone();
+	//cv::medianBlur(src, rst, 5);		//中值滤波
+	//cv::GaussianBlur(src, rst, cv::Size(3, 3), 0, 0);	//高斯滤波
+	for (int y = 0; y < src.size().height; y++)
+	{
+		for (int x = 0; x < src.size().width; x++)
+		{
+			if (y == 0 || y == src.size().height - 1 || x == 0 || x == src.size().width - 1)
+			{
+				rst.at<ushort>(y, x) = 0;
+				continue;
+			}
+
+			//遍历周围邻居
+			ushort dis[8];
+			dis[0] = src.at<ushort>(y - 1, x - 1);
+			dis[1] = src.at<ushort>(y - 1, x);
+			dis[2] = src.at<ushort>(y - 1, x + 1);
+			dis[3] = src.at<ushort>(y, x - 1);
+			ushort m = src.at<ushort>(y, x);
+			dis[4] = src.at<ushort>(y, x + 1);
+			dis[5] = src.at<ushort>(y + 1, x - 1);
+			dis[6] = src.at<ushort>(y - 1, x);
+			dis[7] = src.at<ushort>(y - 1, x + 1);
+
+			//计算周围有效点数量和均值
+			int counter = 0;
+			ushort min = 30000;
+			for (int i = 0; i < 8; i++)
+			{
+				if (dis[i] != 0 && dis[i] < 30000)
+				{
+					counter++;
+					if (min > dis[i])
+						min = dis[i];
+				}
+			}
+
+			//满足周围点都是有效点的，计算均值
+			if (counter >6)
+			{
+				rst.at<ushort>(y, x) = min;
+			}
+			else
+				rst.at<ushort>(y, x) = 0;
+
+		}
+	}
+
+	return rst.clone();
 }

@@ -19,6 +19,7 @@ public:
 
 private:
 	cv::Mat undistImg(cv::Mat src);		//»û±ä½ÃÕı
+	cv::Mat filterImg(cv::Mat src);		//ÂË²¨
 
 	double fx;
 	double fy;
