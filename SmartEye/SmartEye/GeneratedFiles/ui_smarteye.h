@@ -560,13 +560,13 @@ public:
         label_4->setText(QApplication::translate("SmartEyeClass", "FY", 0));
         CXlineEdit->setText(QApplication::translate("SmartEyeClass", "160", 0));
         label_15->setText(QApplication::translate("SmartEyeClass", "Density", 0));
-        pointFilterEdit->setText(QApplication::translate("SmartEyeClass", "3", 0));
+        pointFilterEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         pclBtn->setText(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
         groupBox_3->setTitle(QApplication::translate("SmartEyeClass", "Set Parametre", 0));
         label_16->setText(QApplication::translate("SmartEyeClass", "MinAmp", 0));
         label_9->setText(QApplication::translate("SmartEyeClass", "TOF(us)", 0));
         IntegrationtimelineEdit->setText(QApplication::translate("SmartEyeClass", "1000", 0));
-        setAmplineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
+        setAmplineEdit->setText(QApplication::translate("SmartEyeClass", "10", 0));
         groupBox_4->setTitle(QApplication::translate("SmartEyeClass", "Colormap", 0));
         label_11->setText(QApplication::translate("SmartEyeClass", "MaxDepth", 0));
         maxdepthlineEdit->setText(QApplication::translate("SmartEyeClass", "30000", 0));

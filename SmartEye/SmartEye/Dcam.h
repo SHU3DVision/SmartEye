@@ -42,7 +42,7 @@ public:
 	bool setAmpFlag = 0;                //设置信号强度，1发送最小信号强度指令
 	QString integrationtime3D="1000";	//相机积分时间
 	QString MinAmp = "100";             //相机强度
-	QString  savestr;					//保存路径
+	QString savestr;					//保存路径
 	
 
 signals:
@@ -59,7 +59,7 @@ private:
 	bool isRun = false;					//是否运行
 	bool isPointCloudConvert = false;	//是否点云转换
 	bool isColormapPoint = true;		//是否点云伪彩色
-	int  pointFilterSize = 3;			//点云密度设置（平衡点云和速度）
+	int  pointFilterSize = 0;			//点云密度设置（平衡点云和速度）
 	std::string ip = "192.168.7.2";		//相机IP
 	int port = 50660;					//相机端口
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
