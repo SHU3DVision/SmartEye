@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>826</width>
+    <width>890</width>
     <height>741</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SmartEye</string>
+   <string>SmartEye V1.0.0</string>
   </property>
   <property name="windowIcon">
    <iconset resource="smarteye.qrc">
@@ -473,7 +473,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>826</width>
+     <width>890</width>
      <height>23</height>
     </rect>
    </property>

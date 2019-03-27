@@ -119,7 +119,7 @@ public:
     {
         if (SmartEyeClass->objectName().isEmpty())
             SmartEyeClass->setObjectName(QStringLiteral("SmartEyeClass"));
-        SmartEyeClass->resize(826, 741);
+        SmartEyeClass->resize(890, 741);
         QIcon icon;
         icon.addFile(QStringLiteral(":/SmartEye/Resource/exe.png"), QSize(), QIcon::Normal, QIcon::Off);
         SmartEyeClass->setWindowIcon(icon);
@@ -471,7 +471,7 @@ public:
         SmartEyeClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SmartEyeClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 826, 23));
+        menuBar->setGeometry(QRect(0, 0, 890, 23));
         SmartEyeClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(SmartEyeClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -538,7 +538,7 @@ public:
 
     void retranslateUi(QMainWindow *SmartEyeClass)
     {
-        SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye", 0));
+        SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye V1.0.0", 0));
         groupBox->setTitle(QApplication::translate("SmartEyeClass", "IP Address", 0));
         IplineEdit->setText(QApplication::translate("SmartEyeClass", "192.168.7.2", 0));
         PortlineEdit->setText(QApplication::translate("SmartEyeClass", "50660", 0));
