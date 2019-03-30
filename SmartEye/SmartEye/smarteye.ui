@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SmartEye V1.0.0</string>
+   <string>SmartEye V1.0.1</string>
   </property>
   <property name="windowIcon">
    <iconset resource="smarteye.qrc">

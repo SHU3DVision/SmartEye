@@ -98,6 +98,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	}
 	else if (strlen(sendline) == 14)
 	{
+		//获得温度
 		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
 		for (int i = 0; i < rec_len; i++)
 		{
@@ -114,6 +115,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	}
 	else
 	{
+		//其他指令
 		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
 		/*qDebug() << "-------------------" << rec_len;
 		qDebug() << "-------------------" << tempbuf;*/

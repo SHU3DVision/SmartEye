@@ -31,19 +31,46 @@ void DCam::run()
 	int tempReadDelay = 0;		//读取温度计数
 	int tempReadEnable = 0;     //获取相机温度信号
 
+	char ptr_buf[MAXLINE];  //存储缓存区
+	int n = -1;
+
+	//相机参数
+	g_Tcpsocket._ip = ip;
+	g_Tcpsocket._port = port;
+
+	//初始化相机指令
+	QString inter;
+	//过曝点使能
+	inter = send_adcOverflow + "1";
+	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送过曝点使能
+	emit getImage(cv::Mat(), n);
+	if (n != 0)
+		return;
+
+	//积分时间1000
+	inter = send_integrationtime3D + "1000";
+	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送3D积分时间
+	emit getImage(cv::Mat(), n);
+	if (n != 0)
+		return;
+
+	//最小信号强度10
+	inter = send_minamp + "10";
+	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送最小信号强度
+	emit getImage(cv::Mat(), n);
+	if (n != 0)
+		return;
+
 	//主循环
 	while (isRun)
 	{
-		//相机参数
-		g_Tcpsocket._ip = ip;
-		g_Tcpsocket._port = port;
+		
 		//图像处理参数
 		g_depthprocess.maxdepth = maxdepth;
 		g_depthprocess.mindepth = mindepth;
 		g_depthprocess.saveimagestate = saveimagestate;
 		g_depthprocess.savestr = savestr;
-		char ptr_buf[MAXLINE];  //存储缓存区
-		int n = -1;
+		
 		if (integrationtime3Dflag)
 		{
 			//发送积分时间指令

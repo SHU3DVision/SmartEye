@@ -65,7 +65,8 @@ private:
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
 	char* send_temp = "getTemperature";//发送获取温度数据指令
 	QString send_integrationtime3D = "setIntegrationTime3D ";   //发送3D积分时间指令
-	QString send_minamp = "setMinAmplitude ";              //发送设置最小强度指令
+	QString send_minamp = "setMinAmplitude ";				//发送设置最小强度指令
+	QString send_adcOverflow = "enableAdcOverflow ";		//发送adc溢出（过曝）使能指令
 	ushort	realTempChip;		//温度
 	
 	
