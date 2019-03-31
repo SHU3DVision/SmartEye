@@ -294,11 +294,11 @@ void SmartEye::setMinAmpSlot()
 {
 	g_dcam->MinAmp = ui.setAmplineEdit->text();
 	int MinAmpsize = g_dcam->MinAmp.toInt();
-	if (MinAmpsize < 10)
+	/*if (MinAmpsize < 10)
 	{
 		g_dcam->MinAmp = "10";
 		ui.setAmplineEdit->setText("10");
-	}
+	}*/
 	g_dcam->setAmpFlag = 1;
 }
 //…Ë÷√”≥…‰æ‡¿Î

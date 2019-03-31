@@ -73,7 +73,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 		
 	}
 	int i2 = 0;
-	if (strlen(sendline) == 17)
+	if (strcmp(sendline,"getDistanceSorted")==0)
 	{
 		//接收返回图像数据
 		
@@ -96,7 +96,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 
 		}
 	}
-	else if (strlen(sendline) == 14)
+	else if (strcmp(sendline,"getTemperature")==0)
 	{
 		//获得温度
 		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
@@ -113,7 +113,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 		}
 		
 	}
-	else
+	else 
 	{
 		//其他指令
 		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
@@ -129,11 +129,11 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	closesocket(sockfd);
 	//终止使用 DLL
 	sk_cleanup();
-	if (strlen(sendline) == 17)
+	if (strcmp(sendline, "getDistanceSorted") == 0)
 	{
 		return 1;
 	}
-	else if (strlen(sendline) == 14)
+	else if (strcmp(sendline, "getTemperature") == 0)
 	{
 		return rec_len;
 	}
