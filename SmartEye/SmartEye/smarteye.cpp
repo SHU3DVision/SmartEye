@@ -37,6 +37,11 @@ SmartEye::SmartEye(QWidget *parent)
 	ui.savestatelabel->setAutoFillBackground(true);		//填充背景
 	ui.savestatelabel->setPalette(pa);					//更改颜色
 
+	//savePcdStateLable颜色设置
+	ui.savePCDStateLable->setAlignment(Qt::AlignCenter);//连接状态居中
+	ui.savePCDStateLable->setAutoFillBackground(true);		//填充背景
+	ui.savePCDStateLable->setPalette(pa);					//更改颜色
+
 	//设置窗口大小
 	this->resize(409, 409);
 	//this->setBaseSize(408, 409);
@@ -53,6 +58,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.maxdepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.mindepthlineEdit, SIGNAL(editingFinished()), this, SLOT(setMappingDistanceSlot()));
 	QObject::connect(ui.Savebutton, SIGNAL(clicked()), this, SLOT(saveFileSlot()));
+	QObject::connect(ui.savePcdButton, SIGNAL(clicked()), this, SLOT(savePCDSlot()));
 	QObject::connect(ui.pointSizeSlider, SIGNAL(sliderReleased()), this, SLOT(pointSizeSliderReleaseSlot()));
 	QObject::connect(ui.colormapPointCheckBox, SIGNAL(stateChanged(int)), this, SLOT(colormapPointCheckBoxSlot(int)));
 	QObject::connect(ui.pointFilterEdit, SIGNAL(editingFinished()), this, SLOT(pointFilterSlot()));
@@ -358,7 +364,7 @@ void SmartEye::saveFileSlot()
 				pac.setColor(QPalette::Background, Qt::darkRed);
 				ui.savestatelabel->setPalette(pac);					//更改颜色
 				ui.savestatelabel->setText(tr("Saved"));			//更改文字
-				ui.Savebutton->setText(tr("save"));
+				ui.Savebutton->setText(tr("Save PNG"));
 				if (savestate == 1)
 					savestate--;
 				g_dcam->saveimagestate = 0;
@@ -371,15 +377,55 @@ void SmartEye::saveFileSlot()
 		pac.setColor(QPalette::Background, Qt::darkRed);
 		ui.savestatelabel->setPalette(pac);					//更改颜色
 		ui.savestatelabel->setText(tr("Saved"));			//更改文字
-		ui.Savebutton->setText(tr("save"));
+		ui.Savebutton->setText(tr("Save PNG"));
 		if (savestate == 1)
 			savestate--;
 		g_dcam->saveimagestate = 0;
 	}
-	
-	
 
 }
+
+
+//保存点云数据
+void SmartEye::savePCDSlot()
+{
+	if (g_dcam->getRunState() == true)
+	{
+		if (isPCLShow)
+		{
+			//正在获取图像且显示点云
+			if (savepcdstate % 2 == 0)
+			{
+				g_dcam->savePcdStr = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/home", QFileDialog::ShowDirsOnly);
+				if (g_dcam->savePcdStr.isEmpty())//如果未选择文件便确认，即返回
+					return;
+				QPalette pac;
+				pac.setColor(QPalette::Background, Qt::darkYellow);
+				ui.savePCDStateLable->setPalette(pac);					//更改颜色
+				ui.savePCDStateLable->setText(tr("Saving"));			//更改文字
+				ui.savePcdButton->setText(tr("Dis_save"));
+				if (savepcdstate == 0)
+					savepcdstate++;
+				g_dcam->savepcdstate = 1;
+
+				return;
+			}
+
+		}
+	}
+
+	QPalette pac;
+	pac.setColor(QPalette::Background, Qt::darkRed);
+	ui.savePCDStateLable->setPalette(pac);					//更改颜色
+	ui.savePCDStateLable->setText(tr("Saved"));			//更改文字
+	ui.savePcdButton->setText(tr("Save PCD"));
+	if (savepcdstate == 1)
+		savepcdstate--;
+	g_dcam->savepcdstate = 0;
+
+
+}
+
 
 //label点击事件过滤器
 bool SmartEye::eventFilter(QObject *obj, QEvent *e)

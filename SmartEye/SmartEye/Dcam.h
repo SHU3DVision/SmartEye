@@ -38,11 +38,13 @@ public:
 	int maxdepth=30000;					//映射最远距离    
 	int mindepth=0;						//映射最近距离
 	int saveimagestate = 0;             //save状态	0不保存 1保存图像
+	int savepcdstate = 0;				//PCD保存状态 0不保存 1保存
 	bool integrationtime3Dflag = 0;		//积分时间标志位，1发送积分时间指令 0无
 	bool setAmpFlag = 0;                //设置信号强度，1发送最小信号强度指令
 	QString integrationtime3D="1000";	//相机积分时间
 	QString MinAmp = "100";             //相机强度
 	QString savestr;					//保存路径
+	QString savePcdStr;					//点云保存路径
 	
 
 signals:

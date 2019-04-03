@@ -58,6 +58,7 @@ private:
 	Ui::SmartEyeClass ui;
 	int connectState = 0;					//socket连接状态，用于更新连接按钮ui 0无连接 1连接
 	int savestate = 0;						//保存状态 0未保存 1正在保存
+	int savepcdstate = 0;					//保存pcd文件 0不保存 1正在保存
 	bool isPCLShow = false;					//是否点云转换标志
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
 	PointCloudT::Ptr cloud;					//点云指针          
@@ -78,6 +79,7 @@ private slots:
 	void setMinAmpSlot();                //设置最小信号强度指令
 	void setMappingDistanceSlot();		//设置映射距离
 	void saveFileSlot();				//保存数据
+	void savePCDSlot();					//保存PCD文件
 	void pointSizeSliderReleaseSlot();	//点云大小设置
 	void colormapPointCheckBoxSlot(int value);	//伪彩色点云槽
 	void pointFilterSlot();				//点云过滤槽（为了平衡显示和点云密度，设置点的过滤程度）

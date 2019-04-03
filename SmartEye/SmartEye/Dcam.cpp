@@ -70,6 +70,8 @@ void DCam::run()
 		g_depthprocess.mindepth = mindepth;
 		g_depthprocess.saveimagestate = saveimagestate;
 		g_depthprocess.savestr = savestr;
+		g_pclConvert.savestate = savepcdstate;
+		g_pclConvert.savestr = string(savePcdStr.toLocal8Bit());
 		
 		if (integrationtime3Dflag)
 		{

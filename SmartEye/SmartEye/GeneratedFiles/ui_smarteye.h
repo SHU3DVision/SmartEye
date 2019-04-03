@@ -102,6 +102,9 @@ public:
     QHBoxLayout *horizontalLayout_10;
     QPushButton *Savebutton;
     QLabel *savestatelabel;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *savePcdButton;
+    QLabel *savePCDStateLable;
     QSpacerItem *verticalSpacer_2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -458,6 +461,25 @@ public:
 
         verticalLayout_15->addLayout(horizontalLayout_10);
 
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setContentsMargins(-1, 0, -1, -1);
+        savePcdButton = new QPushButton(groupBox_5);
+        savePcdButton->setObjectName(QStringLiteral("savePcdButton"));
+
+        horizontalLayout->addWidget(savePcdButton);
+
+        savePCDStateLable = new QLabel(groupBox_5);
+        savePCDStateLable->setObjectName(QStringLiteral("savePCDStateLable"));
+        savePCDStateLable->setMinimumSize(QSize(75, 23));
+        savePCDStateLable->setStyleSheet(QStringLiteral("color: rgb(231, 231, 231);"));
+
+        horizontalLayout->addWidget(savePCDStateLable);
+
+
+        verticalLayout_15->addLayout(horizontalLayout);
+
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_15->addItem(verticalSpacer_2);
@@ -577,8 +599,10 @@ public:
         label_14->setText(QApplication::translate("SmartEyeClass", "Depth:", 0));
         label_13->setText(QApplication::translate("SmartEyeClass", "y:", 0));
         label_10->setText(QApplication::translate("SmartEyeClass", "x:", 0));
-        Savebutton->setText(QApplication::translate("SmartEyeClass", "Save", 0));
+        Savebutton->setText(QApplication::translate("SmartEyeClass", "Save PNG", 0));
         savestatelabel->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
+        savePcdButton->setText(QApplication::translate("SmartEyeClass", "Save PCD", 0));
+        savePCDStateLable->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
         pointCloudDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Point Cloud", 0));
         imageDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Depth Image", 0));
         Img_label->setText(QString());
