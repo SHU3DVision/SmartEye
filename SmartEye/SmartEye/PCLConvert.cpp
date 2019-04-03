@@ -35,9 +35,8 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool c
 	PointCloudT::Ptr pointcloud(new PointCloudT);
 
 	img = undistImg(img);		//畸变矫正
-	//因为畸变矫正存在坐标变换，部分坐标点的像素值通过插值法填补上
-	//但是这些点可能是有效点无效点交界处，插值法会算出一个平均距离
-	//但是这些点其实都应该是无效点，点云转换前做一次滤波
+	//因为畸变矫正存在坐标变换，部分坐标点的像素值通最近邻补上
+	//仍然存在散点噪声，滤波处理
 	img = filterImg(img);		//图像滤波
 	
 	//点云变换
@@ -134,7 +133,7 @@ cv::Mat PCLConvert::undistImg(cv::Mat src)
 	//参数3、4：X\Y坐标重映射
 	//参数5：图像的插值方式
 	//参数6：边界填充方式
-	remap(src, dst, map1, map2, cv::INTER_LINEAR);
+	remap(src, dst, map1, map2, cv::INTER_NEAREST);
 
 	return dst.clone();
 }
