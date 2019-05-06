@@ -50,6 +50,10 @@ SmartEye::SmartEye(QWidget *parent)
 	//图像点击事件
 	ui.Img_label->installEventFilter(this);		//label点击事件会调用eventFilter函数
 
+	//点云点击回调
+	cloud_clicked.reset(new PointCloudT);
+	viewer->registerPointPickingCallback(&SmartEye::pp_callback, *this, NULL);
+
 
 	//槽连接
 	QObject::connect(ui.connectButton, SIGNAL(clicked()), this, SLOT(connectButtonPressedSlot()));
@@ -247,7 +251,7 @@ void SmartEye::pclButtonPressedSlot()
 //点云界面更新
 void SmartEye::showPointCloud()
 {
-	viewer->removeAllPointClouds();
+	viewer->removePointCloud("cloud");
 	viewer->addPointCloud(cloud, "cloud");
 	viewer->updatePointCloud(cloud, "cloud");
 	viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, pointSize, "cloud");
@@ -295,6 +299,7 @@ void SmartEye::setIntegrationTime3DSlot()
 	g_dcam->integrationtime3D = ui.IntegrationtimelineEdit->text();
 	g_dcam->integrationtime3Dflag = 1;
 }
+
 //设置信号强度
 void SmartEye::setMinAmpSlot()
 {
@@ -307,6 +312,7 @@ void SmartEye::setMinAmpSlot()
 	}*/
 	g_dcam->setAmpFlag = 1;
 }
+
 //设置映射距离
 void SmartEye::setMappingDistanceSlot()
 {
@@ -515,4 +521,25 @@ void SmartEye::pointFilterSlot()
 	ui.pointFilterEdit->setText(QString::number(value));
 
 	g_dcam->setPointFilterSize(value);
+}
+
+//点云点击回调函数
+void SmartEye::pp_callback(const pcl::visualization::PointPickingEvent& event, void *args)
+{
+	PointT curent_point;
+	event.getPoint(curent_point.x, curent_point.y, curent_point.z);
+	cloud_clicked->points.clear();
+	cloud_clicked->points.push_back(curent_point);
+
+	//显示点坐标信息
+	string pos_info = "X:" + to_string((int)curent_point.x) + " Y:" + to_string((int)curent_point.y) + " Z:" + to_string((int)curent_point.z);
+	viewer->removeShape("text");
+	int h = ui.screen->height() - 20;
+	viewer->addText(pos_info, 5, h, "text");
+
+	//红色点标出选择点
+	pcl::visualization::PointCloudColorHandlerCustom<PointT> red(cloud_clicked, 255, 0, 0);
+	viewer->removePointCloud("clicked_points");
+	viewer->addPointCloud(cloud_clicked, red, "clicked_points");
+	viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 10, "clicked_points");
 }

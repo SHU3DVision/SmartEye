@@ -70,6 +70,7 @@ void DCam::run()
 		g_depthprocess.mindepth = mindepth;
 		g_depthprocess.saveimagestate = saveimagestate;
 		g_depthprocess.savestr = savestr;
+		//点云pcd保存参数
 		g_pclConvert.savestate = savepcdstate;
 		g_pclConvert.savestr = string(savePcdStr.toLocal8Bit());
 		

@@ -61,13 +61,15 @@ private:
 	int savepcdstate = 0;					//保存pcd文件 0不保存 1正在保存
 	bool isPCLShow = false;					//是否点云转换标志
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
-	PointCloudT::Ptr cloud;					//点云指针          
+	PointCloudT::Ptr cloud;					//点云指针     
+	PointCloudT::Ptr cloud_clicked;			//点击事件处理点云
 	int pointSize=1;						//点云显示大小
 
 	
 
 	void showPointCloud();				//点云显示更新
 	void getCameraParameterFromFile();	//从config.ini获取参数
+	void pp_callback(const pcl::visualization::PointPickingEvent& event, void *args);	//点云点击回调函数
 	
 
 private slots:
