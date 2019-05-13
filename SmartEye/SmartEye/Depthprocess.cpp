@@ -3,7 +3,7 @@
 Imagedepthprocess::Imagedepthprocess()
 {
 	_matimg_short.create(Img_height, Img_width, CV_16UC1);
-	_matimg_show.create(Img_height, Img_width, CV_8UC1);
+	_matimg_show.create(Img_height, Img_width, CV_16UC1);
 	 img_color.create(Img_height, Img_width, CV_8UC3);//构造RGB图像
 }
 Imagedepthprocess::~Imagedepthprocess()
@@ -214,7 +214,7 @@ int Imagedepthprocess::calculationCorrectDRNU(ushort *img)
 void Imagedepthprocess::setColorImage()
 {
 	Mat depthzip = _matimg_short.clone();
-	double interdepth = 255.0 / (maxdepth - mindepth);
+	double interdepth = 894.0 / (maxdepth - mindepth);
 	//距离压缩成0到255空间
 	for (int i = 0; i < 240; i++)
 	{
@@ -236,6 +236,14 @@ void Imagedepthprocess::setColorImage()
 				IMG_R(img_color, i, j) = 169;
 				continue;
 			}
+			else if (depthzip.at<ushort>(i, j) < mindepth)
+			{
+				//过小点
+				IMG_B(img_color, i, j) = 0;
+				IMG_R(img_color, i, j) = 0;
+				IMG_G(img_color, i, j) = 0;
+				continue;
+			}
 
 			//正常点缩放
 			if (depthzip.at<ushort>(i, j) > maxdepth)
@@ -246,42 +254,41 @@ void Imagedepthprocess::setColorImage()
 			{
 				depthzip.at<ushort>(i, j) = mindepth;
 			}
-			_matimg_show.at<uchar>(i, j) = (uchar)((depthzip.at<ushort>(i, j) - mindepth)*interdepth);
+			_matimg_show.at<ushort>(i, j) = (ushort)((depthzip.at<ushort>(i, j) - mindepth)*interdepth);
 
-			unsigned char img_tmp = 255 - _matimg_show.at<uchar>(i, j);
-			if (img_tmp < 51)
+			unsigned short img_tmp = _matimg_show.at<ushort>(i, j);
+			if (img_tmp < 64)
 			{
+				IMG_R(img_color, i, j) = 191+ img_tmp;
+				IMG_G(img_color, i, j) = img_tmp;
 				IMG_B(img_color, i, j) = 0;
-				IMG_G(img_color, i, j) = img_tmp * 5;
-				IMG_R(img_color, i, j) = 0;
 			}
-			else if (img_tmp < 102)
+			else if (img_tmp < 255)
 			{
-				img_tmp -= 51;
-				IMG_B(img_color, i, j) = 255 - img_tmp * 5;
-				IMG_G(img_color, i, j) = 255;
-				IMG_R(img_color, i, j) = 0;
-			}
-			else if (img_tmp < 153)
-			{
-				img_tmp -= 102;
-				IMG_B(img_color, i, j) = 0;
-				IMG_G(img_color, i, j) = 255;
-				IMG_R(img_color, i, j) = img_tmp * 5;
-			}
-			else if (img_tmp <= 204)
-			{
-				img_tmp -= 153;
-				IMG_B(img_color, i, j) = 0;
-				IMG_G(img_color, i, j) = 255 - uchar(128.0*img_tmp / 51 + 0.5);
 				IMG_R(img_color, i, j) = 255;
+				IMG_G(img_color, i, j) = img_tmp;
+				IMG_B(img_color, i, j) = 0;
+			}
+			else if (img_tmp < 510)
+			{
+				img_tmp -= 255;
+				IMG_B(img_color, i, j) = img_tmp;
+				IMG_G(img_color, i, j) = 255;
+				IMG_R(img_color, i, j) = 255 - img_tmp;
+			}
+			else if (img_tmp < 765)
+			{
+				img_tmp -= 510;
+				IMG_B(img_color, i, j) = 255;
+				IMG_G(img_color, i, j) = 255 - img_tmp;
+				IMG_R(img_color, i, j) = 0;
 			}
 			else
 			{
-				img_tmp -= 204;
-				IMG_B(img_color, i, j) = 0;
-				IMG_G(img_color, i, j) = 127 - uchar(127.0*img_tmp / 51 + 0.5);
-				IMG_R(img_color, i, j) = 255;
+				img_tmp -= 765;
+				IMG_B(img_color, i, j) = 255 - img_tmp;
+				IMG_G(img_color, i, j) = 0;
+				IMG_R(img_color, i, j) = 0;
 			}
 		}
 	}

@@ -32,7 +32,7 @@ public:
 	cv::Mat getDepth();
 	unsigned char* ptr_buf_unsigned;
 	cv::Mat _matimg_short;   //16bit数据
-	cv::Mat _matimg_show;    //8bit数据
+	cv::Mat _matimg_show;    //16bit数据
 	cv::Mat  img_color;  //伪彩色数据
 	ushort realTempChip;    //相机温度
 	int maxdepth=30000;           //映射最远距离    
