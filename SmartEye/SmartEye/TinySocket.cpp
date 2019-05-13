@@ -37,6 +37,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == INVALID_SOCKET)
 	{
+		sk_cleanup();
 		return -1;
 		
 	}
@@ -49,18 +50,51 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_port = htons(destport);
 	servaddr.sin_addr.s_addr = inet_addr(destip);
+	//非阻塞模式
+	u_long imode = 1;
+	if (ioctlsocket(sockfd, FIONBIO, &imode) == SOCKET_ERROR)
+	{
+		int err = WSAGetLastError();
+		closesocket(sockfd);
+		sk_cleanup();
+		return -1;
+	}
+	struct timeval tm;
+	tm.tv_sec = 5;
+	tm.tv_usec = 0;
 	//连接相机
 	Ret = connect(sockfd, (SOCKADDR*)&servaddr, sizeof(servaddr));
 	if (Ret == SOCKET_ERROR)
 	{
-		return -1;
-		
+		fd_set set;
+		FD_ZERO(&set);
+		FD_SET(sockfd, &set);
+		if (select(-1,NULL,&set,NULL,&tm) <= 0)
+			return -1;
 	}
-
 	else
 	{
 		
 	}
+
+	//设置回非阻塞
+	u_long imodeb = 0;
+	if (ioctlsocket(sockfd, FIONBIO, &imodeb) == SOCKET_ERROR)
+	{
+		int err = WSAGetLastError();
+		switch (err)
+		{
+		case WSANOTINITIALISED: qDebug() << "WSANOTINITIALISED"; break;
+		case WSAENETDOWN: qDebug() << "WSAENETDOWN"; break;
+		case WSAEINPROGRESS: qDebug() << "WSAEINPROGRESS"; break;
+		case WSAENOTSOCK: qDebug() << "WSAENOTSOCK"; break;
+		case WSAEFAULT:	qDebug() << "WSAEFAULT"; break;
+		default:
+			break;
+		}
+		return -1;
+	}
+
 	//发送采集命令
 	Ret = send(sockfd, sendline, strlen(sendline), 0);
 	if (Ret == SOCKET_ERROR)
