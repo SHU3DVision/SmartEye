@@ -1,5 +1,5 @@
 # SmartEye  
-[![Release](https://img.shields.io/badge/release-1.0.0-green.svg?style=flat)](https://github.com/dongmuliu/SmartEye/releases)  
+[![Release](https://img.shields.io/badge/release-1.0.1-green.svg?style=flat)](https://github.com/dongmuliu/SmartEye/releases)  
 
 # Description
 基于QT、PCL和Opencv与实验室EPC660相机建立tcp-socket通信操作软件，提供实时显示点云、保存16位深度图像等功能
@@ -16,7 +16,15 @@ OenCV2.4.13
 
 PCL1.8.0 64bit
 
-# Update
+# Update  
+* V 1.0.1
+修复信号强度设置问题；  
+修复socket连接超时问题；  
+优化伪彩色图像染色算法；  
+优化点云显示；  
+连接自动发送初始化指令；  
+新增点云数据点击查看功能。  
+
 * V 1.0.0  
 优化UI；  
 新增调整积分时间、最小强度功能；  
