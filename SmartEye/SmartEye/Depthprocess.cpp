@@ -93,49 +93,67 @@ void  Imagedepthprocess::imageAverageEightConnectivity(ushort *depthdata)
 			index = i * 320 + j;
 			pixelCounter = 0;
 			pixdata = 0;
+
+			ushort temp = 0;				//记录无效点类型
+
 			if (actualFrame[index] < 30000) {
 				pixelCounter++;
 				pixdata += actualFrame[index];
 			}
+			else
+				temp = actualFrame[index];
 			if (actualFrame[index - 1]  < 30000) {   // left
 				pixdata += actualFrame[index - 1];
 				pixelCounter++;
 			}
+			else 
+				temp = actualFrame[index - 1];
 			if (actualFrame[index + 1]  < 30000) {   // right
 				pixdata += actualFrame[index + 1];
 				pixelCounter++;
 			}
+			else 
+				temp = actualFrame[index + 1];
 			if (actualFrame[index - 321]  < 30000) {   // left up
 				pixdata += actualFrame[index - 321];
 				pixelCounter++;
 			}
+			else 
+				temp = actualFrame[index - 321];
 			if (actualFrame[index - 320]  < 30000) {   // up
 				pixdata += actualFrame[index - 320];
 				pixelCounter++;
 			}
+			else 
+				temp = actualFrame[index - 320];
 			if (actualFrame[index - 319]  < 30000) {   // right up
 				pixdata += actualFrame[index - 319];
 				pixelCounter++;
 			}
+			else 
+				temp = actualFrame[index -319];
 			if (actualFrame[index + 319]  < 30000) {   // left down
 				pixdata += actualFrame[index - 321];
 				pixelCounter++;
 			}
+			else 
+				temp = actualFrame[index + 319];
 			if (actualFrame[index + 320]  < 30000) {   // down
 				pixdata += actualFrame[index - 320];
 				pixelCounter++;
 			}
+			else 
+				temp = actualFrame[index + 320];
 			if (actualFrame[index + 321]  < 30000) {   // right down
 				pixdata += actualFrame[index - 319];
 				pixelCounter++;
 			}
+			else 
+				temp = actualFrame[index + 321];
 			//如果周围有效数据小于6记为无效点
 			if (pixelCounter < 8) {
 				//无效点
-				if (*(depthdata + index) > LOW_AMPLITUDE)
-					*(depthdata + index) = OVER_EXPOSED;	//过曝点
-				else
-					*(depthdata + index) = LOW_AMPLITUDE;	//无效点
+				*(depthdata + index) = temp;
 			}
 			else {
 				*(depthdata + index) = pixdata / pixelCounter;
@@ -220,6 +238,15 @@ void Imagedepthprocess::setColorImage()
 	{
 		for (int j = 0; j < 320; j++)
 		{
+			ushort LOW_AMPLITUDE = LOW_AMPLITUDE_V26;
+			ushort OVER_EXPOSED = OVER_EXPOSED_V26;
+			switch (version)
+			{
+			case 20600: LOW_AMPLITUDE = LOW_AMPLITUDE_V26; OVER_EXPOSED = OVER_EXPOSED_V26; break;
+			case 21200: LOW_AMPLITUDE = LOW_AMPLITUDE_V212; OVER_EXPOSED = OVER_EXPOSED_V212; break;
+			default:
+				break;
+			}
 			if (depthzip.at<ushort>(i, j) == LOW_AMPLITUDE)
 			{
 				//无效点

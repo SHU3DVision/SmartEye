@@ -14,8 +14,10 @@ using namespace cv;
 #define   Img_height  (240)
 #define MAXLINE 253600     
 #define MAX_NUM_PIX	82656	//328 * 252
-#define LOW_AMPLITUDE 	32500   //强度过低值
-#define OVER_EXPOSED	32700	//过曝值
+#define LOW_AMPLITUDE_V26 	32500   //强度过低值
+#define OVER_EXPOSED_V26	32700	//过曝值
+#define LOW_AMPLITUDE_V212	65300
+#define OVER_EXPOSED_V212	65500
 #define MAX_PHASE       30000.0 //温度矫正
 #define MAX_DIST_VALUE 	30000 //最远距离值
 #define OFFSET_PHASE_DEFAULT 0  //深度补偿值
@@ -40,6 +42,7 @@ public:
 	int saveimagestate = 0;     //保存图片状态
 	int imagecount = 0;   //保存图片序号
 	QString  savestr;              //保存路径
+	ushort version;		//相机版本，主要伪彩色处理
 private:
 	void calibrate(ushort *img);       //滤波
 	void imageAverageEightConnectivity(ushort *depthdata);  //均值滤波

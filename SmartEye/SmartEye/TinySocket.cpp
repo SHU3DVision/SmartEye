@@ -157,6 +157,10 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 		{
 			return -1;
 		}
+		for (int i = 0; i < rec_len; i++)
+		{
+			buf[i] = tempbuf[i];
+		}
 	}
 	
 	//¹Ø±ÕÌ×½Ó×Ö

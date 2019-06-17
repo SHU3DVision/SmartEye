@@ -40,6 +40,17 @@ void DCam::run()
 
 	//初始化相机指令
 	QString inter;
+
+	//固件版本信息
+	inter = send_version;
+	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//查询相机版本号
+	emit getImage(cv::Mat(), n);
+	if (n != 0)
+		return;
+	ushort *uc = (ushort*)ptr_buf;
+	version = *uc;
+	g_depthprocess.version = version;
+
 	//过曝点使能
 	inter = send_adcOverflow + "1";
 	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送过曝点使能

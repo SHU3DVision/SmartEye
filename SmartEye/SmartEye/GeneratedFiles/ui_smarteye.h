@@ -560,7 +560,7 @@ public:
 
     void retranslateUi(QMainWindow *SmartEyeClass)
     {
-        SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye V1.0.1", 0));
+        SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye V1.0.2", 0));
         groupBox->setTitle(QApplication::translate("SmartEyeClass", "IP Address", 0));
         IplineEdit->setText(QApplication::translate("SmartEyeClass", "192.168.7.2", 0));
         PortlineEdit->setText(QApplication::translate("SmartEyeClass", "50660", 0));

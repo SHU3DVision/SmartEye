@@ -64,11 +64,13 @@ private:
 	int  pointFilterSize = 0;			//点云密度设置（平衡点云和速度）
 	std::string ip = "192.168.7.2";		//相机IP
 	int port = 50660;					//相机端口
+	ushort version = 0;					//相机固件版本
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
 	char* send_temp = "getTemperature";//发送获取温度数据指令
 	QString send_integrationtime3D = "setIntegrationTime3D ";   //发送3D积分时间指令
 	QString send_minamp = "setMinAmplitude ";				//发送设置最小强度指令
 	QString send_adcOverflow = "enableAdcOverflow ";		//发送adc溢出（过曝）使能指令
+	QString send_version = "version";						//获取相机版本号
 	ushort	realTempChip;		//温度
 	
 	
