@@ -116,4 +116,6 @@ MinAmp后填写最小强度阈值![](SmartEye/Image/5.png)，小于阈值的像�
 在点云显示窗口，按shift加鼠标左键单击点云，会自动提取所选最近的点，左上角显示其坐标信息，并用红色方块标示所选点。  
 ![](SmartEye/Image/12.png)
 
-
+# Problems
+* 发布程序无法正常启动(0xc000007b)  
+请安装Microsoft Visual C++ 2010 x64 Redistributable。  
