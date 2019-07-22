@@ -67,6 +67,8 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.colormapPointCheckBox, SIGNAL(stateChanged(int)), this, SLOT(colormapPointCheckBoxSlot(int)));
 	QObject::connect(ui.pointFilterEdit, SIGNAL(editingFinished()), this, SLOT(pointFilterSlot()));
 	QObject::connect(ui.setAmplineEdit, SIGNAL(editingFinished()), this, SLOT(setMinAmpSlot()));
+	QObject::connect(ui.HFlip, SIGNAL(clicked()), this, SLOT(horizontalFlipSlot()));
+	QObject::connect(ui.VFlip, SIGNAL(clicked()), this, SLOT(verticalFlipSlot()));
 	
 }
 
@@ -542,4 +544,18 @@ void SmartEye::pp_callback(const pcl::visualization::PointPickingEvent& event, v
 	viewer->removePointCloud("clicked_points");
 	viewer->addPointCloud(cloud_clicked, red, "clicked_points");
 	viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 10, "clicked_points");
+}
+
+//水平翻转勾选框槽
+void SmartEye::horizontalFlipSlot()
+{
+
+	g_dcam->setHorizontalFlip(ui.HFlip->isChecked());
+
+}
+
+//垂直翻转勾选框
+void SmartEye::verticalFlipSlot()
+{
+	g_dcam->setVerticalFlip(ui.VFlip->isChecked());
 }

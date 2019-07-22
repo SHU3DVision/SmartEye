@@ -33,25 +33,27 @@ public:
 	cv::Mat depthProcess();
 	cv::Mat getDepth();
 	unsigned char* ptr_buf_unsigned;
-	cv::Mat _matimg_short;   //16bit数据
-	cv::Mat _matimg_show;    //16bit数据
-	cv::Mat  img_color;  //伪彩色数据
-	ushort realTempChip;    //相机温度
-	int maxdepth=30000;           //映射最远距离    
-	int mindepth=0;           //映射最近距离
-	int saveimagestate = 0;     //保存图片状态
-	int imagecount = 0;   //保存图片序号
-	QString  savestr;              //保存路径
-	ushort version;		//相机版本，主要伪彩色处理
+	cv::Mat _matimg_short;			//16bit数据
+	cv::Mat _matimg_show;			//16bit数据
+	cv::Mat  img_color;				//伪彩色数据
+	ushort realTempChip;			//相机温度
+	int maxdepth=30000;				//映射最远距离    
+	int mindepth=0;					//映射最近距离
+	int saveimagestate = 0;			//保存图片状态
+	int imagecount = 0;				//保存图片序号
+	QString  savestr;				//保存路径
+	ushort version;					//相机版本，主要伪彩色处理
+	bool isHorizontalFlip = 0;		//图片水平翻转标志
+	bool isVerticalFlip = 0;		//图片垂直翻转标志
 private:
-	void calibrate(ushort *img);       //滤波
+	void calibrate(ushort *img);							//滤波
 	void imageAverageEightConnectivity(ushort *depthdata);  //均值滤波
-	void calculationAddOffset(ushort *img);     //深度补偿
-	int calculationCorrectDRNU(ushort * img);   //温度矫正
-	void setColorImage();                     //设置伪彩色图
-	void saveImage();                        //保存深度图
+	void calculationAddOffset(ushort *img);					//深度补偿
+	int calculationCorrectDRNU(ushort * img);				//温度矫正
+	void setColorImage();									//设置伪彩色图
+	void saveImage();										//保存深度图
 	uint16_t raw_dep;
 	int realindex, realrow, realcol;
-	//int		drnuLut[50][252][328];				//温度矫正用表
+	//int		drnuLut[50][252][328];						//温度矫正用表
 	
 };

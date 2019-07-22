@@ -85,6 +85,8 @@ private slots:
 	void pointSizeSliderReleaseSlot();	//点云大小设置
 	void colormapPointCheckBoxSlot(int value);	//伪彩色点云槽
 	void pointFilterSlot();				//点云过滤槽（为了平衡显示和点云密度，设置点的过滤程度）
+	void horizontalFlipSlot();			//水平翻转勾选框
+	void verticalFlipSlot();			//垂直翻转勾选框
 
 };
 

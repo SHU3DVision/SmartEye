@@ -50,6 +50,16 @@ Mat Imagedepthprocess::depthProcess()
 
 	}
 
+	//·­×ªÍ¼Ïñ
+	if (isHorizontalFlip)
+	{
+		flip(_matimg_short, _matimg_short, 1);		//Ë®Æ½·­×ªÍ¼Ïñ
+	}
+	if (isVerticalFlip)
+	{
+		flip(_matimg_short, _matimg_short, 0);		//´¹Ö±·­×ªÍ¼Ïñ
+	}
+
 	setColorImage();
 	saveImage();
 

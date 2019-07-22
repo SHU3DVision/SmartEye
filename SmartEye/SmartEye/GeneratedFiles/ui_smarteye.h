@@ -105,6 +105,8 @@ public:
     QHBoxLayout *horizontalLayout;
     QPushButton *savePcdButton;
     QLabel *savePCDStateLable;
+    QCheckBox *HFlip;
+    QCheckBox *VFlip;
     QSpacerItem *verticalSpacer_2;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -480,6 +482,16 @@ public:
 
         verticalLayout_15->addLayout(horizontalLayout);
 
+        HFlip = new QCheckBox(groupBox_5);
+        HFlip->setObjectName(QStringLiteral("HFlip"));
+
+        verticalLayout_15->addWidget(HFlip);
+
+        VFlip = new QCheckBox(groupBox_5);
+        VFlip->setObjectName(QStringLiteral("VFlip"));
+
+        verticalLayout_15->addWidget(VFlip);
+
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_15->addItem(verticalSpacer_2);
@@ -603,6 +615,8 @@ public:
         savestatelabel->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
         savePcdButton->setText(QApplication::translate("SmartEyeClass", "Save PCD", 0));
         savePCDStateLable->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
+        HFlip->setText(QApplication::translate("SmartEyeClass", "Horizontal Flip", 0));
+        VFlip->setText(QApplication::translate("SmartEyeClass", "Vertical Flip", 0));
         pointCloudDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Point Cloud", 0));
         imageDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Depth Image", 0));
         Img_label->setText(QString());

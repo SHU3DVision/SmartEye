@@ -479,6 +479,20 @@
           </layout>
          </item>
          <item>
+          <widget class="QCheckBox" name="HFlip">
+           <property name="text">
+            <string>Horizontal Flip</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="VFlip">
+           <property name="text">
+            <string>Vertical Flip</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer_2">
            <property name="orientation">
             <enum>Qt::Vertical</enum>

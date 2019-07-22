@@ -224,3 +224,21 @@ void DCam::setPointFilterSize(int value)
 {
 	pointFilterSize = value;
 }
+
+
+//设置图像水平翻转
+//isCheck：设置水平翻转标志 0不反转 1翻转
+void DCam::setHorizontalFlip(bool isChecked)
+{
+	this->horizontalFlipFlag = isChecked;
+	g_depthprocess.isHorizontalFlip = isChecked;
+}
+
+//设置图像垂直翻转
+//isCheck：设置垂直翻转标志 0不反转 1翻转
+void DCam::setVerticalFlip(bool isChecked)
+{
+
+	this->verticalFlipFlag = isChecked;
+	g_depthprocess.isVerticalFlip = isChecked;
+}
