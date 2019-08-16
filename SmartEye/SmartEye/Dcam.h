@@ -36,6 +36,7 @@ public:
 	void setPointFilterSize(int value);			//设置点云密度
 	void setHorizontalFlip(bool isChecked);		//设置图像水平翻转
 	void setVerticalFlip(bool isChecked);			//设置图像垂直翻转
+	ushort getVersion();						//获取相机固件版本
 
 	int maxdepth=30000;					//映射最远距离    
 	int mindepth=0;						//映射最近距离
@@ -54,6 +55,7 @@ public:
 signals:
 	void getImage(cv::Mat,int);				//获取图像后信号,Mat格式传回图像信息，int传回是否是图像0不是图像，1是图像，-1异常
 	void getPointCloud(PointCloudT::Ptr);	//获取点云信号
+	void getVersion(ushort);				//获取版本信息
 
 protected:
 	void run();							//继承自QThread，线程运行函数

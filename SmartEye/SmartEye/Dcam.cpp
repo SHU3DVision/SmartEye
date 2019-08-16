@@ -50,6 +50,7 @@ void DCam::run()
 	ushort *uc = (ushort*)ptr_buf;
 	version = *uc;
 	g_depthprocess.version = version;
+	emit getVersion(version);
 
 	//过曝点使能
 	inter = send_adcOverflow + "1";
@@ -241,4 +242,14 @@ void DCam::setVerticalFlip(bool isChecked)
 
 	this->verticalFlipFlag = isChecked;
 	g_depthprocess.isVerticalFlip = isChecked;
+}
+
+
+//获取相机固件版本号
+//10900 1.9.0
+//20600 2.6.0
+//21200 2.12.0
+ushort DCam::getVersion()
+{
+	return version;
 }

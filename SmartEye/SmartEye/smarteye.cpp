@@ -87,6 +87,7 @@ void SmartEye::connectButtonPressedSlot()
 		int port = ui.PortlineEdit->text().toInt();      //获取相机端口号
 		g_dcam->setNet(ip,port);						 //初始化相机类
 		connect(g_dcam, SIGNAL(getImage(cv::Mat,int)), this, SLOT(imageUpdateSlot(cv::Mat,int)));	//设置连接槽
+		connect(g_dcam, SIGNAL(getVersion(ushort)), this, SLOT(versionUpdateSlot(ushort)));			//版本获取连接槽
 		g_dcam->start();	//线程启动
 		
 		//按钮状态改变
@@ -113,6 +114,7 @@ void SmartEye::connectButtonPressedSlot()
 		ui.connectButton->setText(tr("Connect"));
 
 		disconnect(g_dcam, SIGNAL(getImage(cv::Mat, int)), this, SLOT(imageUpdateSlot(cv::Mat, int)));	//断开槽
+		disconnect(g_dcam, SIGNAL(getVersion(ushort)), this, SLOT(versionUpdateSlot(ushort)));			//断开版本更新槽
 
 		//dock隐藏
 		ui.imageDock->hide();
@@ -558,4 +560,14 @@ void SmartEye::horizontalFlipSlot()
 void SmartEye::verticalFlipSlot()
 {
 	g_dcam->setVerticalFlip(ui.VFlip->isChecked());
+}
+
+//状态栏更新版本号
+void SmartEye::versionUpdateSlot(ushort version)
+{
+	uint8_t major = version / 10000;
+	uint8_t minor = version % 10000 / 100;
+	uint8_t patch = version % 100;
+	QString strVersion = QString::number(major) + "." + QString::number(minor) + "." + QString::number(patch);
+	ui.statusBar->showMessage(tr("Firmware Version: ") + strVersion);
 }
