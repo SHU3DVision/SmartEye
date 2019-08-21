@@ -6,6 +6,7 @@
 #include<qstring.h>
 #include <QMetaType>
 #include<qdebug.h>
+#include<time.h>
 
 #include "TinySocket.h"
 #include "Depthprocess.h"
@@ -14,6 +15,7 @@
 
 #define COLORMAP_MAX_DEPTH 30000
 #define COLORMAP_MIN_DEPTH 0
+#define frametime  1000
 
 
 class DCam : public QThread
@@ -53,7 +55,7 @@ public:
 	
 
 signals:
-	void getImage(cv::Mat,int);				//获取图像后信号,Mat格式传回图像信息，int传回是否是图像0不是图像，1是图像，-1异常
+	void getImage(cv::Mat,float, int);//获取图像后信号,Mat格式传回图像信息，第一个int为返回帧率，第二int传回是否是图像0不是图像，1是图像，-1异常
 	void getPointCloud(PointCloudT::Ptr);	//获取点云信号
 	void getVersion(ushort);				//获取版本信息
 
@@ -70,6 +72,7 @@ private:
 	int  pointFilterSize = 0;			//点云密度设置（平衡点云和速度）
 	std::string ip = "192.168.7.2";		//相机IP
 	int port = 50660;					//相机端口
+	float frame = 0;                       //相机帧率
 	ushort version = 0;					//相机固件版本
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
 	char* send_temp = "getTemperature";//发送获取温度数据指令

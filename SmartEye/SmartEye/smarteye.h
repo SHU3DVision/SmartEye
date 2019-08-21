@@ -50,6 +50,7 @@ public:
 	
 	//void depthprocess(); //深度图像处理
 	void showImage(Mat imshowsrc);//显示图像
+	void showFrame(float frame); //显示帧率
 
 protected:
 	bool eventFilter(QObject *, QEvent *);	//过滤图片label点击事件，获取坐标位置
@@ -73,7 +74,7 @@ private:
 	
 
 private slots:
-	void imageUpdateSlot(cv::Mat img,int isImg);	//更新图像信号
+	void imageUpdateSlot(cv::Mat img,float frame,int isImg);	//更新图像信号
 	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//更新点云信息
 	void connectButtonPressedSlot();	//连接按钮点击槽
 	void pclButtonPressedSlot();		//点云转换功能 

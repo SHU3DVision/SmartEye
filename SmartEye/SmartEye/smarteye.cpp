@@ -86,7 +86,7 @@ void SmartEye::connectButtonPressedSlot()
 		std::string ip = ui.IplineEdit->text().toStdString();    //获取相机IP
 		int port = ui.PortlineEdit->text().toInt();      //获取相机端口号
 		g_dcam->setNet(ip,port);						 //初始化相机类
-		connect(g_dcam, SIGNAL(getImage(cv::Mat,int)), this, SLOT(imageUpdateSlot(cv::Mat,int)));	//设置连接槽
+		connect(g_dcam, SIGNAL(getImage(cv::Mat,float,int)), this, SLOT(imageUpdateSlot(cv::Mat,float,int)));	//设置连接槽
 		connect(g_dcam, SIGNAL(getVersion(ushort)), this, SLOT(versionUpdateSlot(ushort)));			//版本获取连接槽
 		g_dcam->start();	//线程启动
 		
@@ -113,7 +113,7 @@ void SmartEye::connectButtonPressedSlot()
 		ui.statelabel->setText(tr("No"));
 		ui.connectButton->setText(tr("Connect"));
 
-		disconnect(g_dcam, SIGNAL(getImage(cv::Mat, int)), this, SLOT(imageUpdateSlot(cv::Mat, int)));	//断开槽
+		disconnect(g_dcam, SIGNAL(getImage(cv::Mat,float,int)), this, SLOT(imageUpdateSlot(cv::Mat,float,int)));	//断开槽
 		disconnect(g_dcam, SIGNAL(getVersion(ushort)), this, SLOT(versionUpdateSlot(ushort)));			//断开版本更新槽
 
 		//dock隐藏
@@ -133,7 +133,7 @@ void SmartEye::connectButtonPressedSlot()
 //更新图片槽
 //输入：img 传入图像Mat格式
 //输入：isImg 是否是图像，避免读取温度造成跳帧
-void SmartEye::imageUpdateSlot(cv::Mat img,int isImg)
+void SmartEye::imageUpdateSlot(cv::Mat img,float frame,int isImg)
 {
 	if (isImg == 1)			//读入图片
 	{
@@ -150,6 +150,8 @@ void SmartEye::imageUpdateSlot(cv::Mat img,int isImg)
 			cv::Mat imshowsrc = img;
 			//显示伪彩色图
 			showImage(imshowsrc);
+			showFrame(frame);
+			
 		}
 		else							//获取数据失败
 		{
@@ -217,6 +219,12 @@ void SmartEye::showImage(Mat imshowsrc)
 	ui.Img_label->setPixmap(QPixmap::fromImage(img));	//更新图像
 	
 
+}
+//帧率显示
+void SmartEye::showFrame(float frame)
+{
+	float imgframe = frame;
+	ui.FramelineEdit->setText(QString::number(imgframe));
 }
 
 //点云转换按钮点击事件槽

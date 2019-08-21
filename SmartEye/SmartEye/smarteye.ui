@@ -137,59 +137,10 @@
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <layout class="QGridLayout" name="gridLayout_5">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>FX</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="FXlineEdit">
-               <property name="text">
-                <string>290</string>
-               </property>
-              </widget>
-             </item>
              <item row="5" column="0">
               <widget class="QLabel" name="label_8">
                <property name="text">
                 <string>k2</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="1">
-              <widget class="QLineEdit" name="k2lineEdit">
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="FYlineEdit">
-               <property name="text">
-                <string>288</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_6">
-               <property name="text">
-                <string>CY</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_5">
-               <property name="text">
-                <string>CX</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>k1</string>
                </property>
               </widget>
              </item>
@@ -207,6 +158,41 @@
                </property>
               </widget>
              </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="FXlineEdit">
+               <property name="text">
+                <string>290</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLineEdit" name="pointFilterEdit">
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QLineEdit" name="k2lineEdit">
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>CX</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>k1</string>
+               </property>
+              </widget>
+             </item>
              <item row="1" column="0">
               <widget class="QLabel" name="label_4">
                <property name="text">
@@ -214,10 +200,10 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QLineEdit" name="CXlineEdit">
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_6">
                <property name="text">
-                <string>160</string>
+                <string>CY</string>
                </property>
               </widget>
              </item>
@@ -228,10 +214,24 @@
                </property>
               </widget>
              </item>
-             <item row="6" column="1">
-              <widget class="QLineEdit" name="pointFilterEdit">
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="CXlineEdit">
                <property name="text">
-                <string>0</string>
+                <string>160</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="FYlineEdit">
+               <property name="text">
+                <string>288</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>FX</string>
                </property>
               </widget>
              </item>
@@ -324,7 +324,7 @@
         <property name="title">
          <string>Colormap</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_14">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
           <layout class="QGridLayout" name="gridLayout_2">
            <item row="0" column="0">
@@ -346,7 +346,7 @@
             </layout>
            </item>
            <item row="1" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
               <widget class="QLabel" name="label_12">
                <property name="text">
@@ -389,18 +389,8 @@
         <layout class="QVBoxLayout" name="verticalLayout_15">
          <item>
           <layout class="QGridLayout" name="gridLayout_3">
-           <item row="2" column="0" colspan="2">
-            <widget class="QLabel" name="label_14">
-             <property name="text">
-              <string>Depth:</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="2">
             <widget class="QLineEdit" name="ylineEdit"/>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLineEdit" name="depthlineEdit"/>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_13">
@@ -409,6 +399,9 @@
              </property>
             </widget>
            </item>
+           <item row="0" column="2">
+            <widget class="QLineEdit" name="xlineEdit"/>
+           </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_10">
              <property name="text">
@@ -416,8 +409,25 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="2">
-            <widget class="QLineEdit" name="xlineEdit"/>
+           <item row="2" column="0" colspan="2">
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>Depth:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLineEdit" name="depthlineEdit"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>ImgFrame</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLineEdit" name="FramelineEdit"/>
            </item>
           </layout>
          </item>
@@ -447,6 +457,9 @@
             </widget>
            </item>
           </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_5"/>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
@@ -506,6 +519,11 @@
           </spacer>
          </item>
         </layout>
+        <zorder>HFlip</zorder>
+        <zorder>VFlip</zorder>
+        <zorder></zorder>
+        <zorder></zorder>
+        <zorder>verticalSpacer_2</zorder>
        </widget>
       </item>
      </layout>
@@ -550,7 +568,7 @@
    <widget class="QWidget" name="dockWidgetContents_7">
     <layout class="QVBoxLayout" name="verticalLayout_9">
      <item>
-      <widget class="QVTKWidget" name="screen" native="true"/>
+      <widget class="QVTKWidget" name="screen"/>
      </item>
     </layout>
    </widget>

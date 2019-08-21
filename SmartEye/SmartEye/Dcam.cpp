@@ -44,7 +44,7 @@ void DCam::run()
 	//固件版本信息
 	inter = send_version;
 	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//查询相机版本号
-	emit getImage(cv::Mat(), n);
+	emit getImage(cv::Mat(),frame, n);
 	if (n != 0)
 		return;
 	ushort *uc = (ushort*)ptr_buf;
@@ -55,21 +55,21 @@ void DCam::run()
 	//过曝点使能
 	inter = send_adcOverflow + "1";
 	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送过曝点使能
-	emit getImage(cv::Mat(), n);
+	emit getImage(cv::Mat(),frame, n);
 	if (n != 0)
 		return;
 
 	//积分时间1000
 	inter = send_integrationtime3D + "1000";
 	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送3D积分时间
-	emit getImage(cv::Mat(), n);
+	emit getImage(cv::Mat(), frame,n);
 	if (n != 0)
 		return;
 
 	//最小信号强度10
 	inter = send_minamp + "10";
 	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送最小信号强度
-	emit getImage(cv::Mat(), n);
+	emit getImage(cv::Mat(),frame, n);
 	if (n != 0)
 		return;
 
@@ -111,20 +111,23 @@ void DCam::run()
 		}
 		else
 		{
+			clock_t start = clock();
 			//获取深度数据
 			n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
-			tempReadDelay++;
+			//tempReadDelay++;
+			clock_t end = clock();
+			//计算帧率
+			frame = (float)frametime/ (end - start);
+			//qDebug() << "frame=" << frame;
 		}
 
-
-		
 		
 		//读取深度五十次后，读取温度
-		if (tempReadDelay > 5)
+		/*if (tempReadDelay > 5)
 		{
 			tempReadDelay = 0;
 			tempReadEnable = 1;
-		}
+		}*/
 		cv::Mat img_show;
 
 		if (n == 1)
@@ -146,7 +149,7 @@ void DCam::run()
 			n = 0;
 		}
 
-		emit getImage(img_show,n);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
+		emit getImage(img_show,frame,n);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
 
 	}
 }
