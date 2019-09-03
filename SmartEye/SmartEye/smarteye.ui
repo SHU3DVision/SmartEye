@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SmartEye V1.0.2</string>
+   <string>SmartEye V1.0.3</string>
   </property>
   <property name="windowIcon">
    <iconset resource="smarteye.qrc">
@@ -568,7 +568,7 @@
    <widget class="QWidget" name="dockWidgetContents_7">
     <layout class="QVBoxLayout" name="verticalLayout_9">
      <item>
-      <widget class="QVTKWidget" name="screen"/>
+      <widget class="QVTKWidget" name="screen" native="true"/>
      </item>
     </layout>
    </widget>
