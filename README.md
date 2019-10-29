@@ -53,6 +53,8 @@ PCL1.8.0 64bit
 
 * QT5->Qt Project Settings，设置Qt版本（仅测试了Qt 5.7.0）
 
+* 程序包含TCP通信和UDP通信，根据需要和提示修改config.h文件下的宏定义编译不同版本。
+
 * 编辑调试
 
 # Contents

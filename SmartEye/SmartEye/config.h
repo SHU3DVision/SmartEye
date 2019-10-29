@@ -1,0 +1,14 @@
+#pragma once
+
+
+
+#define COMMUNICATION_TCP
+
+//定义 COMMUNICATION_TCP 或 COMMUNICATION_UDP 使用不同的通信方式
+//COMMUNICATION_TCP 使用TCP通信
+//COMMUNICATION_UDP 使用UDP通信
+
+
+#define UDP_SERVER_PORT 8080
+//定义UDP服务端默认端口号
+

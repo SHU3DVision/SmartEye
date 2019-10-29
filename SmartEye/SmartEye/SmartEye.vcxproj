@@ -175,6 +175,7 @@
     <ClCompile Include="PCLConvert.cpp" />
     <ClCompile Include="smarteye.cpp" />
     <ClCompile Include="TinySocket.cpp" />
+    <ClCompile Include="UDPTinySocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="smarteye.h">
@@ -217,6 +218,8 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config.h" />
+    <ClInclude Include="UDPTinySocket.h" />
     <CustomBuild Include="DCam.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing %(Identity)...</Message>

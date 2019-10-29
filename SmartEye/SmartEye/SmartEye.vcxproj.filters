@@ -68,6 +68,9 @@
     <ClCompile Include="DCam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UDPTinySocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="smarteye.h">
@@ -97,6 +100,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UDPTinySocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

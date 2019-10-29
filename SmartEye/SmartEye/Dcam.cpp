@@ -31,6 +31,9 @@ void DCam::run()
 	int tempReadDelay = 0;		//读取温度计数
 	int tempReadEnable = 0;     //获取相机温度信号
 
+	clock_t start = clock();
+	clock_t end;
+
 	char ptr_buf[MAXLINE];  //存储缓存区
 	int n = -1;
 
@@ -41,6 +44,8 @@ void DCam::run()
 	//初始化相机指令
 	QString inter;
 
+
+#ifdef COMMUNICATION_TCP
 	//固件版本信息
 	inter = send_version;
 	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//查询相机版本号
@@ -72,6 +77,7 @@ void DCam::run()
 	emit getImage(cv::Mat(),frame, n);
 	if (n != 0)
 		return;
+#endif
 
 	//主循环
 	while (isRun)
@@ -86,6 +92,7 @@ void DCam::run()
 		g_pclConvert.savestate = savepcdstate;
 		g_pclConvert.savestr = string(savePcdStr.toLocal8Bit());
 		
+#ifdef COMMUNICATION_TCP
 		if (integrationtime3Dflag)
 		{
 			//发送积分时间指令
@@ -111,23 +118,56 @@ void DCam::run()
 		}
 		else
 		{
-			clock_t start = clock();
+			start = clock();
 			//获取深度数据
 			n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
 			//tempReadDelay++;
-			clock_t end = clock();
+			end = clock();
 			//计算帧率
 			frame = (float)frametime/ (end - start);
 			//qDebug() << "frame=" << frame;
 		}
+#else
 
-		
-		//读取深度五十次后，读取温度
-		/*if (tempReadDelay > 5)
+		char t_ip[64];		//地址
+		int nport = 0;		//端口号
+		const int  maxsize = 1024 * 60;
+		char buf[maxsize];
+		int packetnum = 0;
+
+		//clock_t start = clock();
+		//循环接收数据
+		while (isRun)
 		{
-			tempReadDelay = 0;
-			tempReadEnable = 1;
-		}*/
+			n = g_Udpsocket.Recvfrom(buf, MAXLINE, t_ip, nport);
+			if (n > 1)
+			{
+				if (strcmp(ip.c_str(), t_ip) == 0)		//判断IP地址
+				{
+					if (buf[0] <= 12 && buf[1] == 'x')	//检查包格式
+					{
+						packetnum++;
+						int size = n - 2;
+						memcpy((char*)ptr_buf + size*((int)buf[0]), buf + 2, size);
+
+						if (buf[0] == 3)
+						{
+							//接受完一帧数据，跳出循环
+							n = 1;
+							clock_t end = clock();
+							float frame_temp = (float)frametime / (end - start);
+							frame = frame_temp >40?frame:frame_temp;
+							start = end;
+							break;
+						}
+					}
+				}
+				
+			}
+		}
+		
+#endif
+		
 		cv::Mat img_show;
 
 		if (n == 1)
