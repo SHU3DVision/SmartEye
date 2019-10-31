@@ -47,9 +47,9 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool c
 	{
 		for (int j = 0; j < imgWidth; j++)
 		{
-			float picDist = sqrt((i - imgHeight / 2.0)*(i - imgHeight / 2.0) + (j - imgWidth / 2.0)*(j - imgWidth / 2.0));	//图像上点到中心的像素点个数
-			float picAngle = atan2(fx*(i - imgHeight / 2.0), fy*(j - imgWidth / 2.0));												//图像上x,y和中心点角度关系
-			float angle = atan(sqrt((j - imgWidth / 2.0)*(j - imgWidth / 2.0) / fx / fx + (i - imgHeight / 2.0)*(i - imgHeight / 2.0) / fy / fy));
+			//float picDist = sqrt((i - imgHeight / 2.0)*(i - imgHeight / 2.0) + (j - imgWidth / 2.0)*(j - imgWidth / 2.0));	//图像上点到中心的像素点个数
+			//float picAngle = atan2(fx*(i - imgHeight / 2.0), fy*(j - imgWidth / 2.0));												//图像上x,y和中心点角度关系
+			//float angle = atan(sqrt((j - imgWidth / 2.0)*(j - imgWidth / 2.0) / fx / fx + (i - imgHeight / 2.0)*(i - imgHeight / 2.0) / fy / fy));
 			float dist = img.at<ushort>(i, j);				//原始图像深度
 
 			//降低点云数量
@@ -62,9 +62,12 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool c
 				continue;
 
 			pcl::PointXYZRGBA p;
-			p.z = dist*cos(angle);									//坐标变换后的深度
-			p.x = -dist*sin(angle)*cos(picAngle);
-			p.y = -dist*sin(angle)*sin(picAngle);
+			//p.z = dist*cos(angle);									//坐标变换后的深度
+			//p.x = -dist*sin(angle)*cos(picAngle);
+			//p.y = -dist*sin(angle)*sin(picAngle);
+			p.z = dist / sqrt((j - imgWidth / 2.0)*(j - imgWidth / 2.0) / fx / fx + (i - imgHeight / 2.0)*(i - imgHeight / 2.0) / fy / fy + 1);
+			p.x = (j - imgWidth / 2.0) / fx*p.z;
+			p.y = (i - imgWidth / 2.0) / fy*p.z;
 
 			if (colormap)
 			{
