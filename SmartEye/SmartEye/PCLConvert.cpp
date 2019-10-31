@@ -66,8 +66,8 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool c
 			//p.x = -dist*sin(angle)*cos(picAngle);
 			//p.y = -dist*sin(angle)*sin(picAngle);
 			p.z = dist / sqrt((j - imgWidth / 2.0)*(j - imgWidth / 2.0) / fx / fx + (i - imgHeight / 2.0)*(i - imgHeight / 2.0) / fy / fy + 1);
-			p.x = (j - imgWidth / 2.0) / fx*p.z;
-			p.y = (i - imgWidth / 2.0) / fy*p.z;
+			p.x = -(j - imgWidth / 2.0) / fx*p.z;
+			p.y = -(i - imgWidth / 2.0) / fy*p.z;
 
 			if (colormap)
 			{
