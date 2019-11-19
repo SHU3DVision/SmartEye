@@ -99,7 +99,7 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool c
 		{
 			//µãÔÆ±£´æ
 			std::string file = savestr + "/" + std::to_string(num++) + ".pcd";
-			pointcloud->height = 0;
+			pointcloud->height = 1;
 			pointcloud->width = pointcloud->size();
 			pcl::io::savePCDFileBinary(file, *pointcloud);
 		}
