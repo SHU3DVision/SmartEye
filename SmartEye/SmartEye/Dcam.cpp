@@ -296,3 +296,10 @@ ushort DCam::getVersion()
 {
 	return version;
 }
+
+//设置偏移量
+//输入：value 偏移量
+void DCam::setOffset(int value)
+{
+	g_depthprocess.offset = value;
+}

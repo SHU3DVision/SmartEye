@@ -64,6 +64,8 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.Savebutton, SIGNAL(clicked()), this, SLOT(saveFileSlot()));
 	QObject::connect(ui.savePcdButton, SIGNAL(clicked()), this, SLOT(savePCDSlot()));
 	QObject::connect(ui.pointSizeSlider, SIGNAL(sliderReleased()), this, SLOT(pointSizeSliderReleaseSlot()));
+	QObject::connect(ui.offsetSpinBox, SIGNAL(editingFinished()), this, SLOT(setOffsetSlot()));
+	QObject::connect(ui.offsetSpinBox, SIGNAL(valueChanged(int)), this, SLOT(setOffsetSlot()));
 	QObject::connect(ui.colormapPointCheckBox, SIGNAL(stateChanged(int)), this, SLOT(colormapPointCheckBoxSlot(int)));
 	QObject::connect(ui.pointFilterEdit, SIGNAL(editingFinished()), this, SLOT(pointFilterSlot()));
 	QObject::connect(ui.setAmplineEdit, SIGNAL(editingFinished()), this, SLOT(setMinAmpSlot()));
@@ -492,6 +494,9 @@ bool SmartEye::eventFilter(QObject *obj, QEvent *e)
 			Mat img_infor = g_dcam->getDepth();
 			int point_depth = img_infor.at<ushort>(img_y, img_x);
 			ui.depthlineEdit->setText(QString::number(point_depth));
+			//计算距离，单位mm
+			int distance = point_depth * 125 / 300;
+			ui.disLineEdit->setText(QString::number(distance));
 
 			return true;		//阻止事件传递
 		}
@@ -578,4 +583,12 @@ void SmartEye::versionUpdateSlot(ushort version)
 	uint8_t patch = version % 100;
 	QString strVersion = QString::number(major) + "." + QString::number(minor) + "." + QString::number(patch);
 	ui.statusBar->showMessage(tr("Firmware Version: ") + strVersion);
+}
+
+//设置偏移量相应槽
+void SmartEye::setOffsetSlot()
+{
+	int value = ui.offsetSpinBox->text().toInt();
+	g_dcam->setOffset(value);
+
 }

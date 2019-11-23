@@ -389,8 +389,55 @@
         <layout class="QVBoxLayout" name="verticalLayout_15">
          <item>
           <layout class="QGridLayout" name="gridLayout_3">
+           <item row="2" column="0" colspan="2">
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>Depth:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>x:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>ImgFrame</string>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="2">
             <widget class="QLineEdit" name="ylineEdit"/>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLineEdit" name="depthlineEdit"/>
+           </item>
+           <item row="4" column="2">
+            <widget class="QSpinBox" name="offsetSpinBox">
+             <property name="minimum">
+              <number>-10000</number>
+             </property>
+             <property name="maximum">
+              <number>30000</number>
+             </property>
+             <property name="singleStep">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="2">
+            <widget class="QLineEdit" name="FramelineEdit"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>Offset</string>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_13">
@@ -402,32 +449,15 @@
            <item row="0" column="2">
             <widget class="QLineEdit" name="xlineEdit"/>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>x:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="QLabel" name="label_14">
-             <property name="text">
-              <string>Depth:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLineEdit" name="depthlineEdit"/>
-           </item>
            <item row="3" column="0">
-            <widget class="QLabel" name="label_17">
+            <widget class="QLabel" name="label_19">
              <property name="text">
-              <string>ImgFrame</string>
+              <string>Dist(mm):</string>
              </property>
             </widget>
            </item>
            <item row="3" column="2">
-            <widget class="QLineEdit" name="FramelineEdit"/>
+            <widget class="QLineEdit" name="disLineEdit"/>
            </item>
           </layout>
          </item>

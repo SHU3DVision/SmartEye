@@ -45,6 +45,8 @@ public:
 	ushort version;					//相机版本，主要伪彩色处理
 	bool isHorizontalFlip = 0;		//图片水平翻转标志
 	bool isVerticalFlip = 0;		//图片垂直翻转标志
+	int offset = 0;					//深度偏移量
+
 private:
 	void calibrate(ushort *img);							//滤波
 	void imageAverageEightConnectivity(ushort *depthdata);  //均值滤波

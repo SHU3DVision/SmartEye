@@ -42,9 +42,17 @@ Mat Imagedepthprocess::depthProcess()
 		{
 			if (depth[i][j] > 30000)
 			{
-				//depth[i][j] = 30000;
+				_matimg_short.at<ushort>(i, j) = depth[i][j];
 			}
-			_matimg_short.at<ushort>(i, j) = depth[i][j];
+			else
+			{
+				//¼ÆËãÆ«ÒÆÁ¿
+				if (depth[i][j] + offset < 0 && depth[i][j] + offset < 30000)
+					_matimg_short.at<ushort>(i, j) = 0;
+				else
+					_matimg_short.at<ushort>(i, j) = depth[i][j] + offset;
+			}
+			
 
 		}
 

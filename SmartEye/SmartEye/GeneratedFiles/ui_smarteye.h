@@ -26,6 +26,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
@@ -93,14 +94,18 @@ public:
     QGroupBox *groupBox_5;
     QVBoxLayout *verticalLayout_15;
     QGridLayout *gridLayout_3;
+    QLabel *label_14;
+    QLabel *label_10;
+    QLabel *label_17;
     QLineEdit *ylineEdit;
+    QLineEdit *depthlineEdit;
+    QSpinBox *offsetSpinBox;
+    QLineEdit *FramelineEdit;
+    QLabel *label_18;
     QLabel *label_13;
     QLineEdit *xlineEdit;
-    QLabel *label_10;
-    QLabel *label_14;
-    QLineEdit *depthlineEdit;
-    QLabel *label_17;
-    QLineEdit *FramelineEdit;
+    QLabel *label_19;
+    QLineEdit *disLineEdit;
     QHBoxLayout *horizontalLayout_10;
     QPushButton *Savebutton;
     QLabel *savestatelabel;
@@ -415,10 +420,48 @@ public:
         gridLayout_3 = new QGridLayout();
         gridLayout_3->setSpacing(6);
         gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        label_14 = new QLabel(groupBox_5);
+        label_14->setObjectName(QStringLiteral("label_14"));
+
+        gridLayout_3->addWidget(label_14, 2, 0, 1, 2);
+
+        label_10 = new QLabel(groupBox_5);
+        label_10->setObjectName(QStringLiteral("label_10"));
+
+        gridLayout_3->addWidget(label_10, 0, 0, 1, 1);
+
+        label_17 = new QLabel(groupBox_5);
+        label_17->setObjectName(QStringLiteral("label_17"));
+
+        gridLayout_3->addWidget(label_17, 5, 0, 1, 1);
+
         ylineEdit = new QLineEdit(groupBox_5);
         ylineEdit->setObjectName(QStringLiteral("ylineEdit"));
 
         gridLayout_3->addWidget(ylineEdit, 1, 2, 1, 1);
+
+        depthlineEdit = new QLineEdit(groupBox_5);
+        depthlineEdit->setObjectName(QStringLiteral("depthlineEdit"));
+
+        gridLayout_3->addWidget(depthlineEdit, 2, 2, 1, 1);
+
+        offsetSpinBox = new QSpinBox(groupBox_5);
+        offsetSpinBox->setObjectName(QStringLiteral("offsetSpinBox"));
+        offsetSpinBox->setMinimum(-10000);
+        offsetSpinBox->setMaximum(30000);
+        offsetSpinBox->setSingleStep(10);
+
+        gridLayout_3->addWidget(offsetSpinBox, 4, 2, 1, 1);
+
+        FramelineEdit = new QLineEdit(groupBox_5);
+        FramelineEdit->setObjectName(QStringLiteral("FramelineEdit"));
+
+        gridLayout_3->addWidget(FramelineEdit, 5, 2, 1, 1);
+
+        label_18 = new QLabel(groupBox_5);
+        label_18->setObjectName(QStringLiteral("label_18"));
+
+        gridLayout_3->addWidget(label_18, 4, 0, 1, 1);
 
         label_13 = new QLabel(groupBox_5);
         label_13->setObjectName(QStringLiteral("label_13"));
@@ -430,30 +473,15 @@ public:
 
         gridLayout_3->addWidget(xlineEdit, 0, 2, 1, 1);
 
-        label_10 = new QLabel(groupBox_5);
-        label_10->setObjectName(QStringLiteral("label_10"));
+        label_19 = new QLabel(groupBox_5);
+        label_19->setObjectName(QStringLiteral("label_19"));
 
-        gridLayout_3->addWidget(label_10, 0, 0, 1, 1);
+        gridLayout_3->addWidget(label_19, 3, 0, 1, 1);
 
-        label_14 = new QLabel(groupBox_5);
-        label_14->setObjectName(QStringLiteral("label_14"));
+        disLineEdit = new QLineEdit(groupBox_5);
+        disLineEdit->setObjectName(QStringLiteral("disLineEdit"));
 
-        gridLayout_3->addWidget(label_14, 2, 0, 1, 2);
-
-        depthlineEdit = new QLineEdit(groupBox_5);
-        depthlineEdit->setObjectName(QStringLiteral("depthlineEdit"));
-
-        gridLayout_3->addWidget(depthlineEdit, 2, 2, 1, 1);
-
-        label_17 = new QLabel(groupBox_5);
-        label_17->setObjectName(QStringLiteral("label_17"));
-
-        gridLayout_3->addWidget(label_17, 3, 0, 1, 1);
-
-        FramelineEdit = new QLineEdit(groupBox_5);
-        FramelineEdit->setObjectName(QStringLiteral("FramelineEdit"));
-
-        gridLayout_3->addWidget(FramelineEdit, 3, 2, 1, 1);
+        gridLayout_3->addWidget(disLineEdit, 3, 2, 1, 1);
 
 
         verticalLayout_15->addLayout(gridLayout_3);
@@ -629,10 +657,12 @@ public:
         mindepthlineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         colormapPointCheckBox->setText(QApplication::translate("SmartEyeClass", "Clolormap Point", 0));
         groupBox_5->setTitle(QApplication::translate("SmartEyeClass", "Depth Information", 0));
-        label_13->setText(QApplication::translate("SmartEyeClass", "y:", 0));
-        label_10->setText(QApplication::translate("SmartEyeClass", "x:", 0));
         label_14->setText(QApplication::translate("SmartEyeClass", "Depth:", 0));
+        label_10->setText(QApplication::translate("SmartEyeClass", "x:", 0));
         label_17->setText(QApplication::translate("SmartEyeClass", "ImgFrame", 0));
+        label_18->setText(QApplication::translate("SmartEyeClass", "Offset", 0));
+        label_13->setText(QApplication::translate("SmartEyeClass", "y:", 0));
+        label_19->setText(QApplication::translate("SmartEyeClass", "Dist(mm):", 0));
         Savebutton->setText(QApplication::translate("SmartEyeClass", "Save PNG", 0));
         savestatelabel->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
         savePcdButton->setText(QApplication::translate("SmartEyeClass", "Save PCD", 0));

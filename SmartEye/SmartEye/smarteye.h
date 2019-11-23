@@ -89,6 +89,7 @@ private slots:
 	void horizontalFlipSlot();			//水平翻转勾选框
 	void verticalFlipSlot();			//垂直翻转勾选框
 	void versionUpdateSlot(ushort);		//版本更新显示槽
+	void setOffsetSlot();				//设置偏移量相应槽
 
 };
 
