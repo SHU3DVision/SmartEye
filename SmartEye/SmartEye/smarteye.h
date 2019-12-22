@@ -25,6 +25,8 @@ VTK_MODULE_INIT(vtkInteractionStyle);
 #include <qfile.h>
 #include <qfiledialog.h>  
 #include<QMouseEvent>
+#include <qtcpserver.h>
+#include <qtcpsocket.h>
 
 #include "QVTKWidget.h"
 #include <vtkRenderWindow.h>
@@ -90,6 +92,9 @@ private slots:
 	void verticalFlipSlot();			//垂直翻转勾选框
 	void versionUpdateSlot(ushort);		//版本更新显示槽
 	void setOffsetSlot();				//设置偏移量相应槽
+	void sendStartCommand();			//TCP发送开始采集指令
+	void sendStopCommand();				//TCP发送结束采集指令
+	void sendNewIpCommand();			//TCP发送新IP地址指令
 
 };
 

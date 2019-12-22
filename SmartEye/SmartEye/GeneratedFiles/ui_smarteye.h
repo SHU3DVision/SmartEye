@@ -52,6 +52,14 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QPushButton *connectButton;
     QLabel *statelabel;
+    QHBoxLayout *horizontalLayout_5;
+    QPushButton *btnStart;
+    QPushButton *btnStop;
+    QLabel *label_20;
+    QGridLayout *gridLayout_8;
+    QLineEdit *lineEditPcIp;
+    QLabel *label_21;
+    QPushButton *btnSendPcConfig;
     QSpacerItem *verticalSpacer;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_12;
@@ -155,6 +163,7 @@ public:
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setContentsMargins(-1, -1, -1, 0);
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
@@ -200,6 +209,50 @@ public:
 
 
         verticalLayout->addLayout(horizontalLayout_3);
+
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        horizontalLayout_5->setContentsMargins(-1, -1, -1, 0);
+        btnStart = new QPushButton(groupBox);
+        btnStart->setObjectName(QStringLiteral("btnStart"));
+
+        horizontalLayout_5->addWidget(btnStart);
+
+        btnStop = new QPushButton(groupBox);
+        btnStop->setObjectName(QStringLiteral("btnStop"));
+
+        horizontalLayout_5->addWidget(btnStop);
+
+
+        verticalLayout->addLayout(horizontalLayout_5);
+
+        label_20 = new QLabel(groupBox);
+        label_20->setObjectName(QStringLiteral("label_20"));
+
+        verticalLayout->addWidget(label_20);
+
+        gridLayout_8 = new QGridLayout();
+        gridLayout_8->setSpacing(6);
+        gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
+        gridLayout_8->setContentsMargins(-1, -1, -1, 0);
+        lineEditPcIp = new QLineEdit(groupBox);
+        lineEditPcIp->setObjectName(QStringLiteral("lineEditPcIp"));
+
+        gridLayout_8->addWidget(lineEditPcIp, 0, 1, 1, 1);
+
+        label_21 = new QLabel(groupBox);
+        label_21->setObjectName(QStringLiteral("label_21"));
+
+        gridLayout_8->addWidget(label_21, 0, 0, 1, 1);
+
+
+        verticalLayout->addLayout(gridLayout_8);
+
+        btnSendPcConfig = new QPushButton(groupBox);
+        btnSendPcConfig->setObjectName(QStringLiteral("btnSendPcConfig"));
+
+        verticalLayout->addWidget(btnSendPcConfig);
 
 
         verticalLayout_11->addLayout(verticalLayout);
@@ -629,6 +682,12 @@ public:
         label_2->setText(QApplication::translate("SmartEyeClass", "Port:", 0));
         connectButton->setText(QApplication::translate("SmartEyeClass", "Connect", 0));
         statelabel->setText(QApplication::translate("SmartEyeClass", "NO", 0));
+        btnStart->setText(QApplication::translate("SmartEyeClass", "Start", 0));
+        btnStop->setText(QApplication::translate("SmartEyeClass", "Stop", 0));
+        label_20->setText(QApplication::translate("SmartEyeClass", "PC Config:", 0));
+        lineEditPcIp->setText(QApplication::translate("SmartEyeClass", "192.168.7.111", 0));
+        label_21->setText(QApplication::translate("SmartEyeClass", "IP:", 0));
+        btnSendPcConfig->setText(QApplication::translate("SmartEyeClass", "Send", 0));
         groupBox_2->setTitle(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
         label_8->setText(QApplication::translate("SmartEyeClass", "k2", 0));
         k1lineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));

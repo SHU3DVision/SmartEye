@@ -7,6 +7,10 @@ SmartEye::SmartEye(QWidget *parent)
 {
 	ui.setupUi(this);
 
+#ifdef COMMUNICATION_UDP
+	setWindowTitle(this->windowTitle() + " UDP");
+#endif
+
 	ui.pointCloudDock->hide();	//隐藏点云界面
 	ui.imageDock->hide();		//隐藏图像界面
 
@@ -71,6 +75,10 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.setAmplineEdit, SIGNAL(editingFinished()), this, SLOT(setMinAmpSlot()));
 	QObject::connect(ui.HFlip, SIGNAL(clicked()), this, SLOT(horizontalFlipSlot()));
 	QObject::connect(ui.VFlip, SIGNAL(clicked()), this, SLOT(verticalFlipSlot()));
+
+	QObject::connect(ui.btnStart, SIGNAL(clicked()), this, SLOT(sendStartCommand()));
+	QObject::connect(ui.btnStop, SIGNAL(clicked()), this, SLOT(sendStopCommand()));
+	QObject::connect(ui.btnSendPcConfig, SIGNAL(clicked()), this, SLOT(sendNewIpCommand()));
 	
 }
 
@@ -310,21 +318,75 @@ void SmartEye::getCameraParameterFromFile()
 //设置3D积分时间
 void SmartEye::setIntegrationTime3DSlot()
 {
-	g_dcam->integrationtime3D = ui.IntegrationtimelineEdit->text();
-	g_dcam->integrationtime3Dflag = 1;
+	QTcpSocket tcpSock;
+	int time = ui.IntegrationtimelineEdit->text().toInt();
+	QString command = "setIntegrationTime3D " + QString::number(time);
+	QString ip = ui.IplineEdit->text();
+	int port = ui.PortlineEdit->text().toInt();
+	tcpSock.connectToHost(ip, port);
+	if (tcpSock.waitForConnected(1000))
+	{
+		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
+		if (tcpSock.waitForBytesWritten(1000))
+		{
+			if (tcpSock.waitForReadyRead(1000))
+			{
+				QByteArray rst;
+				rst = tcpSock.read(2);
+				if (rst[0] == '\0' && rst[1] == '\0')
+				{
+					ui.statusBar->showMessage("Command send", 3000);
+					return;
+				}
+			}
+			
+		}
+	}	
+	ui.statusBar->showMessage("Command error", 3000);
+
+	//g_dcam->integrationtime3D = ui.IntegrationtimelineEdit->text();
+	//g_dcam->integrationtime3Dflag = 1;
 }
 
 //设置信号强度
 void SmartEye::setMinAmpSlot()
 {
-	g_dcam->MinAmp = ui.setAmplineEdit->text();
-	int MinAmpsize = g_dcam->MinAmp.toInt();
-	/*if (MinAmpsize < 10)
+
+	QTcpSocket tcpSock;
+	int time = ui.setAmplineEdit->text().toInt();
+	QString command = "setMinAmplitude " + QString::number(time);
+	QString ip = ui.IplineEdit->text();
+	int port = ui.PortlineEdit->text().toInt();
+	tcpSock.connectToHost(ip, port);
+	if (tcpSock.waitForConnected(1000))
 	{
-		g_dcam->MinAmp = "10";
-		ui.setAmplineEdit->setText("10");
-	}*/
-	g_dcam->setAmpFlag = 1;
+		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
+		if (tcpSock.waitForBytesWritten(1000))
+		{
+			if (tcpSock.waitForReadyRead(1000))
+			{
+				QByteArray rst;
+				rst = tcpSock.read(2);
+				int temp = (int)rst[1] << 8 | rst[0];
+				if (temp == time)
+				{
+					ui.statusBar->showMessage("Command send", 3000);
+					return;
+				}
+			}
+
+		}
+	}
+	ui.statusBar->showMessage("Command error", 3000);
+
+	//g_dcam->MinAmp = ui.setAmplineEdit->text();
+	//int MinAmpsize = g_dcam->MinAmp.toInt();
+	///*if (MinAmpsize < 10)
+	//{
+	//	g_dcam->MinAmp = "10";
+	//	ui.setAmplineEdit->setText("10");
+	//}*/
+	//g_dcam->setAmpFlag = 1;
 }
 
 //设置映射距离
@@ -591,4 +653,93 @@ void SmartEye::setOffsetSlot()
 	int value = ui.offsetSpinBox->text().toInt();
 	g_dcam->setOffset(value);
 
+}
+
+
+//TCP发送开始采集指令
+void SmartEye::sendStartCommand()
+{
+	QTcpSocket tcpSock;
+	QString command = "start";
+	QString ip = ui.IplineEdit->text();
+	int port = ui.PortlineEdit->text().toInt();
+	tcpSock.connectToHost(ip, port);
+	if (tcpSock.waitForConnected(1000))
+	{
+		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
+		if (tcpSock.waitForBytesWritten(1000))
+		{
+			if (tcpSock.waitForReadyRead(1000))
+			{
+				QByteArray rst;
+				rst = tcpSock.read(2);
+				if (rst[0] == '\0' && rst[1] == '\0')
+				{
+					ui.statusBar->showMessage("Command send", 3000);
+					return;
+				}
+			}
+
+		}
+	}
+	ui.statusBar->showMessage("Command error", 3000);
+}
+
+//TCP发送停止采集指令
+void SmartEye::sendStopCommand()
+{
+	QTcpSocket tcpSock;
+	QString command = "stop";
+	QString ip = ui.IplineEdit->text();
+	int port = ui.PortlineEdit->text().toInt();
+	tcpSock.connectToHost(ip, port);
+	if (tcpSock.waitForConnected(1000))
+	{
+		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
+		if (tcpSock.waitForBytesWritten(1000))
+		{
+			if (tcpSock.waitForReadyRead(1000))
+			{
+				QByteArray rst;
+				rst = tcpSock.read(2);
+				if (rst[0] == '\0' && rst[1] == '\0')
+				{
+					ui.statusBar->showMessage("Command send", 3000);
+					return;
+				}
+			}
+
+		}
+	}
+	ui.statusBar->showMessage("Command error", 3000);
+}
+
+//TCP发送新IP地址
+void SmartEye::sendNewIpCommand()
+{
+	QTcpSocket tcpSock;
+	QString newIp = ui.lineEditPcIp->text();
+	QString command = "newIp " + newIp;
+	QString ip = ui.IplineEdit->text();
+	int port = ui.PortlineEdit->text().toInt();
+	tcpSock.connectToHost(ip, port);
+	if (tcpSock.waitForConnected(1000))
+	{
+		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
+		if (tcpSock.waitForBytesWritten(1000))
+		{
+			if (tcpSock.waitForReadyRead(1000))
+			{
+				QByteArray rst;
+				rst = tcpSock.read(2);
+				if (rst[0] == '\0' && rst[1] == '\0')
+				{
+					ui.statusBar->showMessage("Command send", 3000);
+					return;
+				}
+			}
+
+		}
+	}
+	ui.statusBar->showMessage("Command error", 3000);
 }
