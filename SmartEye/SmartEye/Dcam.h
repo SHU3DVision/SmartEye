@@ -69,7 +69,7 @@ protected:
 private:
 	Imagedepthprocess g_depthprocess;	//原始图像处理类
 	CTinySocket	g_Tcpsocket;			//SOCKET类
-	UTinySocket g_Udpsocket = UTinySocket(1, UDP_SERVER_PORT);
+	UTinySocket *g_Udpsocket = new UTinySocket(1, UDP_SERVER_PORT);
 	PCLConvert	g_pclConvert;			//点云转换使用
 	bool isRun = false;					//是否运行
 	bool isPointCloudConvert = false;	//是否点云转换

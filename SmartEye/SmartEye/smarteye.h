@@ -67,6 +67,7 @@ private:
 	PointCloudT::Ptr cloud;					//点云指针     
 	PointCloudT::Ptr cloud_clicked;			//点击事件处理点云
 	int pointSize=1;						//点云显示大小
+	clock_t frame_time = 0;						//用于帧率刷新防止太快
 
 	
 

@@ -78,7 +78,8 @@ void DCam::run()
 	if (n != 0)
 		return;
 #else
-	UTinySocket udpsocket = UTinySocket(1, pcPort);
+	delete g_Udpsocket;
+	g_Udpsocket = new UTinySocket(1, pcPort);
 #endif
 
 	//主循环
@@ -142,7 +143,7 @@ void DCam::run()
 		//循环接收数据
 		while (isRun)
 		{
-			n = udpsocket.Recvfrom(buf, MAXLINE, t_ip, nport);
+			n = g_Udpsocket->Recvfrom(buf, MAXLINE, t_ip, nport);
 			if (n > 1)
 			{
 				if (strcmp(ip.c_str(), t_ip) == 0)		//判断IP地址
@@ -195,6 +196,9 @@ void DCam::run()
 		emit getImage(img_show,frame,n);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
 
 	}
+
+
+
 }
 
 //设置相机线程启动
@@ -313,6 +317,10 @@ void DCam::setOffset(int value)
 //输入：port int 本地端口
 void DCam::setPcNet(std::string ip, int port)
 {
-	pcIp = ip;
-	pcPort = port;
+	//判断是否修改了端口号
+	if (port != pcPort)
+	{
+		pcIp = ip;
+		pcPort = port;	
+	}
 }

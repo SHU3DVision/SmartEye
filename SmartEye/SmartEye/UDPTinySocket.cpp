@@ -8,13 +8,13 @@
 
 void udp_startup(void)
 {
-	static int wsa_started;
-	if (!wsa_started)
-	{
+	//static int wsa_started;
+	//if (!wsa_started)
+	//{
 		WSADATA wd;
 		WSAStartup(0x0202, &wd);
-		wsa_started = 1;
-	}
+		//wsa_started = 1;
+	//}
 }
 void udp_cleanup(void)
 {
@@ -39,6 +39,7 @@ UTinySocket::UTinySocket(int server, int port)
 	{
 		DWORD tv = 30000;
 		int nRecvBuf = 209715200;
+		int opt = 1;
 
 		static struct sockaddr_in servaddr = { 0 };		
 		if (sockfd != -1)
@@ -53,6 +54,7 @@ UTinySocket::UTinySocket(int server, int port)
 			setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(tv));
 			//设置缓冲区大小
 			setsockopt(sockfd, SOL_SOCKET, SO_RCVBUF, (const char *)&nRecvBuf, sizeof(nRecvBuf));
+			setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR,(const char *)&opt, sizeof(opt));
 			set_blocking(sockfd, 0);
 		}
 

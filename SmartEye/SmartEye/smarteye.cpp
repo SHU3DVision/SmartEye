@@ -103,6 +103,7 @@ void SmartEye::connectButtonPressedSlot()
 		g_dcam->setNet(ip,port);						 //初始化相机类
 		connect(g_dcam, SIGNAL(getImage(cv::Mat,float,int)), this, SLOT(imageUpdateSlot(cv::Mat,float,int)));	//设置连接槽
 		connect(g_dcam, SIGNAL(getVersion(ushort)), this, SLOT(versionUpdateSlot(ushort)));			//版本获取连接槽
+		while (g_dcam->isRunning())qDebug() << "wait";
 		g_dcam->start();	//线程启动
 		
 		//按钮状态改变
@@ -239,7 +240,28 @@ void SmartEye::showImage(Mat imshowsrc)
 void SmartEye::showFrame(float frame)
 {
 	float imgframe = frame;
-	ui.FramelineEdit->setText(QString::number(imgframe));
+
+	if (frame_time)
+	{
+		clock_t timet = clock();
+		//500ms 更新帧率
+		if (timet - frame_time > 300)
+		{
+			//保留一位小数
+			char strFrame[20];
+			sprintf(strFrame, "%.1f", imgframe);
+
+			//ui显示
+			ui.FramelineEdit->setText(QString(strFrame));
+
+			frame_time = timet;
+		}
+	}
+	else
+		frame_time = clock();
+	
+
+	
 }
 
 //点云转换按钮点击事件槽

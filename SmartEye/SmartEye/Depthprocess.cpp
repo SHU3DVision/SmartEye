@@ -169,7 +169,7 @@ void  Imagedepthprocess::imageAverageEightConnectivity(ushort *depthdata)
 			else 
 				temp = actualFrame[index + 321];
 			//如果周围有效数据小于6记为无效点
-			if (pixelCounter < 8) {
+			if (pixelCounter < 6) {
 				//无效点
 				*(depthdata + index) = temp;
 			}
