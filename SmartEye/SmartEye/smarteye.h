@@ -95,6 +95,7 @@ private slots:
 	void sendStartCommand();			//TCP发送开始采集指令
 	void sendStopCommand();				//TCP发送结束采集指令
 	void sendNewIpCommand();			//TCP发送新IP地址指令
+	void changePcNetSlot();				//修改本地网络
 
 };
 

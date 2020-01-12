@@ -7,9 +7,7 @@ SmartEye::SmartEye(QWidget *parent)
 {
 	ui.setupUi(this);
 
-#ifdef COMMUNICATION_UDP
-	setWindowTitle(this->windowTitle() + " UDP");
-#endif
+
 
 	ui.pointCloudDock->hide();	//隐藏点云界面
 	ui.imageDock->hide();		//隐藏图像界面
@@ -79,7 +77,14 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.btnStart, SIGNAL(clicked()), this, SLOT(sendStartCommand()));
 	QObject::connect(ui.btnStop, SIGNAL(clicked()), this, SLOT(sendStopCommand()));
 	QObject::connect(ui.btnSendPcConfig, SIGNAL(clicked()), this, SLOT(sendNewIpCommand()));
+	QObject::connect(ui.lineEditPcIp, SIGNAL(editingFinished()), this, SLOT(changePcNetSlot()));
+	QObject::connect(ui.lineEditPcPort, SIGNAL(editingFinished()), this, SLOT(changePcNetSlot()));
 	
+
+#ifdef COMMUNICATION_UDP
+	setWindowTitle(this->windowTitle() + " UDP");
+	g_dcam->setPcNet(ui.lineEditPcIp->text().toStdString(), ui.lineEditPcPort->text().toInt());
+#endif
 }
 
 SmartEye::~SmartEye()
@@ -719,7 +724,9 @@ void SmartEye::sendNewIpCommand()
 {
 	QTcpSocket tcpSock;
 	QString newIp = ui.lineEditPcIp->text();
-	QString command = "newIp " + newIp;
+	int newPort = ui.lineEditPcPort->text().toInt();
+	ui.lineEditPcPort->setText(QString::number(newPort));
+	QString command = "newIp " + newIp + " " + QString::number(newPort);
 	QString ip = ui.IplineEdit->text();
 	int port = ui.PortlineEdit->text().toInt();
 	tcpSock.connectToHost(ip, port);
@@ -742,4 +749,13 @@ void SmartEye::sendNewIpCommand()
 		}
 	}
 	ui.statusBar->showMessage("Command error", 3000);
+}
+
+
+//修改本地网络
+void SmartEye::changePcNetSlot()
+{
+	string ip = ui.lineEditPcIp->text().toStdString();
+	int port = ui.lineEditPcPort->text().toInt();
+	g_dcam->setPcNet(ip,port);
 }

@@ -59,6 +59,8 @@ public:
     QGridLayout *gridLayout_8;
     QLineEdit *lineEditPcIp;
     QLabel *label_21;
+    QLabel *label_22;
+    QLineEdit *lineEditPcPort;
     QPushButton *btnSendPcConfig;
     QSpacerItem *verticalSpacer;
     QGroupBox *groupBox_2;
@@ -245,6 +247,16 @@ public:
         label_21->setObjectName(QStringLiteral("label_21"));
 
         gridLayout_8->addWidget(label_21, 0, 0, 1, 1);
+
+        label_22 = new QLabel(groupBox);
+        label_22->setObjectName(QStringLiteral("label_22"));
+
+        gridLayout_8->addWidget(label_22, 1, 0, 1, 1);
+
+        lineEditPcPort = new QLineEdit(groupBox);
+        lineEditPcPort->setObjectName(QStringLiteral("lineEditPcPort"));
+
+        gridLayout_8->addWidget(lineEditPcPort, 1, 1, 1, 1);
 
 
         verticalLayout->addLayout(gridLayout_8);
@@ -687,6 +699,8 @@ public:
         label_20->setText(QApplication::translate("SmartEyeClass", "PC Config:", 0));
         lineEditPcIp->setText(QApplication::translate("SmartEyeClass", "192.168.7.111", 0));
         label_21->setText(QApplication::translate("SmartEyeClass", "IP:", 0));
+        label_22->setText(QApplication::translate("SmartEyeClass", "Port:", 0));
+        lineEditPcPort->setText(QApplication::translate("SmartEyeClass", "8080", 0));
         btnSendPcConfig->setText(QApplication::translate("SmartEyeClass", "Send", 0));
         groupBox_2->setTitle(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
         label_8->setText(QApplication::translate("SmartEyeClass", "k2", 0));

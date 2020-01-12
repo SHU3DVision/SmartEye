@@ -77,6 +77,8 @@ void DCam::run()
 	emit getImage(cv::Mat(),frame, n);
 	if (n != 0)
 		return;
+#else
+	UTinySocket udpsocket = UTinySocket(1, pcPort);
 #endif
 
 	//主循环
@@ -129,6 +131,7 @@ void DCam::run()
 		}
 #else
 
+		
 		char t_ip[64];		//地址
 		int nport = 0;		//端口号
 		const int  maxsize = 1024 * 60;
@@ -139,7 +142,7 @@ void DCam::run()
 		//循环接收数据
 		while (isRun)
 		{
-			n = g_Udpsocket.Recvfrom(buf, MAXLINE, t_ip, nport);
+			n = udpsocket.Recvfrom(buf, MAXLINE, t_ip, nport);
 			if (n > 1)
 			{
 				if (strcmp(ip.c_str(), t_ip) == 0)		//判断IP地址
@@ -302,4 +305,14 @@ ushort DCam::getVersion()
 void DCam::setOffset(int value)
 {
 	g_depthprocess.offset = value;
+}
+
+
+//设置电脑IP和端口
+//输入：ip string 本地ip
+//输入：port int 本地端口
+void DCam::setPcNet(std::string ip, int port)
+{
+	pcIp = ip;
+	pcPort = port;
 }

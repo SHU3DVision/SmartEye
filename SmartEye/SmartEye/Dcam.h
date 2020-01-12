@@ -31,6 +31,7 @@ public:
 	~DCam();
 	void setRun(bool isRun);					//设置线程停止
 	void setNet(std::string ip, int port);		//设置相机IP，端口
+	void setPcNet(std::string ip, int port);	//设置电脑IP，端口
 	void setPointcloudConvert(bool isConvert);	//设置点云显示
 	Mat  getDepth();							//获取深度图像
 	void setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置相机内参、畸变系数
@@ -76,6 +77,8 @@ private:
 	int  pointFilterSize = 0;			//点云密度设置（平衡点云和速度）
 	std::string ip = "192.168.7.2";		//相机IP
 	int port = 50660;					//相机端口
+	std::string pcIp;					//电脑IP
+	int pcPort;							//电脑Port
 	float frame = 0;                       //相机帧率
 	ushort version = 0;					//相机固件版本
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
