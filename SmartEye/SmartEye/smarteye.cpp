@@ -1,6 +1,6 @@
 #include "smarteye.h"
 
-
+using namespace cv;
 
 SmartEye::SmartEye(QWidget *parent)
 	: QMainWindow(parent)

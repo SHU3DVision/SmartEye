@@ -19,7 +19,6 @@
 #define COLORMAP_MIN_DEPTH 0
 #define frametime  1000
 
-
 class DCam : public QThread
 {
 	Q_OBJECT
@@ -32,7 +31,7 @@ public:
 	void setRun(bool isRun);					//设置线程停止
 	void setNet(std::string ip, int port);		//设置相机IP，端口
 	void setPointcloudConvert(bool isConvert);	//设置点云显示
-	Mat  getDepth();							//获取深度图像
+	cv::Mat  getDepth();							//获取深度图像
 	void setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置相机内参、畸变系数
 	int  setRealTemperature(char *buf);			//获取相机温度
 	bool getRunState();							//获取运行状态
