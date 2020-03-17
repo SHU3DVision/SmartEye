@@ -366,13 +366,6 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_9">
-             <property name="text">
-              <string>TOF(us)</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="2">
             <widget class="QLineEdit" name="IntegrationtimelineEdit">
              <property name="text">
@@ -380,10 +373,34 @@
              </property>
             </widget>
            </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>TOF(us)</string>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="2">
             <widget class="QLineEdit" name="setAmplineEdit">
              <property name="text">
               <string>10</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QRadioButton" name="radioButtonMaster">
+             <property name="text">
+              <string>Master</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QRadioButton" name="radioButtonSlave">
+             <property name="text">
+              <string>Slave</string>
              </property>
             </widget>
            </item>

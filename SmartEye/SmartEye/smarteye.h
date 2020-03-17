@@ -97,6 +97,7 @@ private slots:
 	void sendStopCommand();				//TCP发送结束采集指令
 	void sendNewIpCommand();			//TCP发送新IP地址指令
 	void changePcNetSlot();				//修改本地网络
+	void setMultiCameraMode();			//修改相机模式
 
 };
 

@@ -79,6 +79,9 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.btnSendPcConfig, SIGNAL(clicked()), this, SLOT(sendNewIpCommand()));
 	QObject::connect(ui.lineEditPcIp, SIGNAL(editingFinished()), this, SLOT(changePcNetSlot()));
 	QObject::connect(ui.lineEditPcPort, SIGNAL(editingFinished()), this, SLOT(changePcNetSlot()));
+
+	QObject::connect(ui.radioButtonMaster, SIGNAL(clicked()), this, SLOT(setMultiCameraMode()));
+	QObject::connect(ui.radioButtonSlave, SIGNAL(clicked()), this, SLOT(setMultiCameraMode()));
 	
 
 #ifdef COMMUNICATION_UDP
@@ -780,4 +783,44 @@ void SmartEye::changePcNetSlot()
 	string ip = ui.lineEditPcIp->text().toStdString();
 	int port = ui.lineEditPcPort->text().toInt();
 	g_dcam->setPcNet(ip,port);
+}
+
+
+//修改多相机模式
+void SmartEye::setMultiCameraMode()
+{
+	int mode = 1;
+	if (ui.radioButtonMaster->isChecked())
+		mode = 1;
+	else if (ui.radioButtonSlave->isChecked())
+		mode = 0;
+
+
+	QTcpSocket tcpSock;
+	QString command = "setCameraMode " + QString::number(mode);
+	QString ip = ui.IplineEdit->text();
+	int port = ui.PortlineEdit->text().toInt();
+	tcpSock.connectToHost(ip, port);
+	if (tcpSock.waitForConnected(1000))
+	{
+		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
+		if (tcpSock.waitForBytesWritten(1000))
+		{
+			if (tcpSock.waitForReadyRead(1000))
+			{
+				QByteArray rst;
+				rst = tcpSock.read(2);
+				char *mm = rst.data();
+				if (mm[0] == mode && mm[1] == '\0')			//TODO 这里需要修改
+				{
+					if (!mode)
+						QMessageBox::information(this, "Tips", tr("The integration time of the slave camera is at least 100ms shorter than the the master camera!"));
+					ui.statusBar->showMessage("Command send", 3000);
+					return;
+				}
+			}
+
+		}
+	}
+	ui.statusBar->showMessage("Command error", 3000);
 }
