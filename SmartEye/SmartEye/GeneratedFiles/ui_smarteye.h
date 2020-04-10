@@ -22,6 +22,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
@@ -39,6 +40,7 @@ QT_BEGIN_NAMESPACE
 class Ui_SmartEyeClass
 {
 public:
+    QAction *actionAbout;
     QWidget *centralWidget;
     QGridLayout *gridLayout_4;
     QVBoxLayout *verticalLayout_10;
@@ -131,6 +133,7 @@ public:
     QCheckBox *VFlip;
     QSpacerItem *verticalSpacer_2;
     QMenuBar *menuBar;
+    QMenu *menuAbout_a;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
     QDockWidget *pointCloudDock;
@@ -150,6 +153,8 @@ public:
         QIcon icon;
         icon.addFile(QStringLiteral(":/SmartEye/Resource/exe.png"), QSize(), QIcon::Normal, QIcon::Off);
         SmartEyeClass->setWindowIcon(icon);
+        actionAbout = new QAction(SmartEyeClass);
+        actionAbout->setObjectName(QStringLiteral("actionAbout"));
         centralWidget = new QWidget(SmartEyeClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout_4 = new QGridLayout(centralWidget);
@@ -640,6 +645,8 @@ public:
         menuBar = new QMenuBar(SmartEyeClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 890, 23));
+        menuAbout_a = new QMenu(menuBar);
+        menuAbout_a->setObjectName(QStringLiteral("menuAbout_a"));
         SmartEyeClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(SmartEyeClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -699,6 +706,9 @@ public:
         pointCloudDock->raise();
         imageDock->raise();
 
+        menuBar->addAction(menuAbout_a->menuAction());
+        menuAbout_a->addAction(actionAbout);
+
         retranslateUi(SmartEyeClass);
 
         QMetaObject::connectSlotsByName(SmartEyeClass);
@@ -707,6 +717,7 @@ public:
     void retranslateUi(QMainWindow *SmartEyeClass)
     {
         SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye V1.0.3", 0));
+        actionAbout->setText(QApplication::translate("SmartEyeClass", "About", 0));
         groupBox->setTitle(QApplication::translate("SmartEyeClass", "IP Address", 0));
         IplineEdit->setText(QApplication::translate("SmartEyeClass", "192.168.7.2", 0));
         PortlineEdit->setText(QApplication::translate("SmartEyeClass", "50660", 0));
@@ -765,6 +776,7 @@ public:
         savePCDStateLable->setText(QApplication::translate("SmartEyeClass", "Saved", 0));
         HFlip->setText(QApplication::translate("SmartEyeClass", "Horizontal Flip", 0));
         VFlip->setText(QApplication::translate("SmartEyeClass", "Vertical Flip", 0));
+        menuAbout_a->setTitle(QApplication::translate("SmartEyeClass", "&About", 0));
         pointCloudDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Point Cloud", 0));
         imageDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Depth Image", 0));
         Img_label->setText(QString());

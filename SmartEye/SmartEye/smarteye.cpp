@@ -83,7 +83,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.radioButtonMaster, SIGNAL(clicked()), this, SLOT(setMultiCameraMode()));
 	QObject::connect(ui.radioButtonSlave, SIGNAL(clicked()), this, SLOT(setMultiCameraMode()));
 	QObject::connect(ui.checkBoxTemperatureCalibration, SIGNAL(clicked()), this, SLOT(setTemperatureCalibration()));
-	
+	QObject::connect(ui.actionAbout, &QAction::triggered, this, &SmartEye::getCameraVersion);
 
 #ifdef COMMUNICATION_UDP
 	setWindowTitle(this->windowTitle() + " UDP");
@@ -349,31 +349,18 @@ void SmartEye::getCameraParameterFromFile()
 //设置3D积分时间
 void SmartEye::setIntegrationTime3DSlot()
 {
-	QTcpSocket tcpSock;
+
 	int time = ui.IntegrationtimelineEdit->text().toInt();
 	QString command = "setIntegrationTime3D " + QString::number(time);
+	char rst[] = { 0, 0 };
 	QString ip = ui.IplineEdit->text();
 	int port = ui.PortlineEdit->text().toInt();
-	tcpSock.connectToHost(ip, port);
-	if (tcpSock.waitForConnected(1000))
-	{
-		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
-		if (tcpSock.waitForBytesWritten(1000))
-		{
-			if (tcpSock.waitForReadyRead(1000))
-			{
-				QByteArray rst;
-				rst = tcpSock.read(2);
-				if (rst[0] == '\0' && rst[1] == '\0')
-				{
-					ui.statusBar->showMessage("Command send", 3000);
-					return;
-				}
-			}
-			
-		}
-	}	
-	ui.statusBar->showMessage("Command error", 3000);
+
+	if (myTcpSend(ip,port,command,rst,2)==0)
+		ui.statusBar->showMessage("Command send", 3000);
+	else
+		ui.statusBar->showMessage("Command error", 3000);
+	
 
 	//g_dcam->integrationtime3D = ui.IntegrationtimelineEdit->text();
 	//g_dcam->integrationtime3Dflag = 1;
@@ -382,33 +369,17 @@ void SmartEye::setIntegrationTime3DSlot()
 //设置信号强度
 void SmartEye::setMinAmpSlot()
 {
-
-	QTcpSocket tcpSock;
 	int time = ui.setAmplineEdit->text().toInt();
 	QString command = "setMinAmplitude " + QString::number(time);
+	char rst[] = { time & 0xFF, (time >> 8)&0xFF };
 	QString ip = ui.IplineEdit->text();
 	int port = ui.PortlineEdit->text().toInt();
-	tcpSock.connectToHost(ip, port);
-	if (tcpSock.waitForConnected(1000))
-	{
-		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
-		if (tcpSock.waitForBytesWritten(1000))
-		{
-			if (tcpSock.waitForReadyRead(1000))
-			{
-				QByteArray rst;
-				rst = tcpSock.read(2);
-				int temp = (int)rst[1] << 8 | rst[0];
-				if (temp == time)
-				{
-					ui.statusBar->showMessage("Command send", 3000);
-					return;
-				}
-			}
 
-		}
-	}
-	ui.statusBar->showMessage("Command error", 3000);
+	if (myTcpSend(ip,port,command,rst,2)==0)
+		ui.statusBar->showMessage("Command send", 3000);
+	else
+		ui.statusBar->showMessage("Command error", 3000);
+	
 
 	//g_dcam->MinAmp = ui.setAmplineEdit->text();
 	//int MinAmpsize = g_dcam->MinAmp.toInt();
@@ -696,9 +667,9 @@ void SmartEye::sendStartCommand()
 	int port = ui.PortlineEdit->text().toInt();
 
 	if (myTcpSend(ip,port,command,res,2)==0)
-		ui.statusBar->showMessage("Command send", 3000);
+		ui.statusBar->showMessage(tr("Command send"), 3000);
 	else
-		ui.statusBar->showMessage("Command error", 3000);
+		ui.statusBar->showMessage(tr("Command error"), 3000);
 	
 }
 
@@ -712,9 +683,9 @@ void SmartEye::sendStopCommand()
 	int port = ui.PortlineEdit->text().toInt();
 
 	if (myTcpSend(ip, port, command, res, 2) == 0)
-		ui.statusBar->showMessage("Command send", 3000);
+		ui.statusBar->showMessage(tr("Command send"), 3000);
 	else
-		ui.statusBar->showMessage("Command error", 3000);
+		ui.statusBar->showMessage(tr("Command error"), 3000);
 	
 }
 
@@ -730,9 +701,9 @@ void SmartEye::sendNewIpCommand()
 	int port = ui.PortlineEdit->text().toInt();
 
 	if (myTcpSend(ip,port,command,res,2)==0)
-		ui.statusBar->showMessage("Command send", 3000);
+		ui.statusBar->showMessage(tr("Command send"), 3000);
 	else
-		ui.statusBar->showMessage("Command error", 3000);
+		ui.statusBar->showMessage(tr("Command error"), 3000);
 	
 }
 
@@ -766,10 +737,10 @@ void SmartEye::setMultiCameraMode()
 	{
 		if (!mode)
 			QMessageBox::information(this, "Tips", tr("The integration time of the slave camera is at least 100ms shorter than the the master camera!"));
-		ui.statusBar->showMessage("Command send", 3000);
+		ui.statusBar->showMessage(tr("Command send"), 3000);
 	}	
 	else
-		ui.statusBar->showMessage("Command error", 3000);
+		ui.statusBar->showMessage(tr("Command error"), 3000);
 	
 }
 
@@ -791,9 +762,9 @@ void SmartEye::setTemperatureCalibration()
 
 	//发送指令
 	if (myTcpSend(ip, port, command, res, 2) == 0)
-		ui.statusBar->showMessage("Command send", 3000);
+		ui.statusBar->showMessage(tr("Command send"), 3000);
 	else
-		ui.statusBar->showMessage("Command error", 3000);
+		ui.statusBar->showMessage(tr("Command error"), 3000);
 	
 }
 
@@ -831,4 +802,37 @@ int SmartEye::myTcpSend(QString ip, int port, QString data, char* res, int lengt
 	}
 
 	return -1;
+}
+
+
+void SmartEye::getCameraVersion()
+{
+	QString command = "version";
+	QString ip = ui.IplineEdit->text();
+	int port = ui.PortlineEdit->text().toInt();
+
+	QTcpSocket tcpSock;
+	tcpSock.connectToHost(ip, port);
+	if (tcpSock.waitForConnected(1000))
+	{
+		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
+		if (tcpSock.waitForBytesWritten(1000))
+		{
+			if (tcpSock.waitForReadyRead(1000))
+			{
+				QByteArray rst;
+				rst = tcpSock.read(2);
+				int16_t *v = (int16_t*)rst.data();
+				uint8_t major = *v / 10000;
+				uint8_t minor = *v % 10000 / 100;
+				uint8_t patch = *v % 100;
+				QString str_version = QString::number(major) + "." + QString::number(minor) + "." + QString::number(patch);
+				QMessageBox::information(this, tr("Version"), tr("PC: 1.0.3\nFirmware: ")+ str_version);
+
+				return;
+			}
+		}
+	}
+
+	QMessageBox::warning(this, tr("Version"), tr("PC: 1.0.3\nCan not connect to the camera!"));
 }

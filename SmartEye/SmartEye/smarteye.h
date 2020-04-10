@@ -100,7 +100,7 @@ private slots:
 	void changePcNetSlot();				//修改本地网络
 	void setMultiCameraMode();			//修改相机模式
 	void setTemperatureCalibration();	//设置相机温度矫正功能
-
+	void getCameraVersion();			//获取相机固件版本号
 };
 
 #endif // SMARTEYE_H
