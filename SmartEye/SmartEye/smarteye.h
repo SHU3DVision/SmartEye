@@ -74,6 +74,7 @@ private:
 	void showPointCloud();				//点云显示更新
 	void getCameraParameterFromFile();	//从config.ini获取参数
 	void pp_callback(const pcl::visualization::PointPickingEvent& event, void *args);	//点云点击回调函数
+	int myTcpSend(QString ip, int port, QString data, char* res, int length);						//TCP发送指令函数
 	
 
 private slots:

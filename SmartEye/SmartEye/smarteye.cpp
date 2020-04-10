@@ -690,91 +690,50 @@ void SmartEye::setOffsetSlot()
 //TCP发送开始采集指令
 void SmartEye::sendStartCommand()
 {
-	QTcpSocket tcpSock;
 	QString command = "start";
+	char res[] = { 0, 0 };
 	QString ip = ui.IplineEdit->text();
 	int port = ui.PortlineEdit->text().toInt();
-	tcpSock.connectToHost(ip, port);
-	if (tcpSock.waitForConnected(1000))
-	{
-		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
-		if (tcpSock.waitForBytesWritten(1000))
-		{
-			if (tcpSock.waitForReadyRead(1000))
-			{
-				QByteArray rst;
-				rst = tcpSock.read(2);
-				if (rst[0] == '\0' && rst[1] == '\0')
-				{
-					ui.statusBar->showMessage("Command send", 3000);
-					return;
-				}
-			}
 
-		}
-	}
-	ui.statusBar->showMessage("Command error", 3000);
+	if (myTcpSend(ip,port,command,res,2)==0)
+		ui.statusBar->showMessage("Command send", 3000);
+	else
+		ui.statusBar->showMessage("Command error", 3000);
+	
 }
 
 //TCP发送停止采集指令
 void SmartEye::sendStopCommand()
 {
-	QTcpSocket tcpSock;
+
 	QString command = "stop";
+	char res[] = { 0, 0 };
 	QString ip = ui.IplineEdit->text();
 	int port = ui.PortlineEdit->text().toInt();
-	tcpSock.connectToHost(ip, port);
-	if (tcpSock.waitForConnected(1000))
-	{
-		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
-		if (tcpSock.waitForBytesWritten(1000))
-		{
-			if (tcpSock.waitForReadyRead(1000))
-			{
-				QByteArray rst;
-				rst = tcpSock.read(2);
-				if (rst[0] == '\0' && rst[1] == '\0')
-				{
-					ui.statusBar->showMessage("Command send", 3000);
-					return;
-				}
-			}
 
-		}
-	}
-	ui.statusBar->showMessage("Command error", 3000);
+	if (myTcpSend(ip, port, command, res, 2) == 0)
+		ui.statusBar->showMessage("Command send", 3000);
+	else
+		ui.statusBar->showMessage("Command error", 3000);
+	
 }
 
 //TCP发送新IP地址
 void SmartEye::sendNewIpCommand()
 {
-	QTcpSocket tcpSock;
 	QString newIp = ui.lineEditPcIp->text();
 	int newPort = ui.lineEditPcPort->text().toInt();
 	ui.lineEditPcPort->setText(QString::number(newPort));
 	QString command = "newIp " + newIp + " " + QString::number(newPort);
+	char res[] = { 0, 0 };
 	QString ip = ui.IplineEdit->text();
 	int port = ui.PortlineEdit->text().toInt();
-	tcpSock.connectToHost(ip, port);
-	if (tcpSock.waitForConnected(1000))
-	{
-		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
-		if (tcpSock.waitForBytesWritten(1000))
-		{
-			if (tcpSock.waitForReadyRead(1000))
-			{
-				QByteArray rst;
-				rst = tcpSock.read(2);
-				if (rst[0] == '\0' && rst[1] == '\0')
-				{
-					ui.statusBar->showMessage("Command send", 3000);
-					return;
-				}
-			}
 
-		}
-	}
-	ui.statusBar->showMessage("Command error", 3000);
+	if (myTcpSend(ip,port,command,res,2)==0)
+		ui.statusBar->showMessage("Command send", 3000);
+	else
+		ui.statusBar->showMessage("Command error", 3000);
+	
 }
 
 
@@ -797,68 +756,79 @@ void SmartEye::setMultiCameraMode()
 		mode = 0;
 
 
-	QTcpSocket tcpSock;
+
 	QString command = "setCameraMode " + QString::number(mode);
+	char res[] = { mode, 0 };
 	QString ip = ui.IplineEdit->text();
 	int port = ui.PortlineEdit->text().toInt();
-	tcpSock.connectToHost(ip, port);
-	if (tcpSock.waitForConnected(1000))
-	{
-		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
-		if (tcpSock.waitForBytesWritten(1000))
-		{
-			if (tcpSock.waitForReadyRead(1000))
-			{
-				QByteArray rst;
-				rst = tcpSock.read(2);
-				char *mm = rst.data();
-				if (mm[0] == mode && mm[1] == '\0')			
-				{
-					if (!mode)
-						QMessageBox::information(this, "Tips", tr("The integration time of the slave camera is at least 100ms shorter than the the master camera!"));
-					ui.statusBar->showMessage("Command send", 3000);
-					return;
-				}
-			}
 
-		}
-	}
-	ui.statusBar->showMessage("Command error", 3000);
+	if (myTcpSend(ip, port, command, res, 2) == 0)
+	{
+		if (!mode)
+			QMessageBox::information(this, "Tips", tr("The integration time of the slave camera is at least 100ms shorter than the the master camera!"));
+		ui.statusBar->showMessage("Command send", 3000);
+	}	
+	else
+		ui.statusBar->showMessage("Command error", 3000);
+	
 }
 
 
 //设置相机温度矫正功能
 void SmartEye::setTemperatureCalibration()
 {
+	//获取设置状态
 	int mode = 0;
 	if (ui.checkBoxTemperatureCalibration->isChecked())
 		mode = 1;
 	else
 		mode = 0;
 
-	QTcpSocket tcpSock;
 	QString command = "correctTemperature " + QString::number(mode);
+	char res[] = { 0, 0 };
 	QString ip = ui.IplineEdit->text();
 	int port = ui.PortlineEdit->text().toInt();
-	tcpSock.connectToHost(ip, port);
-	if (tcpSock.waitForConnected(1000))
-	{
-		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
-		if (tcpSock.waitForBytesWritten(1000))
-		{
-			if (tcpSock.waitForReadyRead(1000))
-			{
-				QByteArray rst;
-				rst = tcpSock.read(2);
-				char *mm = rst.data();
-				if (mm[0] == '\0' && mm[1] == '\0')		
-				{
-					ui.statusBar->showMessage("Command send", 3000);
-					return;
-				}
-			}
 
+	//发送指令
+	if (myTcpSend(ip, port, command, res, 2) == 0)
+		ui.statusBar->showMessage("Command send", 3000);
+	else
+		ui.statusBar->showMessage("Command error", 3000);
+	
+}
+
+
+//TCP发送指令
+//输入：ip 接收者IP
+//输入：port 接收者端口号
+//输入：data 发送数据
+//输入：res 希望得到返回数据
+//输入：length 希望得到返回数据长度
+//返回：0正常 -1异常
+int SmartEye::myTcpSend(QString ip, int port, QString data, char* res, int length)
+{
+	QTcpSocket tcpSockt;
+	tcpSockt.connectToHost(ip, port);
+
+	//建立连接
+	if (tcpSockt.waitForConnected(1000))
+	{
+		tcpSockt.write(data.toStdString().c_str(), data.size() + 1);		//为了发送'/0'，长度+1
+		if (tcpSockt.waitForBytesWritten(1000))
+		{
+			//等待回复
+			if (tcpSockt.waitForReadyRead(1000))
+			{
+				//读取回复数据
+				QByteArray rst;
+				rst = tcpSockt.read(length);
+				char* mm = rst.data();
+				//比较数据
+				if (memcmp(mm, res, length) == 0)
+					return 0;
+			}
 		}
 	}
-	ui.statusBar->showMessage("Command error", 3000);
+
+	return -1;
 }
