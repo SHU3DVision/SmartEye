@@ -82,6 +82,7 @@ SmartEye::SmartEye(QWidget *parent)
 
 	QObject::connect(ui.radioButtonMaster, SIGNAL(clicked()), this, SLOT(setMultiCameraMode()));
 	QObject::connect(ui.radioButtonSlave, SIGNAL(clicked()), this, SLOT(setMultiCameraMode()));
+	QObject::connect(ui.checkBoxTemperatureCalibration, SIGNAL(clicked()), this, SLOT(setTemperatureCalibration()));
 	
 
 #ifdef COMMUNICATION_UDP
@@ -811,10 +812,47 @@ void SmartEye::setMultiCameraMode()
 				QByteArray rst;
 				rst = tcpSock.read(2);
 				char *mm = rst.data();
-				if (mm[0] == mode && mm[1] == '\0')			//TODO 这里需要修改
+				if (mm[0] == mode && mm[1] == '\0')			
 				{
 					if (!mode)
 						QMessageBox::information(this, "Tips", tr("The integration time of the slave camera is at least 100ms shorter than the the master camera!"));
+					ui.statusBar->showMessage("Command send", 3000);
+					return;
+				}
+			}
+
+		}
+	}
+	ui.statusBar->showMessage("Command error", 3000);
+}
+
+
+//设置相机温度矫正功能
+void SmartEye::setTemperatureCalibration()
+{
+	int mode = 0;
+	if (ui.checkBoxTemperatureCalibration->isChecked())
+		mode = 1;
+	else
+		mode = 0;
+
+	QTcpSocket tcpSock;
+	QString command = "correctTemperature " + QString::number(mode);
+	QString ip = ui.IplineEdit->text();
+	int port = ui.PortlineEdit->text().toInt();
+	tcpSock.connectToHost(ip, port);
+	if (tcpSock.waitForConnected(1000))
+	{
+		tcpSock.write(command.toStdString().c_str(), command.size() + 1);
+		if (tcpSock.waitForBytesWritten(1000))
+		{
+			if (tcpSock.waitForReadyRead(1000))
+			{
+				QByteArray rst;
+				rst = tcpSock.read(2);
+				char *mm = rst.data();
+				if (mm[0] == '\0' && mm[1] == '\0')		
+				{
 					ui.statusBar->showMessage("Command send", 3000);
 					return;
 				}

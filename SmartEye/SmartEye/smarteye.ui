@@ -406,6 +406,13 @@
            </item>
           </layout>
          </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxTemperatureCalibration">
+           <property name="text">
+            <string>TemperatureCalibration</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

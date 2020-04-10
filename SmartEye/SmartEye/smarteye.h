@@ -98,6 +98,7 @@ private slots:
 	void sendNewIpCommand();			//TCP发送新IP地址指令
 	void changePcNetSlot();				//修改本地网络
 	void setMultiCameraMode();			//修改相机模式
+	void setTemperatureCalibration();	//设置相机温度矫正功能
 
 };
 

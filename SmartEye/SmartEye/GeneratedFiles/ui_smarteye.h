@@ -94,6 +94,7 @@ public:
     QLineEdit *setAmplineEdit;
     QRadioButton *radioButtonMaster;
     QRadioButton *radioButtonSlave;
+    QCheckBox *checkBoxTemperatureCalibration;
     QGroupBox *groupBox_4;
     QVBoxLayout *verticalLayout_4;
     QGridLayout *gridLayout_2;
@@ -433,6 +434,11 @@ public:
 
         verticalLayout_13->addLayout(gridLayout_6);
 
+        checkBoxTemperatureCalibration = new QCheckBox(groupBox_3);
+        checkBoxTemperatureCalibration->setObjectName(QStringLiteral("checkBoxTemperatureCalibration"));
+
+        verticalLayout_13->addWidget(checkBoxTemperatureCalibration);
+
 
         verticalLayout_16->addWidget(groupBox_3);
 
@@ -739,6 +745,7 @@ public:
         setAmplineEdit->setText(QApplication::translate("SmartEyeClass", "10", 0));
         radioButtonMaster->setText(QApplication::translate("SmartEyeClass", "Master", 0));
         radioButtonSlave->setText(QApplication::translate("SmartEyeClass", "Slave", 0));
+        checkBoxTemperatureCalibration->setText(QApplication::translate("SmartEyeClass", "TemperatureCalibration", 0));
         groupBox_4->setTitle(QApplication::translate("SmartEyeClass", "Colormap", 0));
         label_11->setText(QApplication::translate("SmartEyeClass", "MaxDepth", 0));
         maxdepthlineEdit->setText(QApplication::translate("SmartEyeClass", "30000", 0));
