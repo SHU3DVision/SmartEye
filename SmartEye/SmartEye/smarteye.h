@@ -1,4 +1,4 @@
-#ifndef SMARTEYE_H
+ï»¿#ifndef SMARTEYE_H
 #define SMARTEYE_H
 
 #include <vtkAutoInit.h> 
@@ -34,7 +34,7 @@ VTK_MODULE_INIT(vtkInteractionStyle);
 #include <pcl/point_cloud.h>
 
 using namespace std;
-using namespace cv;
+//using namespace cv;
 
 
 
@@ -48,48 +48,48 @@ public:
 	QLabel *label;
 	DCam *g_dcam;
 	
-	//void depthprocess(); //Éî¶ÈÍ¼Ïñ´¦Àí
-	void showImage(Mat imshowsrc);//ÏÔÊ¾Í¼Ïñ
-	void showFrame(float frame); //ÏÔÊ¾Ö¡ÂÊ
+	//void depthprocess(); //æ·±åº¦å›¾åƒå¤„ç†
+	void showImage(cv::Mat imshowsrc);//æ˜¾ç¤ºå›¾åƒ
+	void showFrame(float frame); //æ˜¾ç¤ºå¸§ç‡
 
 protected:
-	bool eventFilter(QObject *, QEvent *);	//¹ıÂËÍ¼Æ¬labelµã»÷ÊÂ¼ş£¬»ñÈ¡×ø±êÎ»ÖÃ
+	bool eventFilter(QObject *, QEvent *);	//è¿‡æ»¤å›¾ç‰‡labelç‚¹å‡»äº‹ä»¶ï¼Œè·å–åæ ‡ä½ç½®
 
 private:
 	Ui::SmartEyeClass ui;
-	int connectState = 0;					//socketÁ¬½Ó×´Ì¬£¬ÓÃÓÚ¸üĞÂÁ¬½Ó°´Å¥ui 0ÎŞÁ¬½Ó 1Á¬½Ó
-	int savestate = 0;						//±£´æ×´Ì¬ 0Î´±£´æ 1ÕıÔÚ±£´æ
-	int savepcdstate = 0;					//±£´æpcdÎÄ¼ş 0²»±£´æ 1ÕıÔÚ±£´æ
-	bool isPCLShow = false;					//ÊÇ·ñµãÔÆ×ª»»±êÖ¾
-	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL¿ÉÊÓ»¯´°¿Ú
-	PointCloudT::Ptr cloud;					//µãÔÆÖ¸Õë     
-	PointCloudT::Ptr cloud_clicked;			//µã»÷ÊÂ¼ş´¦ÀíµãÔÆ
-	int pointSize=1;						//µãÔÆÏÔÊ¾´óĞ¡
+	int connectState = 0;					//socketè¿æ¥çŠ¶æ€ï¼Œç”¨äºæ›´æ–°è¿æ¥æŒ‰é’®ui 0æ— è¿æ¥ 1è¿æ¥
+	int savestate = 0;						//ä¿å­˜çŠ¶æ€ 0æœªä¿å­˜ 1æ­£åœ¨ä¿å­˜
+	int savepcdstate = 0;					//ä¿å­˜pcdæ–‡ä»¶ 0ä¸ä¿å­˜ 1æ­£åœ¨ä¿å­˜
+	bool isPCLShow = false;					//æ˜¯å¦ç‚¹äº‘è½¬æ¢æ ‡å¿—
+	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCLå¯è§†åŒ–çª—å£
+	PointCloudT::Ptr cloud;					//ç‚¹äº‘æŒ‡é’ˆ     
+	PointCloudT::Ptr cloud_clicked;			//ç‚¹å‡»äº‹ä»¶å¤„ç†ç‚¹äº‘
+	int pointSize=1;						//ç‚¹äº‘æ˜¾ç¤ºå¤§å°
 
 	
 
-	void showPointCloud();				//µãÔÆÏÔÊ¾¸üĞÂ
-	void getCameraParameterFromFile();	//´Óconfig.ini»ñÈ¡²ÎÊı
-	void pp_callback(const pcl::visualization::PointPickingEvent& event, void *args);	//µãÔÆµã»÷»Øµ÷º¯Êı
+	void showPointCloud();				//ç‚¹äº‘æ˜¾ç¤ºæ›´æ–°
+	void getCameraParameterFromFile();	//ä»config.iniè·å–å‚æ•°
+	void pp_callback(const pcl::visualization::PointPickingEvent& event, void *args);	//ç‚¹äº‘ç‚¹å‡»å›è°ƒå‡½æ•°
 	
 
 private slots:
-	void imageUpdateSlot(cv::Mat img,float frame,int isImg);	//¸üĞÂÍ¼ÏñĞÅºÅ
-	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//¸üĞÂµãÔÆĞÅÏ¢
-	void connectButtonPressedSlot();	//Á¬½Ó°´Å¥µã»÷²Û
-	void pclButtonPressedSlot();		//µãÔÆ×ª»»¹¦ÄÜ 
-	void setIntegrationTime3DSlot();	//ÉèÖÃ3D»ı·ÖÊ±¼ä
-	void setMinAmpSlot();                //ÉèÖÃ×îĞ¡ĞÅºÅÇ¿¶ÈÖ¸Áî
-	void setMappingDistanceSlot();		//ÉèÖÃÓ³Éä¾àÀë
-	void saveFileSlot();				//±£´æÊı¾İ
-	void savePCDSlot();					//±£´æPCDÎÄ¼ş
-	void pointSizeSliderReleaseSlot();	//µãÔÆ´óĞ¡ÉèÖÃ
-	void colormapPointCheckBoxSlot(int value);	//Î±²ÊÉ«µãÔÆ²Û
-	void pointFilterSlot();				//µãÔÆ¹ıÂË²Û£¨ÎªÁËÆ½ºâÏÔÊ¾ºÍµãÔÆÃÜ¶È£¬ÉèÖÃµãµÄ¹ıÂË³Ì¶È£©
-	void horizontalFlipSlot();			//Ë®Æ½·­×ª¹´Ñ¡¿ò
-	void verticalFlipSlot();			//´¹Ö±·­×ª¹´Ñ¡¿ò
-	void versionUpdateSlot(ushort);		//°æ±¾¸üĞÂÏÔÊ¾²Û
-	void setOffsetSlot();				//ÉèÖÃÆ«ÒÆÁ¿ÏàÓ¦²Û
+	void imageUpdateSlot(cv::Mat img,float frame,int isImg);	//æ›´æ–°å›¾åƒä¿¡å·
+	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//æ›´æ–°ç‚¹äº‘ä¿¡æ¯
+	void connectButtonPressedSlot();	//è¿æ¥æŒ‰é’®ç‚¹å‡»æ§½
+	void pclButtonPressedSlot();		//ç‚¹äº‘è½¬æ¢åŠŸèƒ½ 
+	void setIntegrationTime3DSlot();	//è®¾ç½®3Dç§¯åˆ†æ—¶é—´
+	void setMinAmpSlot();                //è®¾ç½®æœ€å°ä¿¡å·å¼ºåº¦æŒ‡ä»¤
+	void setMappingDistanceSlot();		//è®¾ç½®æ˜ å°„è·ç¦»
+	void saveFileSlot();				//ä¿å­˜æ•°æ®
+	void savePCDSlot();					//ä¿å­˜PCDæ–‡ä»¶
+	void pointSizeSliderReleaseSlot();	//ç‚¹äº‘å¤§å°è®¾ç½®
+	void colormapPointCheckBoxSlot(int value);	//ä¼ªå½©è‰²ç‚¹äº‘æ§½
+	void pointFilterSlot();				//ç‚¹äº‘è¿‡æ»¤æ§½ï¼ˆä¸ºäº†å¹³è¡¡æ˜¾ç¤ºå’Œç‚¹äº‘å¯†åº¦ï¼Œè®¾ç½®ç‚¹çš„è¿‡æ»¤ç¨‹åº¦ï¼‰
+	void horizontalFlipSlot();			//æ°´å¹³ç¿»è½¬å‹¾é€‰æ¡†
+	void verticalFlipSlot();			//å‚ç›´ç¿»è½¬å‹¾é€‰æ¡†
+	void versionUpdateSlot(ushort);		//ç‰ˆæœ¬æ›´æ–°æ˜¾ç¤ºæ§½
+	void setOffsetSlot();				//è®¾ç½®åç§»é‡ç›¸åº”æ§½
 
 };
 

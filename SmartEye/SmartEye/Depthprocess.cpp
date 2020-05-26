@@ -1,17 +1,17 @@
-#include"Depthprocess.h"
-
+ï»¿#include"Depthprocess.h"
+using namespace cv;
 Imagedepthprocess::Imagedepthprocess()
 {
 	_matimg_short.create(Img_height, Img_width, CV_16UC1);
 	_matimg_show.create(Img_height, Img_width, CV_16UC1);
-	 img_color.create(Img_height, Img_width, CV_8UC3);//¹¹ÔìRGBÍ¼Ïñ
+	 img_color.create(Img_height, Img_width, CV_8UC3);//æ„é€ RGBå›¾åƒ
 }
 Imagedepthprocess::~Imagedepthprocess()
 {
 
 }
-//Éî¶ÈÊı¾İ´¦Àí
-//·µ»Ø£ºCV_U8C3 matÀàĞÍ
+//æ·±åº¦æ•°æ®å¤„ç†
+//è¿”å›ï¼šCV_U8C3 matç±»å‹
 Mat Imagedepthprocess::depthProcess()
 {
 	uint16_t fameDepthArray2[MAXLINE];
@@ -19,13 +19,13 @@ Mat Imagedepthprocess::depthProcess()
 	{
 		raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
 		//cout << raw_dep << " ";
-		realindex = bytecount / 2 - (j / Img_width + 1) * Img_width + j % Img_width;   //¾µÏñ
+		realindex = bytecount / 2 - (j / Img_width + 1) * Img_width + j % Img_width;   //é•œåƒ
 		realrow = Img_height - 1 - j / Img_width;
 		realcol = j % Img_width;
 		fameDepthArray2[realindex] = raw_dep;
 
 	}
-	//ÂË²¨
+	//æ»¤æ³¢
 	calibrate(fameDepthArray2);
 	uint16_t depth[240][320];
 	for (int i = 0; i < 240; i++)
@@ -35,7 +35,7 @@ Mat Imagedepthprocess::depthProcess()
 			depth[i][j] = fameDepthArray2[i * 320 + j];
 		}
 	}
-	//16bitÔ­Ê¼Êı¾İ
+	//16bitåŸå§‹æ•°æ®
 	for (int i = 0; i < 240; i++)
 	{
 		for (int j = 0; j < 320; j++)
@@ -46,7 +46,7 @@ Mat Imagedepthprocess::depthProcess()
 			}
 			else
 			{
-				//¼ÆËãÆ«ÒÆÁ¿
+				//è®¡ç®—åç§»é‡
 				if (depth[i][j] + offset < 0 && depth[i][j] + offset < 30000)
 					_matimg_short.at<ushort>(i, j) = 0;
 				else
@@ -58,14 +58,14 @@ Mat Imagedepthprocess::depthProcess()
 
 	}
 
-	//·­×ªÍ¼Ïñ
+	//ç¿»è½¬å›¾åƒ
 	if (isHorizontalFlip)
 	{
-		flip(_matimg_short, _matimg_short, 1);		//Ë®Æ½·­×ªÍ¼Ïñ
+		flip(_matimg_short, _matimg_short, 1);		//æ°´å¹³ç¿»è½¬å›¾åƒ
 	}
 	if (isVerticalFlip)
 	{
-		flip(_matimg_short, _matimg_short, 0);		//´¹Ö±·­×ªÍ¼Ïñ
+		flip(_matimg_short, _matimg_short, 0);		//å‚ç›´ç¿»è½¬å›¾åƒ
 	}
 
 	setColorImage();
@@ -73,25 +73,25 @@ Mat Imagedepthprocess::depthProcess()
 
 	return img_color.clone();
 }
-//»ñÈ¡Éî¶ÈÊı¾İ
-//·µ»Ø£ºMatÀàĞÍ
+//è·å–æ·±åº¦æ•°æ®
+//è¿”å›ï¼šMatç±»å‹
 Mat Imagedepthprocess::getDepth()
 {
 	return _matimg_short.clone();
 }
-//ÂË²¨
-//ÊäÈë£ºÍ¼ÏñĞÅÏ¢µÄÖ¸Õë
+//æ»¤æ³¢
+//è¾“å…¥ï¼šå›¾åƒä¿¡æ¯çš„æŒ‡é’ˆ
 void Imagedepthprocess::calibrate(ushort *img)
 {
-	//¾ùÖµÂË²¨
+	//å‡å€¼æ»¤æ³¢
 	imageAverageEightConnectivity(img);
-	//ÎÂ¶È½ÃÕı
+	//æ¸©åº¦çŸ«æ­£
 	//calculationCorrectDRNU(img);
-	//Éî¶È²¹³¥
+	//æ·±åº¦è¡¥å¿
 	calculationAddOffset(img);
 }
-//°Ë¾ùÖµÂË²¨
-//ÊäÈë£º Éî¶ÈÍ¼ÏñÖ¸Õë
+//å…«å‡å€¼æ»¤æ³¢
+//è¾“å…¥ï¼š æ·±åº¦å›¾åƒæŒ‡é’ˆ
 void  Imagedepthprocess::imageAverageEightConnectivity(ushort *depthdata)
 {
 	int pixelCounter;
@@ -112,7 +112,7 @@ void  Imagedepthprocess::imageAverageEightConnectivity(ushort *depthdata)
 			pixelCounter = 0;
 			pixdata = 0;
 
-			ushort temp = 0;				//¼ÇÂ¼ÎŞĞ§µãÀàĞÍ
+			ushort temp = 0;				//è®°å½•æ— æ•ˆç‚¹ç±»å‹
 
 			if (actualFrame[index] < 30000) {
 				pixelCounter++;
@@ -168,9 +168,9 @@ void  Imagedepthprocess::imageAverageEightConnectivity(ushort *depthdata)
 			}
 			else 
 				temp = actualFrame[index + 321];
-			//Èç¹ûÖÜÎ§ÓĞĞ§Êı¾İĞ¡ÓÚ6¼ÇÎªÎŞĞ§µã
+			//å¦‚æœå‘¨å›´æœ‰æ•ˆæ•°æ®å°äº6è®°ä¸ºæ— æ•ˆç‚¹
 			if (pixelCounter < 8) {
-				//ÎŞĞ§µã
+				//æ— æ•ˆç‚¹
 				*(depthdata + index) = temp;
 			}
 			else {
@@ -180,8 +180,8 @@ void  Imagedepthprocess::imageAverageEightConnectivity(ushort *depthdata)
 	}
 
 }
-//Éî¶È²¹³¥
-//ÊäÈë£ºÍ¼ÏñĞÅÏ¢Ö¸Õë
+//æ·±åº¦è¡¥å¿
+//è¾“å…¥ï¼šå›¾åƒä¿¡æ¯æŒ‡é’ˆ
 void  Imagedepthprocess::calculationAddOffset(ushort *img)
 {
 	int offset = 0;
@@ -199,9 +199,9 @@ void  Imagedepthprocess::calculationAddOffset(ushort *img)
 		}
 	}
 }
-//ÎÂ¶ÈĞ£Õı
-//ÊäÈë£ºÍ¼ÏñĞÅÏ¢Ö¸Õë
-//·µ»Ø£º0
+//æ¸©åº¦æ ¡æ­£
+//è¾“å…¥ï¼šå›¾åƒä¿¡æ¯æŒ‡é’ˆ
+//è¿”å›ï¼š0
 int Imagedepthprocess::calculationCorrectDRNU(ushort *img)
 {
 	//int		gTempCal_Temp = 0;
@@ -246,12 +246,12 @@ int Imagedepthprocess::calculationCorrectDRNU(ushort *img)
 	////printf(" pMem = %d, %d, %d\n", pMem[1300], pMem[1301], pMem[1302]);
 	return 0;
 }
-//ÉèÖÃÎ±²ÊÉ«²ÎÊı
+//è®¾ç½®ä¼ªå½©è‰²å‚æ•°
 void Imagedepthprocess::setColorImage()
 {
 	Mat depthzip = _matimg_short.clone();
 	double interdepth = 894.0 / (maxdepth - mindepth);
-	//¾àÀëÑ¹Ëõ³É0µ½255¿Õ¼ä
+	//è·ç¦»å‹ç¼©æˆ0åˆ°255ç©ºé—´
 	for (int i = 0; i < 240; i++)
 	{
 		for (int j = 0; j < 320; j++)
@@ -267,7 +267,7 @@ void Imagedepthprocess::setColorImage()
 			}
 			if (depthzip.at<ushort>(i, j) == LOW_AMPLITUDE)
 			{
-				//ÎŞĞ§µã
+				//æ— æ•ˆç‚¹
 				IMG_B(img_color, i, j) = 0;
 				IMG_G(img_color, i, j) = 0;
 				IMG_R(img_color, i, j) = 0;
@@ -275,7 +275,7 @@ void Imagedepthprocess::setColorImage()
 			}
 			else if (depthzip.at<ushort>(i, j) == OVER_EXPOSED)
 			{
-				//¹ıÆØµã
+				//è¿‡æ›ç‚¹
 				IMG_B(img_color, i, j) = 255;
 				IMG_G(img_color, i, j) = 14;
 				IMG_R(img_color, i, j) = 169;
@@ -283,14 +283,14 @@ void Imagedepthprocess::setColorImage()
 			}
 			else if (depthzip.at<ushort>(i, j) < mindepth)
 			{
-				//¹ıĞ¡µã
+				//è¿‡å°ç‚¹
 				IMG_B(img_color, i, j) = 0;
 				IMG_R(img_color, i, j) = 0;
 				IMG_G(img_color, i, j) = 0;
 				continue;
 			}
 
-			//Õı³£µãËõ·Å
+			//æ­£å¸¸ç‚¹ç¼©æ”¾
 			if (depthzip.at<ushort>(i, j) > maxdepth)
 			{
 				depthzip.at<ushort>(i, j) = maxdepth;
@@ -339,7 +339,7 @@ void Imagedepthprocess::setColorImage()
 	}
 	
 }
-//±£´æÉî¶ÈÍ¼
+//ä¿å­˜æ·±åº¦å›¾
 void Imagedepthprocess::saveImage()
 {
 	string fileassave = string(savestr.toLocal8Bit());

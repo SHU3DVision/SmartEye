@@ -248,7 +248,7 @@ int DCam::setRealTemperature(char *buf)
 }
 
 //获取深度图像
-Mat DCam::getDepth()
+cv::Mat DCam::getDepth()
 {
 	cv::Mat dcam_imageinfor;            //深度图像
 	dcam_imageinfor = g_depthprocess.getDepth();
