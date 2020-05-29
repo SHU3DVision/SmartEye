@@ -144,12 +144,16 @@ public:
     QWidget *dockWidgetContents_9;
     QVBoxLayout *verticalLayout_2;
     QLabel *Img_label;
+    QDockWidget *ampDock;
+    QWidget *dockWidgetContents;
+    QVBoxLayout *verticalLayout_6;
+    QLabel *Img_label_amp;
 
     void setupUi(QMainWindow *SmartEyeClass)
     {
         if (SmartEyeClass->objectName().isEmpty())
             SmartEyeClass->setObjectName(QStringLiteral("SmartEyeClass"));
-        SmartEyeClass->resize(890, 741);
+        SmartEyeClass->resize(890, 1021);
         QIcon icon;
         icon.addFile(QStringLiteral(":/SmartEye/Resource/exe.png"), QSize(), QIcon::Normal, QIcon::Off);
         SmartEyeClass->setWindowIcon(icon);
@@ -703,8 +707,33 @@ public:
 
         imageDock->setWidget(dockWidgetContents_9);
         SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(2), imageDock);
+        ampDock = new QDockWidget(SmartEyeClass);
+        ampDock->setObjectName(QStringLiteral("ampDock"));
+        ampDock->setFloating(true);
+        dockWidgetContents = new QWidget();
+        dockWidgetContents->setObjectName(QStringLiteral("dockWidgetContents"));
+        verticalLayout_6 = new QVBoxLayout(dockWidgetContents);
+        verticalLayout_6->setSpacing(6);
+        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
+        Img_label_amp = new QLabel(dockWidgetContents);
+        Img_label_amp->setObjectName(QStringLiteral("Img_label_amp"));
+        Img_label_amp->setEnabled(true);
+        sizePolicy1.setHeightForWidth(Img_label_amp->sizePolicy().hasHeightForWidth());
+        Img_label_amp->setSizePolicy(sizePolicy1);
+        Img_label_amp->setMinimumSize(QSize(320, 240));
+        Img_label_amp->setMaximumSize(QSize(1000000, 10000000));
+        Img_label_amp->setAutoFillBackground(true);
+        Img_label_amp->setScaledContents(false);
+        Img_label_amp->setAlignment(Qt::AlignCenter);
+
+        verticalLayout_6->addWidget(Img_label_amp);
+
+        ampDock->setWidget(dockWidgetContents);
+        SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(2), ampDock);
         pointCloudDock->raise();
         imageDock->raise();
+        ampDock->raise();
 
         menuBar->addAction(menuAbout_a->menuAction());
         menuAbout_a->addAction(actionAbout);
@@ -716,7 +745,7 @@ public:
 
     void retranslateUi(QMainWindow *SmartEyeClass)
     {
-        SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye V1.0.3", 0));
+        SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye", 0));
         actionAbout->setText(QApplication::translate("SmartEyeClass", "About", 0));
         groupBox->setTitle(QApplication::translate("SmartEyeClass", "IP Address", 0));
         IplineEdit->setText(QApplication::translate("SmartEyeClass", "192.168.7.2", 0));
@@ -780,6 +809,8 @@ public:
         pointCloudDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Point Cloud", 0));
         imageDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Depth Image", 0));
         Img_label->setText(QString());
+        ampDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Amp Image", 0));
+        Img_label_amp->setText(QString());
     } // retranslateUi
 
 };

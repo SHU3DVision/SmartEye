@@ -31,10 +31,14 @@ public:
 	Imagedepthprocess();
 	~Imagedepthprocess();
 	cv::Mat depthProcess();
+	cv::Mat ampProcess();
 	cv::Mat getDepth();
+	cv::Mat getAmp();
 	unsigned char* ptr_buf_unsigned;
+	unsigned char* ptr_amp_buf_unsigned;		//用于存放amp数据指针
 	cv::Mat _matimg_short;			//16bit数据
-	cv::Mat _matimg_show;			//16bit数据
+	cv::Mat _matimg_amp_short;		//16bit数据
+	cv::Mat _matimg_amp_color;		//信号强度伪彩色图
 	cv::Mat  img_color;				//伪彩色数据
 	ushort realTempChip;			//相机温度
 	int maxdepth=30000;				//映射最远距离    
@@ -52,9 +56,8 @@ private:
 	void imageAverageEightConnectivity(ushort *depthdata);  //均值滤波
 	void calculationAddOffset(ushort *img);					//深度补偿
 	int calculationCorrectDRNU(ushort * img);				//温度矫正
-	void setColorImage();									//设置伪彩色图
+	void setColorImage(Mat &src_img, Mat &rst_img, int max, int min, int flag = 0);		//设置伪彩色图
 	void saveImage();										//保存深度图
-	uint16_t raw_dep;
 	int realindex, realrow, realcol;
 	//int		drnuLut[50][252][328];						//温度矫正用表
 	

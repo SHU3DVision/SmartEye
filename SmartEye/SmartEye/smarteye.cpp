@@ -11,6 +11,7 @@ SmartEye::SmartEye(QWidget *parent)
 
 	ui.pointCloudDock->hide();	//隐藏点云界面
 	ui.imageDock->hide();		//隐藏图像界面
+	ui.ampDock->hide();			//隐藏信号强度界面
 
 	getCameraParameterFromFile();	//从config.ini读取相机配置参数
 
@@ -86,7 +87,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.actionAbout, &QAction::triggered, this, &SmartEye::getCameraVersion);
 
 #ifdef COMMUNICATION_UDP
-	setWindowTitle(this->windowTitle() + " UDP");
+	setWindowTitle(this->windowTitle() + "-UDP-V" + UDP_VERSION);
 	g_dcam->setPcNet(ui.lineEditPcIp->text().toStdString(), ui.lineEditPcPort->text().toInt());
 #endif
 }
@@ -106,7 +107,9 @@ void SmartEye::connectButtonPressedSlot()
 		int port = ui.PortlineEdit->text().toInt();      //获取相机端口号
 		g_dcam->setNet(ip,port);						 //初始化相机类
 		connect(g_dcam, SIGNAL(getImage(cv::Mat,float,int)), this, SLOT(imageUpdateSlot(cv::Mat,float,int)));	//设置连接槽
+		connect(g_dcam, SIGNAL(getAmpImage(cv::Mat)), this, SLOT(imageAmpUpdateSlot(cv::Mat)));					//设置连接槽
 		connect(g_dcam, SIGNAL(getVersion(ushort)), this, SLOT(versionUpdateSlot(ushort)));			//版本获取连接槽
+
 		while (g_dcam->isRunning())qDebug() << "wait";
 		g_dcam->start();	//线程启动
 		
@@ -119,6 +122,7 @@ void SmartEye::connectButtonPressedSlot()
 
 		//dock显示
 		ui.imageDock->show();
+		ui.ampDock->show();
 
 		connectState++;
 	}
@@ -134,10 +138,12 @@ void SmartEye::connectButtonPressedSlot()
 		ui.connectButton->setText(tr("Connect"));
 
 		disconnect(g_dcam, SIGNAL(getImage(cv::Mat,float,int)), this, SLOT(imageUpdateSlot(cv::Mat,float,int)));	//断开槽
+		disconnect(g_dcam, SIGNAL(getAmpImage(cv::Mat)), this, SLOT(imageAmpUpdateSlot(cv::Mat)));					//断开操
 		disconnect(g_dcam, SIGNAL(getVersion(ushort)), this, SLOT(versionUpdateSlot(ushort)));			//断开版本更新槽
 
 		//dock隐藏
 		ui.imageDock->hide();
+		ui.ampDock->hide();
 
 		connectState--;
 	}
@@ -169,7 +175,7 @@ void SmartEye::imageUpdateSlot(cv::Mat img,float frame,int isImg)
 			//处理原始数据
 			cv::Mat imshowsrc = img;
 			//显示伪彩色图
-			showImage(imshowsrc);
+			showImage(imshowsrc, ui.Img_label);
 			showFrame(frame);
 			
 		}
@@ -203,6 +209,26 @@ void SmartEye::imageUpdateSlot(cv::Mat img,float frame,int isImg)
 		
 }
 
+
+//更新信号强度图片槽
+//输入：img 传入图像Mat格式
+void SmartEye::imageAmpUpdateSlot(cv::Mat img)
+{
+
+	if (img.size().height != 0 && g_dcam->getRunState())		//获取数据正常
+	{
+
+		//处理原始数据
+		cv::Mat imshowsrc = img;
+		//显示伪彩色图
+		showImage(imshowsrc, ui.Img_label_amp);
+
+	}	
+
+	return;
+
+}
+
 //点云数据更新
 //输入：c 点云指针
 void SmartEye::pointCloudUpdateSlot(PointCloudT::Ptr c)
@@ -214,14 +240,15 @@ void SmartEye::pointCloudUpdateSlot(PointCloudT::Ptr c)
 
 //QT显示图像
 //输入：imshowsrc 伪彩色图像
-void SmartEye::showImage(Mat imshowsrc)
+//输入：label  显示图像用QLabel
+void SmartEye::showImage(Mat imshowsrc,QLabel *label)
 {
 	Mat imgShow = imshowsrc.clone();
 	cv::cvtColor(imgShow, imgShow, CV_BGR2RGB);//Opencv默认BGR存储，Qt需要RGB
 	QImage img = QImage((uchar*)(imgShow.data), imgShow.cols, imgShow.rows, QImage::Format_RGB888);
 	
-	int width = ui.Img_label->size().width();
-	int height = ui.Img_label->size().height();
+	int width = label->size().width();
+	int height = label->size().height();
 	//自适应长宽比
 	if ((height / 240.0) > (width / 320.0))
 	{
@@ -235,8 +262,8 @@ void SmartEye::showImage(Mat imshowsrc)
 	}
 
 	img = img.scaled(width,height, Qt::KeepAspectRatio, Qt::SmoothTransformation);	//图像缩放
-	ui.Img_label->setAlignment(Qt::AlignCenter);		//居中显示
-	ui.Img_label->setPixmap(QPixmap::fromImage(img));	//更新图像
+	label->setAlignment(Qt::AlignCenter);		//居中显示
+	label->setPixmap(QPixmap::fromImage(img));	//更新图像
 	
 
 }
@@ -827,7 +854,7 @@ void SmartEye::getCameraVersion()
 				uint8_t minor = *v % 10000 / 100;
 				uint8_t patch = *v % 100;
 				QString str_version = QString::number(major) + "." + QString::number(minor) + "." + QString::number(patch);
-				QMessageBox::information(this, tr("Version"), tr("PC: 1.0.3\nFirmware: ")+ str_version);
+				QMessageBox::information(this, tr("Version"), tr("PC: ")+UDP_VERSION+tr("\nFirmware: ")+ str_version);
 
 				return;
 			}

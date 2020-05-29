@@ -51,7 +51,7 @@ public:
 	DCam *g_dcam;
 	
 	//void depthprocess(); //深度图像处理
-	void showImage(Mat imshowsrc);//显示图像
+	void showImage(Mat imshowsrc, QLabel *label);//显示图像
 	void showFrame(float frame); //显示帧率
 
 protected:
@@ -79,6 +79,7 @@ private:
 
 private slots:
 	void imageUpdateSlot(cv::Mat img,float frame,int isImg);	//更新图像信号
+	void imageAmpUpdateSlot(cv::Mat img);						//更新信号强度信号
 	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//更新点云信息
 	void connectButtonPressedSlot();	//连接按钮点击槽
 	void pclButtonPressedSlot();		//点云转换功能 

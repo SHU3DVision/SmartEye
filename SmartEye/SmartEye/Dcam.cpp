@@ -34,8 +34,11 @@ void DCam::run()
 	clock_t start = clock();
 	clock_t end;
 
-	char ptr_buf[MAXLINE];  //存储缓存区
-	int n = -1;
+	char ptr_buf[MAXLINE];		//深度值存储缓存区
+	char ptr_amp_buf[MAXLINE];	//信号强度存储缓存区
+	int n = -1;					//socket接收数据长度
+	int flag_depth = 0;			//深度图像接收完成标志位
+	int flag_amp = 0;			//信号强度图像接收完成标志位
 
 	//相机参数
 	g_Tcpsocket._ip = ip;
@@ -148,6 +151,7 @@ void DCam::run()
 			{
 				if (strcmp(ip.c_str(), t_ip) == 0)		//判断IP地址
 				{
+					//接收深度图像
 					if (buf[0] <= 12 && buf[1] == 'x')	//检查包格式
 					{
 						packetnum++;
@@ -157,11 +161,26 @@ void DCam::run()
 						if (buf[0] == 3)
 						{
 							//接受完一帧数据，跳出循环
-							n = 1;
+							flag_depth = 1;
 							clock_t end = clock();
 							float frame_temp = (float)frametime / (end - start);
 							frame = frame_temp >40?frame:frame_temp;
 							start = end;
+							break;
+						}
+					}
+
+					//接收信号强度图像
+					if (buf[0] <= 12 && buf[1] == 'a')	//检查包格式
+					{
+						packetnum++;
+						int size = n - 2;
+						memcpy((char*)ptr_amp_buf + size*((int)buf[0]), buf + 2, size);
+
+						if (buf[0] == 3)
+						{
+							//接受完一帧数据，跳出循环
+							flag_amp = 1;
 							break;
 						}
 					}
@@ -172,10 +191,13 @@ void DCam::run()
 		
 #endif
 		
-		cv::Mat img_show;
+		cv::Mat img_show;		//用于展示的伪彩色图像
+		cv::Mat img_amp;		//信号强度接收
 
-		if (n == 1)
+		if (1 == flag_depth)
 		{
+			flag_depth = 0;
+			n = 1;
 			//获取数据成功
 			g_depthprocess.ptr_buf_unsigned = (unsigned char*)ptr_buf;	//设置图像处理数据指针
 			img_show = g_depthprocess.depthProcess();					//获取处理图像
@@ -187,11 +209,15 @@ void DCam::run()
 			}
 
 		}
-		else if (n == 12)
+		if (1 == flag_amp)
 		{
-			g_depthprocess.realTempChip=setRealTemperature(ptr_buf);
-			n = 0;
+			flag_amp = 0;
+			//获取信号强度数据
+			g_depthprocess.ptr_amp_buf_unsigned = (unsigned char*)ptr_amp_buf;		//设置信号强度处理数据指针
+			img_amp = g_depthprocess.ampProcess();
+			emit getAmpImage(img_amp);
 		}
+
 
 		emit getImage(img_show,frame,n);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
 

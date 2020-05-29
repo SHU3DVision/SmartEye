@@ -3,8 +3,8 @@
 Imagedepthprocess::Imagedepthprocess()
 {
 	_matimg_short.create(Img_height, Img_width, CV_16UC1);
-	_matimg_show.create(Img_height, Img_width, CV_16UC1);
 	 img_color.create(Img_height, Img_width, CV_8UC3);//构造RGB图像
+	 _matimg_amp_short.create(Img_height, Img_width, CV_16UC1);
 }
 Imagedepthprocess::~Imagedepthprocess()
 {
@@ -15,6 +15,7 @@ Imagedepthprocess::~Imagedepthprocess()
 Mat Imagedepthprocess::depthProcess()
 {
 	uint16_t fameDepthArray2[MAXLINE];
+	uint16_t raw_dep;
 	for (int j = 0; j < bytecount / 2; j++)
 	{
 		raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
@@ -68,11 +69,74 @@ Mat Imagedepthprocess::depthProcess()
 		flip(_matimg_short, _matimg_short, 0);		//垂直翻转图像
 	}
 
-	setColorImage();
+	setColorImage(_matimg_short, img_color,maxdepth,mindepth);
 	saveImage();
 
 	return img_color.clone();
 }
+
+//信号强度数据处理
+//返回：CV_U8C3 mat类型
+cv::Mat Imagedepthprocess::ampProcess()
+{
+	uint16_t fameDepthArray2[MAXLINE];
+	uint16_t raw_dep;
+	for (int j = 0; j < bytecount / 2; j++)
+	{
+		raw_dep = ptr_amp_buf_unsigned[j * 2 + 1] * 256 + ptr_amp_buf_unsigned[2 * j];
+		//cout << raw_dep << " ";
+		realindex = bytecount / 2 - (j / Img_width + 1) * Img_width + j % Img_width;   //镜像
+		realrow = Img_height - 1 - j / Img_width;
+		realcol = j % Img_width;
+		fameDepthArray2[realindex] = raw_dep;
+
+	}
+	//滤波
+	calibrate(fameDepthArray2);
+	uint16_t depth[240][320];
+	for (int i = 0; i < 240; i++)
+	{
+		for (int j = 0; j < 320; j++)
+		{
+			depth[i][j] = fameDepthArray2[i * 320 + j];
+		}
+	}
+	//16bit原始数据
+	for (int i = 0; i < 240; i++)
+	{
+		for (int j = 0; j < 320; j++)
+		{
+			if (depth[i][j] > 2895)		
+				_matimg_amp_short.at<ushort>(i, j) = 2895;		//从官方工程中看出，最大是2895，具体原因不详
+			else
+				_matimg_amp_short.at<ushort>(i, j) = depth[i][j];
+		}
+
+	}
+
+	//翻转图像
+	if (isHorizontalFlip)
+	{
+		flip(_matimg_amp_short, _matimg_amp_short, 1);		//水平翻转图像
+	}
+	if (isVerticalFlip)
+	{
+		flip(_matimg_amp_short, _matimg_amp_short, 0);		//垂直翻转图像
+	}
+
+	setColorImage(_matimg_amp_short, _matimg_amp_color, 2895, 0, 1);
+
+	return _matimg_amp_color.clone();		//返回彩色图
+}
+
+
+//获取信号强度数据
+//返回：Mat类型
+Mat Imagedepthprocess::getAmp()
+{
+	return _matimg_amp_short.clone();
+}
+
 //获取深度数据
 //返回：Mat类型
 Mat Imagedepthprocess::getDepth()
@@ -247,10 +311,19 @@ int Imagedepthprocess::calculationCorrectDRNU(ushort *img)
 	return 0;
 }
 //设置伪彩色参数
-void Imagedepthprocess::setColorImage()
+//输入： src_img CV_16U图像
+//输入： rst_img CV_8UC3转换后的彩色图像
+//输入： max 输入图像最大值，供压缩参考
+//输入： min 输入图像最小值，供压缩参考
+//输入： flag	0 由蓝向红渐变
+//				1 由红向蓝渐变
+void Imagedepthprocess::setColorImage(Mat &src_img, Mat &rst_img, int max, int min, int flag)
 {
-	Mat depthzip = _matimg_short.clone();
-	double interdepth = 894.0 / (maxdepth - mindepth);
+	rst_img.create(Img_height, Img_width, CV_8UC3);//构造RGB图像
+	Mat _matimg_show;
+	_matimg_show.create(Img_height, Img_width, CV_16UC1);
+	Mat depthzip = src_img.clone();
+	double interdepth = 894.0 / (max - min);
 	//距离压缩成0到255空间
 	for (int i = 0; i < 240; i++)
 	{
@@ -258,82 +331,84 @@ void Imagedepthprocess::setColorImage()
 		{
 			ushort LOW_AMPLITUDE = LOW_AMPLITUDE_V26;
 			ushort OVER_EXPOSED = OVER_EXPOSED_V26;
-			switch (version)
+			switch (version/100)	//只判断前两位版本号
 			{
-			case 20600: LOW_AMPLITUDE = LOW_AMPLITUDE_V26; OVER_EXPOSED = OVER_EXPOSED_V26; break;
-			case 21200: LOW_AMPLITUDE = LOW_AMPLITUDE_V212; OVER_EXPOSED = OVER_EXPOSED_V212; break;
+			case 206: LOW_AMPLITUDE = LOW_AMPLITUDE_V26; OVER_EXPOSED = OVER_EXPOSED_V26; break;
+			case 212: LOW_AMPLITUDE = LOW_AMPLITUDE_V212; OVER_EXPOSED = OVER_EXPOSED_V212; break;
 			default:
 				break;
 			}
 			if (depthzip.at<ushort>(i, j) == LOW_AMPLITUDE)
 			{
 				//无效点
-				IMG_B(img_color, i, j) = 0;
-				IMG_G(img_color, i, j) = 0;
-				IMG_R(img_color, i, j) = 0;
+				IMG_B(rst_img, i, j) = 0;
+				IMG_G(rst_img, i, j) = 0;
+				IMG_R(rst_img, i, j) = 0;
 				continue;
 			}
 			else if (depthzip.at<ushort>(i, j) == OVER_EXPOSED)
 			{
 				//过曝点
-				IMG_B(img_color, i, j) = 255;
-				IMG_G(img_color, i, j) = 14;
-				IMG_R(img_color, i, j) = 169;
+				IMG_B(rst_img, i, j) = 255;
+				IMG_G(rst_img, i, j) = 14;
+				IMG_R(rst_img, i, j) = 169;
 				continue;
 			}
-			else if (depthzip.at<ushort>(i, j) < mindepth)
+			else if (depthzip.at<ushort>(i, j) < min)
 			{
 				//过小点
-				IMG_B(img_color, i, j) = 0;
-				IMG_R(img_color, i, j) = 0;
-				IMG_G(img_color, i, j) = 0;
+				IMG_B(rst_img, i, j) = 0;
+				IMG_R(rst_img, i, j) = 0;
+				IMG_G(rst_img, i, j) = 0;
 				continue;
 			}
 
 			//正常点缩放
-			if (depthzip.at<ushort>(i, j) > maxdepth)
+			if (depthzip.at<ushort>(i, j) > max)
 			{
-				depthzip.at<ushort>(i, j) = maxdepth;
+				depthzip.at<ushort>(i, j) = max;
 			}
-			else if (depthzip.at<ushort>(i, j) < mindepth)
+			else if (depthzip.at<ushort>(i, j) < min)
 			{
-				depthzip.at<ushort>(i, j) = mindepth;
+				depthzip.at<ushort>(i, j) = min;
 			}
-			_matimg_show.at<ushort>(i, j) = (ushort)((depthzip.at<ushort>(i, j) - mindepth)*interdepth);
-
+			_matimg_show.at<ushort>(i, j) = (ushort)((depthzip.at<ushort>(i, j) - min)*interdepth);
 			unsigned short img_tmp = _matimg_show.at<ushort>(i, j);
+			if (flag)
+				img_tmp = 894 - img_tmp;
+
 			if (img_tmp < 64)
 			{
-				IMG_R(img_color, i, j) = 191+ img_tmp;
-				IMG_G(img_color, i, j) = img_tmp;
-				IMG_B(img_color, i, j) = 0;
+				IMG_R(rst_img, i, j) = 191 + img_tmp;
+				IMG_G(rst_img, i, j) = img_tmp;
+				IMG_B(rst_img, i, j) = 0;
 			}
 			else if (img_tmp < 255)
 			{
-				IMG_R(img_color, i, j) = 255;
-				IMG_G(img_color, i, j) = img_tmp;
-				IMG_B(img_color, i, j) = 0;
+				IMG_R(rst_img, i, j) = 255;
+				IMG_G(rst_img, i, j) = img_tmp;
+				IMG_B(rst_img, i, j) = 0;
 			}
 			else if (img_tmp < 510)
 			{
 				img_tmp -= 255;
-				IMG_B(img_color, i, j) = img_tmp;
-				IMG_G(img_color, i, j) = 255;
-				IMG_R(img_color, i, j) = 255 - img_tmp;
+				IMG_B(rst_img, i, j) = img_tmp;
+				IMG_G(rst_img, i, j) = 255;
+				IMG_R(rst_img, i, j) = 255 - img_tmp;
 			}
 			else if (img_tmp < 765)
 			{
 				img_tmp -= 510;
-				IMG_B(img_color, i, j) = 255;
-				IMG_G(img_color, i, j) = 255 - img_tmp;
-				IMG_R(img_color, i, j) = 0;
+				IMG_B(rst_img, i, j) = 255;
+				IMG_G(rst_img, i, j) = 255 - img_tmp;
+				IMG_R(rst_img, i, j) = 0;
 			}
 			else
 			{
 				img_tmp -= 765;
-				IMG_B(img_color, i, j) = 255 - img_tmp;
-				IMG_G(img_color, i, j) = 0;
-				IMG_R(img_color, i, j) = 0;
+				IMG_B(rst_img, i, j) = 255 - img_tmp;
+				IMG_G(rst_img, i, j) = 0;
+				IMG_R(rst_img, i, j) = 0;
 			}
 		}
 	}

@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>890</width>
-    <height>741</height>
+    <height>1021</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SmartEye V1.0.3</string>
+   <string>SmartEye</string>
   </property>
   <property name="windowIcon">
    <iconset resource="smarteye.qrc">
@@ -765,6 +765,58 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QDockWidget" name="ampDock">
+   <property name="floating">
+    <bool>true</bool>
+   </property>
+   <property name="windowTitle">
+    <string>Amp Image</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_6">
+     <item>
+      <widget class="QLabel" name="Img_label_amp">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>320</width>
+         <height>240</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>1000000</width>
+         <height>10000000</height>
+        </size>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
@@ -772,6 +824,7 @@
   </action>
   <zorder>pointCloudDock</zorder>
   <zorder>imageDock</zorder>
+  <zorder>ampDock</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

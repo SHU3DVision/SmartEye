@@ -12,3 +12,4 @@
 #define UDP_SERVER_PORT 8080
 //定义UDP服务端默认端口号
 
+#define UDP_VERSION "1.1.0"

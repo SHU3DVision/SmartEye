@@ -60,6 +60,7 @@ public:
 
 signals:
 	void getImage(cv::Mat,float, int);//获取图像后信号,Mat格式传回图像信息，第一个int为返回帧率，第二int传回是否是图像0不是图像，1是图像，-1异常
+	void getAmpImage(cv::Mat);		  //获取信号强度图像
 	void getPointCloud(PointCloudT::Ptr);	//获取点云信号
 	void getVersion(ushort);				//获取版本信息
 
