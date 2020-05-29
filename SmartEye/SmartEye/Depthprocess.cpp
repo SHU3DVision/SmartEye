@@ -70,7 +70,7 @@ Mat Imagedepthprocess::depthProcess()
 	}
 
 	setColorImage(_matimg_short, img_color,maxdepth,mindepth);
-	saveImage();
+	saveImage(_matimg_short,"");
 
 	return img_color.clone();
 }
@@ -125,6 +125,7 @@ cv::Mat Imagedepthprocess::ampProcess()
 	}
 
 	setColorImage(_matimg_amp_short, _matimg_amp_color, 2895, 0, 1);
+	saveImage(_matimg_amp_short, "amp_", 1);
 
 	return _matimg_amp_color.clone();		//返回彩色图
 }
@@ -415,13 +416,17 @@ void Imagedepthprocess::setColorImage(Mat &src_img, Mat &rst_img, int max, int m
 	
 }
 //保存深度图
-void Imagedepthprocess::saveImage()
+//输入： img 需要保存的图像
+//输入： str 文将前缀，命名方式为str+number+.png命名
+//输入： flag 是否增加编号
+void Imagedepthprocess::saveImage(Mat img, string str,int flag)
 {
 	string fileassave = string(savestr.toLocal8Bit());
 	if (saveimagestate == 1)
 	{
-		imwrite(fileassave+"/"+to_string(imagecount) + ".png", _matimg_short);
-		imagecount++;
+		imwrite(fileassave + "/" + str + to_string(imagecount) + ".png", img);
+		if (flag)
+			imagecount++;
 	}
 	else
 	{

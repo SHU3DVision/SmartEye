@@ -57,7 +57,7 @@ private:
 	void calculationAddOffset(ushort *img);					//深度补偿
 	int calculationCorrectDRNU(ushort * img);				//温度矫正
 	void setColorImage(Mat &src_img, Mat &rst_img, int max, int min, int flag = 0);		//设置伪彩色图
-	void saveImage();										//保存深度图
+	void saveImage(Mat img, string str, int flag = 0);		//保存深度图
 	int realindex, realrow, realcol;
 	//int		drnuLut[50][252][328];						//温度矫正用表
 	
