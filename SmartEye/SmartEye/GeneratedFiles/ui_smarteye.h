@@ -107,6 +107,11 @@ public:
     QLabel *label_12;
     QLineEdit *mindepthlineEdit;
     QCheckBox *colormapPointCheckBox;
+    QGroupBox *groupBox_6;
+    QVBoxLayout *verticalLayout_7;
+    QRadioButton *radioButtonAmpColormap;
+    QRadioButton *radioButtonAmpGray;
+    QRadioButton *radioButtonAmpGrayHDR;
     QGroupBox *groupBox_5;
     QVBoxLayout *verticalLayout_15;
     QGridLayout *gridLayout_3;
@@ -505,6 +510,31 @@ public:
 
         verticalLayout_16->addWidget(groupBox_4);
 
+        groupBox_6 = new QGroupBox(centralWidget);
+        groupBox_6->setObjectName(QStringLiteral("groupBox_6"));
+        verticalLayout_7 = new QVBoxLayout(groupBox_6);
+        verticalLayout_7->setSpacing(6);
+        verticalLayout_7->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        radioButtonAmpColormap = new QRadioButton(groupBox_6);
+        radioButtonAmpColormap->setObjectName(QStringLiteral("radioButtonAmpColormap"));
+        radioButtonAmpColormap->setChecked(true);
+
+        verticalLayout_7->addWidget(radioButtonAmpColormap);
+
+        radioButtonAmpGray = new QRadioButton(groupBox_6);
+        radioButtonAmpGray->setObjectName(QStringLiteral("radioButtonAmpGray"));
+
+        verticalLayout_7->addWidget(radioButtonAmpGray);
+
+        radioButtonAmpGrayHDR = new QRadioButton(groupBox_6);
+        radioButtonAmpGrayHDR->setObjectName(QStringLiteral("radioButtonAmpGrayHDR"));
+
+        verticalLayout_7->addWidget(radioButtonAmpGrayHDR);
+
+
+        verticalLayout_16->addWidget(groupBox_6);
+
         groupBox_5 = new QGroupBox(centralWidget);
         groupBox_5->setObjectName(QStringLiteral("groupBox_5"));
         verticalLayout_15 = new QVBoxLayout(groupBox_5);
@@ -792,6 +822,10 @@ public:
         label_12->setText(QApplication::translate("SmartEyeClass", "MinDepth", 0));
         mindepthlineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         colormapPointCheckBox->setText(QApplication::translate("SmartEyeClass", "Clolormap Point", 0));
+        groupBox_6->setTitle(QApplication::translate("SmartEyeClass", "Ir Image", 0));
+        radioButtonAmpColormap->setText(QApplication::translate("SmartEyeClass", "Colormap", 0));
+        radioButtonAmpGray->setText(QApplication::translate("SmartEyeClass", "Gray", 0));
+        radioButtonAmpGrayHDR->setText(QApplication::translate("SmartEyeClass", "Gray(HDR)", 0));
         groupBox_5->setTitle(QApplication::translate("SmartEyeClass", "Depth Information", 0));
         label_14->setText(QApplication::translate("SmartEyeClass", "Depth:", 0));
         label_10->setText(QApplication::translate("SmartEyeClass", "x:", 0));

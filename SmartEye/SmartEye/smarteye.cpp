@@ -86,6 +86,11 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.checkBoxTemperatureCalibration, SIGNAL(clicked()), this, SLOT(setTemperatureCalibration()));
 	QObject::connect(ui.actionAbout, &QAction::triggered, this, &SmartEye::getCameraVersion);
 
+	QObject::connect(ui.radioButtonAmpColormap, SIGNAL(clicked()), this, SLOT(setAmpImageTypeSlot()));
+	QObject::connect(ui.radioButtonAmpGray, SIGNAL(clicked()), this, SLOT(setAmpImageTypeSlot()));
+	QObject::connect(ui.radioButtonAmpGrayHDR, SIGNAL(clicked()), this, SLOT(setAmpImageTypeSlot()));
+
+
 #ifdef COMMUNICATION_UDP
 	setWindowTitle(this->windowTitle() + "-UDP-V" + UDP_VERSION);
 	g_dcam->setPcNet(ui.lineEditPcIp->text().toStdString(), ui.lineEditPcPort->text().toInt());
@@ -832,6 +837,7 @@ int SmartEye::myTcpSend(QString ip, int port, QString data, char* res, int lengt
 }
 
 
+//通过TCP获取下位机相机版本号
 void SmartEye::getCameraVersion()
 {
 	QString command = "version";
@@ -862,4 +868,19 @@ void SmartEye::getCameraVersion()
 	}
 
 	QMessageBox::warning(this, tr("Version"), tr("PC: 1.0.3\nCan not connect to the camera!"));
+}
+
+
+//设置信号强度显示类型
+void SmartEye::setAmpImageTypeSlot()
+{
+	int mode = 1;
+	if (ui.radioButtonAmpColormap->isChecked())		//伪彩色染色图像
+		mode = 1;
+	else if (ui.radioButtonAmpGrayHDR->isChecked())	//灰度图HDR增强
+		mode = 2;									
+	else if (ui.radioButtonAmpGray->isChecked())		//灰度图像
+		mode = 0;
+
+	g_dcam->setAmpImageType(mode);
 }

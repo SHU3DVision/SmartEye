@@ -124,7 +124,20 @@ cv::Mat Imagedepthprocess::ampProcess()
 		flip(_matimg_amp_short, _matimg_amp_short, 0);		//垂直翻转图像
 	}
 
-	setColorImage(_matimg_amp_short, _matimg_amp_color, 2895, 0, 1);
+	if (1 == ampImageType)	
+		setColorImage(_matimg_amp_short, _matimg_amp_color, 2895, 0, 1);		//转伪彩色图像
+	else
+	{
+		double min, max;
+		minMaxLoc(_matimg_amp_short, &min, &max);
+		_matimg_amp_short.convertTo(_matimg_amp_color, CV_8U, 255 / (max-min),-min/(max-min));
+		if (2 == ampImageType)
+			equalizeHist(_matimg_amp_color, _matimg_amp_color);				//直方图均衡化
+		//_matimg_amp_color.convertTo(_matimg_amp_color, CV_8UC3);
+		cvtColor(_matimg_amp_color, _matimg_amp_color, CV_GRAY2RGB);
+	}
+
+
 	saveImage(_matimg_amp_short, "amp_", 1);
 
 	return _matimg_amp_color.clone();		//返回彩色图

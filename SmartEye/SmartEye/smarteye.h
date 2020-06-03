@@ -102,6 +102,7 @@ private slots:
 	void setMultiCameraMode();			//修改相机模式
 	void setTemperatureCalibration();	//设置相机温度矫正功能
 	void getCameraVersion();			//获取相机固件版本号
+	void setAmpImageTypeSlot();			//设置信号强度图像类型
 };
 
 #endif // SMARTEYE_H

@@ -43,6 +43,7 @@ public:
 	void setVerticalFlip(bool isChecked);			//设置图像垂直翻转
 	ushort getVersion();						//获取相机固件版本
 	void setOffset(int value);					//设置偏移量
+	void setAmpImageType(int type);				//设置信号强度图像显示类型
 
 	int maxdepth=30000;					//映射最远距离    
 	int mindepth=0;						//映射最近距离

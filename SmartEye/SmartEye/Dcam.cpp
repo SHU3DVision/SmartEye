@@ -350,3 +350,12 @@ void DCam::setPcNet(std::string ip, int port)
 		pcPort = port;	
 	}
 }
+
+
+//设置信号强度图显示类型
+//输入： type	0 灰度图像
+//				1 伪彩色图像
+void DCam::setAmpImageType(int type)
+{
+	g_depthprocess.ampImageType = type;
+}

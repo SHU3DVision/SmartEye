@@ -50,6 +50,7 @@ public:
 	bool isHorizontalFlip = 0;		//图片水平翻转标志
 	bool isVerticalFlip = 0;		//图片垂直翻转标志
 	int offset = 0;					//深度偏移量
+	int ampImageType = 1;			//信号强度图展示类型 0 灰度图 1 伪彩色图 2 灰度图HDR增强
 
 private:
 	void calibrate(ushort *img);							//滤波
