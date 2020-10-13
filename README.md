@@ -12,7 +12,7 @@ VS2013
 
 QT5.7.0 64bit
 
-OenCV2.4.13
+OpenCV2.4.13
 
 PCL1.8.0 64bit
 
