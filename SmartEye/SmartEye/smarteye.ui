@@ -46,7 +46,7 @@
              <item row="0" column="1">
               <widget class="QLineEdit" name="IplineEdit">
                <property name="text">
-                <string>192.168.7.2</string>
+                <string>192.168.7.75</string>
                </property>
               </widget>
              </item>
@@ -286,7 +286,21 @@
         <layout class="QVBoxLayout" name="verticalLayout_13">
          <item>
           <layout class="QGridLayout" name="gridLayout_6">
-           <item row="1" column="0">
+           <item row="0" column="2">
+            <widget class="QLineEdit" name="IntegrationtimelineEdit">
+             <property name="text">
+              <string>1000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLineEdit" name="setAmplineEdit">
+             <property name="text">
+              <string>10</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
             <widget class="QLabel" name="label_16">
              <property name="text">
               <string>MinAmp</string>
@@ -296,25 +310,32 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_9">
              <property name="text">
-              <string>TOF(us)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLineEdit" name="IntegrationtimelineEdit">
-             <property name="text">
-              <string>1000</string>
+              <string>TOF(us)1rd</string>
              </property>
             </widget>
            </item>
            <item row="1" column="2">
-            <widget class="QLineEdit" name="setAmplineEdit">
+            <widget class="QLineEdit" name="IntegrationtimeHDRlineEdit">
              <property name="text">
-              <string>10</string>
+              <string>3000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>TOF(us)2rd</string>
              </property>
             </widget>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxHDR">
+           <property name="text">
+            <string>HDR</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -598,7 +619,7 @@
    <widget class="QWidget" name="dockWidgetContents_7">
     <layout class="QVBoxLayout" name="verticalLayout_9">
      <item>
-      <widget class="QVTKWidget" name="screen" native="true"/>
+      <widget class="QVTKWidget" name="screen"/>
      </item>
     </layout>
    </widget>

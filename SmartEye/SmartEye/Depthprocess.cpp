@@ -12,9 +12,10 @@ Imagedepthprocess::~Imagedepthprocess()
 }
 //深度数据处理
 //返回：CV_U8C3 mat类型
-Mat Imagedepthprocess::depthProcess()
+Mat Imagedepthprocess::depthProcess(bool isHDR)
 {
 	uint16_t fameDepthArray2[MAXLINE];
+	
 	for (int j = 0; j < bytecount / 2; j++)
 	{
 		raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
@@ -25,8 +26,25 @@ Mat Imagedepthprocess::depthProcess()
 		fameDepthArray2[realindex] = raw_dep;
 
 	}
-	//滤波
-	calibrate(fameDepthArray2);
+	
+	//if (isHDR)
+	//{
+	//	
+	//}
+	//for (int j = bytecount / 2; j < bytecount; j++)
+	//{
+	//	raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
+	//	//cout << raw_dep << " ";
+	//	realindex = bytecount / 2 - ((j - bytecount / 2) / Img_width + 1) * Img_width + (j - bytecount / 2) % Img_width; //镜像
+	//	realrow = Img_height - 1 - (j - bytecount / 2) / Img_width;
+	//	realcol = (j - bytecount / 2) % Img_width;
+	//	fameDepthArray2[realindex] = raw_dep;
+	//}
+	if (!isHDR)
+	{
+		//滤波
+		calibrate(fameDepthArray2);
+	}
 	uint16_t depth[240][320];
 	for (int i = 0; i < 240; i++)
 	{
@@ -52,7 +70,7 @@ Mat Imagedepthprocess::depthProcess()
 				else
 					_matimg_short.at<ushort>(i, j) = depth[i][j] + offset;
 			}
-			
+			//_matimg_short.at<ushort>(i, j) = depth[i][j];
 
 		}
 
@@ -68,6 +86,11 @@ Mat Imagedepthprocess::depthProcess()
 		flip(_matimg_short, _matimg_short, 0);		//垂直翻转图像
 	}
 
+	if (isHDR)
+	{
+		imageInpainting();
+		medianBlur(_matimg_short, _matimg_short, 3);
+	}
 	setColorImage();
 	saveImage();
 
@@ -246,6 +269,7 @@ int Imagedepthprocess::calculationCorrectDRNU(ushort *img)
 	////printf(" pMem = %d, %d, %d\n", pMem[1300], pMem[1301], pMem[1302]);
 	return 0;
 }
+
 //设置伪彩色参数
 void Imagedepthprocess::setColorImage()
 {
@@ -352,4 +376,78 @@ void Imagedepthprocess::saveImage()
 	{
 		imagecount = 0;
 	}
+}
+
+void Imagedepthprocess::imageInpainting()
+{
+	Mat& depthzip = _matimg_short;
+	ushort LOW_AMPLITUDE = LOW_AMPLITUDE_V26;
+	ushort OVER_EXPOSED = OVER_EXPOSED_V26;
+	switch (version)
+	{
+		case 20600: LOW_AMPLITUDE = LOW_AMPLITUDE_V26; OVER_EXPOSED = OVER_EXPOSED_V26; break;
+		case 21200: LOW_AMPLITUDE = LOW_AMPLITUDE_V212; OVER_EXPOSED = OVER_EXPOSED_V212; break;
+		default:
+			break;
+	}
+	ushort* pdata = NULL;
+	ushort *pdataNext = NULL;
+	for (int i = 0; i < 240; i = i + 2)
+	{
+		pdata = _matimg_short.ptr<ushort>(i);
+		pdataNext = _matimg_short.ptr<ushort>(i + 1);
+		for (int j = 0; j < 320; j++)
+		{
+			if ((pdata[j] == LOW_AMPLITUDE) || (pdataNext[j] == LOW_AMPLITUDE))
+			{
+				//无效点
+				if ((pdata[j] == LOW_AMPLITUDE) && (pdataNext[j] == LOW_AMPLITUDE))
+				{
+					continue;
+				}
+				else if (pdata[j] == LOW_AMPLITUDE)
+				{
+					pdata[j] = pdataNext[j];
+					continue;
+				}
+				else
+				{
+					pdataNext[j] = pdata[j];
+					continue;
+				}
+			}
+			else if ((pdata[j] == OVER_EXPOSED) || (pdataNext[j] == OVER_EXPOSED))
+			{
+				//过曝点
+				if ((pdata[j] == OVER_EXPOSED) && (pdataNext[j] == OVER_EXPOSED))
+				{
+					continue;
+				}
+				else if (pdata[j] == OVER_EXPOSED)
+				{
+					pdata[j] = pdataNext[j];
+					continue;
+				}
+				else
+				{
+					pdataNext[j] = pdata[j];
+					continue;
+				}
+			}
+			else
+			{
+				if (pdata[j] > pdataNext[j])
+				{
+					pdataNext[j] = pdata[j];
+				}
+				else
+				{
+					pdata[j] = pdataNext[j];
+				}
+			}
+
+		}
+	}
+
+	//_matimg_short = depthzip.clone();
 }
