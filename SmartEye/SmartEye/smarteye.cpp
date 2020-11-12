@@ -5,6 +5,11 @@ using namespace cv;
 SmartEye::SmartEye(QWidget *parent)
 	: QMainWindow(parent)
 {
+	
+#ifdef QT_NO_DEBUG
+	vtkObject::GlobalWarningDisplayOff();  //屏蔽Release下的VTK告警
+#endif
+	
 	ui.setupUi(this);
 
 	ui.pointCloudDock->hide();	//隐藏点云界面
