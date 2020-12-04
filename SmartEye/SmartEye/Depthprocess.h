@@ -8,7 +8,7 @@
 #include <string>
 #include <qmessagebox.h>
 using namespace std;
-using namespace cv;
+
 #define bytecount 153600
 #define   Img_width   (320)
 #define   Img_height  (240)
