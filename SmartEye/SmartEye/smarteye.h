@@ -79,6 +79,7 @@ private slots:
 	void connectButtonPressedSlot();	//连接按钮点击槽
 	void pclButtonPressedSlot();		//点云转换功能 
 	void setIntegrationTime3DSlot();	//设置3D积分时间
+	void setIntegrationTime3DHDRSlot();	//设置3D HDR积分时间
 	void setMinAmpSlot();                //设置最小信号强度指令
 	void setMappingDistanceSlot();		//设置映射距离
 	void saveFileSlot();				//保存数据
@@ -90,7 +91,7 @@ private slots:
 	void verticalFlipSlot();			//垂直翻转勾选框
 	void versionUpdateSlot(ushort);		//版本更新显示槽
 	void setOffsetSlot();				//设置偏移量相应槽
-
+	void setHDRSlot();					//设置HDR
 };
 
 #endif // SMARTEYE_H

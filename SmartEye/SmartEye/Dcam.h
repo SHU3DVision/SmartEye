@@ -50,7 +50,11 @@ public:
 	bool setAmpFlag = 0;                //设置信号强度，1发送最小信号强度指令
 	bool horizontalFlipFlag = 0;		//水平翻转标志位
 	bool verticalFlipFlag = 0;			//垂直翻转标志位
+	bool isHDR = false;					//是否开启HDR
+	bool isHDRflag = false;				//HDR指令发送标志位，1发送，0无(是否更新HDR指定标志)
+	bool integrationtime3DHDRflag = 0;	//HDR积分时间标志位,1发送 0无
 	QString integrationtime3D="1000";	//相机积分时间
+	QString integrationtime3DHDR = "5000";//HDR积分时间
 	QString MinAmp = "100";             //相机强度
 	QString savestr;					//保存路径
 	QString savePcdStr;					//点云保存路径
@@ -78,10 +82,13 @@ private:
 	float frame = 0;                       //相机帧率
 	ushort version = 0;					//相机固件版本
 	char* send_distance = "getDistanceSorted";   //发送获取深度数据指令
+	char* send_dist_amp = "getDistanceAndAmplitudeSorted";      //发送获取HDR合成图和HDR原始图指令
 	char* send_temp = "getTemperature";//发送获取温度数据指令
 	QString send_integrationtime3D = "setIntegrationTime3D ";   //发送3D积分时间指令
+	QString send_integrationtime3DHDR = "setIntegrationTime3DHDR ";	//发送3D HDR积分时间指令
 	QString send_minamp = "setMinAmplitude ";				//发送设置最小强度指令
 	QString send_adcOverflow = "enableAdcOverflow ";		//发送adc溢出（过曝）使能指令
+	QString send_hdr = "enableHDR";                            //发送开启HDR指令
 	QString send_version = "version";						//获取相机版本号
 	ushort	realTempChip;		//温度
 	

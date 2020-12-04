@@ -8,7 +8,7 @@
 #include <string>
 #include <qmessagebox.h>
 using namespace std;
-using namespace cv;
+
 #define bytecount 153600
 #define   Img_width   (320)
 #define   Img_height  (240)
@@ -30,7 +30,7 @@ class Imagedepthprocess
 public:
 	Imagedepthprocess();
 	~Imagedepthprocess();
-	cv::Mat depthProcess();
+	cv::Mat depthProcess(bool isHDR);
 	cv::Mat getDepth();
 	unsigned char* ptr_buf_unsigned;
 	cv::Mat _matimg_short;			//16bit数据
@@ -54,6 +54,7 @@ private:
 	int calculationCorrectDRNU(ushort * img);				//温度矫正
 	void setColorImage();									//设置伪彩色图
 	void saveImage();										//保存深度图
+	void imageInpainting();									//修复HDR图
 	uint16_t raw_dep;
 	int realindex, realrow, realcol;
 	//int		drnuLut[50][252][328];						//温度矫正用表

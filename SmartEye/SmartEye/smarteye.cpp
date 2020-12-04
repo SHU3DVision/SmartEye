@@ -5,6 +5,11 @@ using namespace cv;
 SmartEye::SmartEye(QWidget *parent)
 	: QMainWindow(parent)
 {
+	
+#ifdef QT_NO_DEBUG
+	vtkObject::GlobalWarningDisplayOff();  //屏蔽Release下的VTK告警
+#endif
+	
 	ui.setupUi(this);
 
 	ui.pointCloudDock->hide();	//隐藏点云界面
@@ -71,7 +76,8 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.setAmplineEdit, SIGNAL(editingFinished()), this, SLOT(setMinAmpSlot()));
 	QObject::connect(ui.HFlip, SIGNAL(clicked()), this, SLOT(horizontalFlipSlot()));
 	QObject::connect(ui.VFlip, SIGNAL(clicked()), this, SLOT(verticalFlipSlot()));
-	
+	QObject::connect(ui.checkBoxHDR, SIGNAL(clicked()), this, SLOT(setHDRSlot()));
+	QObject::connect(ui.IntegrationtimeHDRlineEdit, SIGNAL(editingFinished()), this,SLOT(setIntegrationTime3DHDRSlot()));
 }
 
 SmartEye::~SmartEye()
@@ -312,6 +318,13 @@ void SmartEye::setIntegrationTime3DSlot()
 {
 	g_dcam->integrationtime3D = ui.IntegrationtimelineEdit->text();
 	g_dcam->integrationtime3Dflag = 1;
+}
+
+//设置HDR积分时间槽
+void SmartEye::setIntegrationTime3DHDRSlot()
+{
+	g_dcam->integrationtime3DHDR = ui.IntegrationtimeHDRlineEdit->text();
+	g_dcam->integrationtime3DHDRflag = 1;
 }
 
 //设置信号强度
@@ -591,4 +604,11 @@ void SmartEye::setOffsetSlot()
 	int value = ui.offsetSpinBox->text().toInt();
 	g_dcam->setOffset(value);
 
+}
+
+//设置HDR
+void SmartEye::setHDRSlot()
+{
+	g_dcam->isHDR = ui.checkBoxHDR->isChecked(); //更新HDR选中状态
+	g_dcam->isHDRflag = true; //更新isHDR命令发送标志
 }

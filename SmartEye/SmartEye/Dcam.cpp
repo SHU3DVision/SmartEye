@@ -110,6 +110,25 @@ void DCam::run()
 			n = g_Tcpsocket.socket_com(send_inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送信号强度
 			setAmpFlag = 0;
 		}
+		else if (isHDRflag)
+		{
+			//发送HDR使能/关闭命令
+			QString send_inter = send_hdr;
+			if (isHDR)
+				send_inter += " 1";
+			else
+				send_inter += " 0";
+			n = g_Tcpsocket.socket_com(send_inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送HDR功能命令
+			isHDRflag = 0;
+		}
+
+		else if (integrationtime3DHDRflag)
+		{
+			//发送3D HDR积分时间
+			QString send_inter = send_integrationtime3DHDR + integrationtime3DHDR;
+			n = g_Tcpsocket.socket_com(send_inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送HDR 积分时间
+			integrationtime3DHDRflag = 0;
+		}
 		else if (tempReadEnable)
 		{
 			//获取温度数据
@@ -118,14 +137,28 @@ void DCam::run()
 		}
 		else
 		{
-			start = clock();
-			//获取深度数据
-			n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
-			//tempReadDelay++;
-			end = clock();
-			//计算帧率
-			frame = (float)frametime/ (end - start);
-			//qDebug() << "frame=" << frame;
+			if (isHDR)
+			{
+				start = clock();
+				//获取深度数据
+				n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取ROI区域原始图与合成图数据
+				//tempReadDelay++;
+				end = clock();
+				//计算帧率
+				frame = (float)frametime / (end - start);
+
+			}
+			else
+			{
+				start = clock();
+				//获取深度数据
+				n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
+				//tempReadDelay++;
+				end = clock();
+				//计算帧率
+				frame = (float)frametime/ (end - start);
+				//qDebug() << "frame=" << frame;
+			}
 		}
 #else
 
@@ -174,7 +207,7 @@ void DCam::run()
 		{
 			//获取数据成功
 			g_depthprocess.ptr_buf_unsigned = (unsigned char*)ptr_buf;	//设置图像处理数据指针
-			img_show = g_depthprocess.depthProcess();					//获取处理图像
+			img_show = g_depthprocess.depthProcess(isHDR);					//获取处理图像
 			if (isPointCloudConvert)
 			{
 				//点云变换
