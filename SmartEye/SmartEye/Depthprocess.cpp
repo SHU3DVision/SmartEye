@@ -26,20 +26,6 @@ Mat Imagedepthprocess::depthProcess(bool isHDR)
 		fameDepthArray2[realindex] = raw_dep;
 
 	}
-	
-	//if (isHDR)
-	//{
-	//	
-	//}
-	//for (int j = bytecount / 2; j < bytecount; j++)
-	//{
-	//	raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
-	//	//cout << raw_dep << " ";
-	//	realindex = bytecount / 2 - ((j - bytecount / 2) / Img_width + 1) * Img_width + (j - bytecount / 2) % Img_width; //镜像
-	//	realrow = Img_height - 1 - (j - bytecount / 2) / Img_width;
-	//	realcol = (j - bytecount / 2) % Img_width;
-	//	fameDepthArray2[realindex] = raw_dep;
-	//}
 	if (!isHDR)
 	{
 		//滤波
