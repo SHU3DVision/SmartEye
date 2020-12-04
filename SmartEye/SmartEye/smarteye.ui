@@ -289,14 +289,14 @@
            <item row="0" column="2">
             <widget class="QLineEdit" name="IntegrationtimelineEdit">
              <property name="text">
-              <string>1000</string>
+              <string>500</string>
              </property>
             </widget>
            </item>
            <item row="2" column="2">
             <widget class="QLineEdit" name="setAmplineEdit">
              <property name="text">
-              <string>10</string>
+              <string>5</string>
              </property>
             </widget>
            </item>
@@ -317,7 +317,7 @@
            <item row="1" column="2">
             <widget class="QLineEdit" name="IntegrationtimeHDRlineEdit">
              <property name="text">
-              <string>3000</string>
+              <string>2500</string>
              </property>
             </widget>
            </item>
@@ -332,8 +332,14 @@
          </item>
          <item>
           <widget class="QCheckBox" name="checkBoxHDR">
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>HDR</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
