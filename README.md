@@ -2,7 +2,7 @@
 [![Release](https://img.shields.io/badge/release-1.0.2-green.svg?style=flat)](https://github.com/dongmuliu/SmartEye/releases)  
 
 # Description
-基于QT、PCL和Opencv与实验室EPC660相机建立tcp-socket通信操作软件，提供实时显示点云、保存16位深度图像等功能
+基于QT、PCL和OpenCV与实验室EPC660相机建立tcp-socket通信操作软件，提供实时显示点云、保存16位深度图像等功能
 
 # Environmet
 
