@@ -59,7 +59,9 @@ private:
 	Ui::SmartEyeClass ui;
 	int connectState = 0;					//socket连接状态，用于更新连接按钮ui 0无连接 1连接
 	int savestate = 0;						//保存状态 0未保存 1正在保存
+	int DepthImgMultiSaveflag = 0;
 	int savepcdstate = 0;					//保存pcd文件 0不保存 1正在保存
+	int PclImgMultiSave = 0;
 	bool isPCLShow = false;					//是否点云转换标志
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
 	PointCloudT::Ptr cloud;					//点云指针     
@@ -92,6 +94,8 @@ private slots:
 	void versionUpdateSlot(ushort);		//版本更新显示槽
 	void setOffsetSlot();				//设置偏移量相应槽
 	void setHDRSlot();					//设置HDR
+	void MultiSaveFileSlot();
+	void MultiSavePclSlot();
 };
 
 #endif // SMARTEYE_H

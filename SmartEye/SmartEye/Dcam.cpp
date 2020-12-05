@@ -208,10 +208,20 @@ void DCam::run()
 			//获取数据成功
 			g_depthprocess.ptr_buf_unsigned = (unsigned char*)ptr_buf;	//设置图像处理数据指针
 			img_show = g_depthprocess.depthProcess(isHDR);					//获取处理图像
+			if (g_depthprocess.saveimagestate == 2)						//及时切换保存状态  不能写成 saveimagestate == 2  
+			{
+				saveimagestate = 0;
+				g_depthprocess.saveimagestate = 0;
+			}
 			if (isPointCloudConvert)
 			{
 				//点云变换
 				PointCloudT::Ptr cloud = g_pclConvert.getPointCloud(g_depthprocess.getDepth(),img_show,isColormapPoint,pointFilterSize);
+				if (g_pclConvert.savestate == 2)						//及时切换保存状态  不能写成 savepcdstate == 2  
+				{
+					savepcdstate = 0;
+					g_pclConvert.savestate = 0;
+				}
 				emit(getPointCloud(cloud));
 			}
 

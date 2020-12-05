@@ -94,20 +94,28 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool c
 	}
 	else
 	{
-		//数据有效
-		if (savestate)
+		if (savestate == 2)					//保存单帧
 		{
 			//点云保存
-			std::string file = savestr + "/" + std::to_string(num++) + ".pcd";
 			pointcloud->height = 1;
 			pointcloud->width = pointcloud->size();
-			pcl::io::savePCDFileBinary(file, *pointcloud);
+			pcl::io::savePCDFileBinary(savestr, *pointcloud);
+		}
+		else if (savestate == 1)				//保存多帧
+		{
+			savestr.pop_back();
+			savestr.pop_back();
+			savestr.pop_back();
+			savestr.pop_back();				//去掉末尾的 .pcd
+			//点云保存
+			pointcloud->height = 1;
+			pointcloud->width = pointcloud->size();
+			pcl::io::savePCDFileBinary(savestr + "_" + std::to_string(num++) + ".pcd", *pointcloud);
 		}
 		else
 		{
 			num = 0;
 		}
-		
 	}
 
 	return pointcloud;

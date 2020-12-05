@@ -19,7 +19,7 @@ public:
 	void setConvertParameter(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3);	//设置转换参数
 	PointCloudT::Ptr getPointCloud(cv::Mat img, cv::Mat colorMat, bool colormap,int filterLevel);		//计算点云
 
-	bool savestate = false;
+	int savestate = 0;
 	std::string savestr;
 
 private:

@@ -352,11 +352,15 @@ void Imagedepthprocess::setColorImage()
 //保存深度图
 void Imagedepthprocess::saveImage()
 {
-	string fileassave = string(savestr.toLocal8Bit());
-	if (saveimagestate == 1)
+	if (saveimagestate == 1)		//连续帧
 	{
-		imwrite(fileassave+"/"+to_string(imagecount) + ".png", _matimg_short);
+		savestr = savestr.left(savestr.size() - 4);	//删除末尾的 .png
+		imwrite(string(savestr.toLocal8Bit()) + "_" + to_string(imagecount) + ".png", _matimg_short);
 		imagecount++;
+	}
+	else if (saveimagestate == 2)	//单帧
+	{
+		imwrite(string(savestr.toLocal8Bit()), _matimg_short);
 	}
 	else
 	{

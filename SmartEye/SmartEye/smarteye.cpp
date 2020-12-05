@@ -78,6 +78,9 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.VFlip, SIGNAL(clicked()), this, SLOT(verticalFlipSlot()));
 	QObject::connect(ui.checkBoxHDR, SIGNAL(clicked()), this, SLOT(setHDRSlot()));
 	QObject::connect(ui.IntegrationtimeHDRlineEdit, SIGNAL(editingFinished()), this,SLOT(setIntegrationTime3DHDRSlot()));
+
+	QObject::connect(ui.DepthImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSaveFileSlot()));
+	QObject::connect(ui.PclImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSavePclSlot()));
 }
 
 SmartEye::~SmartEye()
@@ -205,7 +208,7 @@ void SmartEye::pointCloudUpdateSlot(PointCloudT::Ptr c)
 void SmartEye::showImage(Mat imshowsrc)
 {
 	Mat imgShow = imshowsrc.clone();
-	cv::cvtColor(imgShow, imgShow, CV_BGR2RGB);//Opencv默认BGR存储，Qt需要RGB
+	cv::cvtColor(imgShow, imgShow, COLOR_BGR2RGB);//Opencv默认BGR存储，Qt需要RGB
 	QImage img = QImage((uchar*)(imgShow.data), imgShow.cols, imgShow.rows, QImage::Format_RGB888);
 	
 	int width = ui.Img_label->size().width();
@@ -372,14 +375,56 @@ void SmartEye::setMappingDistanceSlot()
 }
 
 //保存深度数据
+void SmartEye::MultiSaveFileSlot()
+{
+	if (DepthImgMultiSaveflag == 0)
+	{
+		DepthImgMultiSaveflag = 1;
+	}
+	else
+	{
+		DepthImgMultiSaveflag = 0;
+		savestate = 0;
+		g_dcam->saveimagestate = 0;							//停止保存
+		QPalette pac;
+		pac.setColor(QPalette::Background, Qt::darkRed);
+		ui.savestatelabel->setPalette(pac);					//更改颜色
+		ui.savestatelabel->setText(tr("Saved"));			//更改文字
+		ui.Savebutton->setText(tr("Save PNG"));
+	}
+}
 void SmartEye::saveFileSlot()
 {
 	if (g_dcam->getRunState() == true)
 	{
-			if (savestate % 2 == 0)
+		QString type_png = "PNG(*.png)";
+
+		struct tm *localt;				//获取本地时间
+		time_t t;
+		t = time(NULL);
+		localt = localtime(&t);
+
+		if (DepthImgMultiSaveflag == 0)
+		{
+			string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
+				to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_SigleDepthImg";
+
+			//第三个参数可以是路径， 也可以是路径加文件名
+			g_dcam->savestr = QFileDialog::getSaveFileName(this, "保存图片", QString::fromStdString(path), type_png);
+
+			if (g_dcam->savestr.isEmpty())		//如果未选择文件便确认，即返回
+				return;
+			g_dcam->saveimagestate = 2;			//保存单帧
+		}
+		else									//保存多帧
+		{
+			if (savestate == 0)				//savestate == 0表示未保存状态
 			{
-				
-				g_dcam->savestr = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/home", QFileDialog::ShowDirsOnly);
+				string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
+					to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_MultiDepthImg";
+
+				g_dcam->savestr = QFileDialog::getSaveFileName(this, "保存图片", QString::fromStdString(path), type_png);// + ";;" + "JPG(*.jpg)"
+
 				if (g_dcam->savestr.isEmpty())//如果未选择文件便确认，即返回
 					return;
 				QPalette pac;
@@ -389,9 +434,9 @@ void SmartEye::saveFileSlot()
 				ui.Savebutton->setText(tr("Dis_save"));
 				if (savestate == 0)
 					savestate++;
-				g_dcam->saveimagestate=1;
+				g_dcam->saveimagestate = 1;
 			}
-			else
+			else								//savestate == 1表示处于保存状态
 			{
 				QPalette pac;
 				pac.setColor(QPalette::Background, Qt::darkRed);
@@ -402,7 +447,8 @@ void SmartEye::saveFileSlot()
 					savestate--;
 				g_dcam->saveimagestate = 0;
 			}
-		
+		}
+
 	}
 	else
 	{
@@ -415,48 +461,87 @@ void SmartEye::saveFileSlot()
 			savestate--;
 		g_dcam->saveimagestate = 0;
 	}
-
 }
 
-
 //保存点云数据
+void SmartEye::MultiSavePclSlot()
+{
+	if (PclImgMultiSave == 0)
+	{
+		PclImgMultiSave = 1;
+	}
+	else
+	{
+		PclImgMultiSave = 0;
+		savepcdstate = 0;
+		g_dcam->savepcdstate = 0;							//停止保存
+		QPalette pac;
+		pac.setColor(QPalette::Background, Qt::darkRed);
+		ui.savePCDStateLable->setPalette(pac);					//更改颜色
+		ui.savePCDStateLable->setText(tr("Saved"));				//更改文字
+		ui.savePcdButton->setText(tr("Save PCD"));
+	}
+}
 void SmartEye::savePCDSlot()
 {
 	if (g_dcam->getRunState() == true)
 	{
+		QString type_pcd = "PCD(*.pcd)";
+
+		struct tm *localt;				//获取本地时间
+		time_t t;
+		t = time(NULL);
+		localt = localtime(&t);
+
 		if (isPCLShow)
 		{
-			//正在获取图像且显示点云
-			if (savepcdstate % 2 == 0)
+			if (PclImgMultiSave == 0)
 			{
-				g_dcam->savePcdStr = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/home", QFileDialog::ShowDirsOnly);
+				string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
+					to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_SiglePclData";
+
+				g_dcam->savePcdStr = QFileDialog::getSaveFileName(this, "保存数据", QString::fromStdString(path), type_pcd);
+
 				if (g_dcam->savePcdStr.isEmpty())//如果未选择文件便确认，即返回
 					return;
-				QPalette pac;
-				pac.setColor(QPalette::Background, Qt::darkYellow);
-				ui.savePCDStateLable->setPalette(pac);					//更改颜色
-				ui.savePCDStateLable->setText(tr("Saving"));			//更改文字
-				ui.savePcdButton->setText(tr("Dis_save"));
-				if (savepcdstate == 0)
-					savepcdstate++;
-				g_dcam->savepcdstate = 1;
-
-				return;
+				g_dcam->savepcdstate = 2;		//保存单帧
 			}
+			else								//保存连续帧
+			{
+				//正在获取图像且显示点云
+				if (savepcdstate == 0)
+				{
+					string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
+						to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_MultiPclData";
 
+					g_dcam->savePcdStr = QFileDialog::getSaveFileName(this, "保存数据", QString::fromStdString(path), type_pcd);
+					if (g_dcam->savePcdStr.isEmpty())//如果未选择文件便确认，即返回
+						return;
+					QPalette pac;
+					pac.setColor(QPalette::Background, Qt::darkYellow);
+					ui.savePCDStateLable->setPalette(pac);					//更改颜色
+					ui.savePCDStateLable->setText(tr("Saving"));			//更改文字
+					ui.savePcdButton->setText(tr("Dis_save"));
+					if (savepcdstate == 0)
+						savepcdstate++;
+					g_dcam->savepcdstate = 1;
+
+					return;
+				}
+				else
+				{
+					QPalette pac;
+					pac.setColor(QPalette::Background, Qt::darkRed);
+					ui.savePCDStateLable->setPalette(pac);					//更改颜色
+					ui.savePCDStateLable->setText(tr("Saved"));				//更改文字
+					ui.savePcdButton->setText(tr("Save PCD"));
+					if (savepcdstate == 1)
+						savepcdstate--;
+					g_dcam->savepcdstate = 0;
+				}
+			}
 		}
 	}
-
-	QPalette pac;
-	pac.setColor(QPalette::Background, Qt::darkRed);
-	ui.savePCDStateLable->setPalette(pac);					//更改颜色
-	ui.savePCDStateLable->setText(tr("Saved"));			//更改文字
-	ui.savePcdButton->setText(tr("Save PCD"));
-	if (savepcdstate == 1)
-		savepcdstate--;
-	g_dcam->savepcdstate = 0;
-
-
 }
 
 
