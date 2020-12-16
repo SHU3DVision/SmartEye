@@ -407,10 +407,10 @@ void SmartEye::saveFileSlot()
 		if (DepthImgMultiSaveflag == 0)
 		{
 			string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
-				to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_SigleDepthImg";
+				to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_SingleDepthImg";
 
 			//第三个参数可以是路径， 也可以是路径加文件名
-			g_dcam->savestr = QFileDialog::getSaveFileName(this, "保存图片", QString::fromStdString(path), type_png);
+			g_dcam->savestr = QFileDialog::getSaveFileName(this, "Save Image", QString::fromStdString(path), type_png);
 
 			if (g_dcam->savestr.isEmpty())		//如果未选择文件便确认，即返回
 				return;
@@ -423,7 +423,7 @@ void SmartEye::saveFileSlot()
 				string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
 					to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_MultiDepthImg";
 
-				g_dcam->savestr = QFileDialog::getSaveFileName(this, "保存图片", QString::fromStdString(path), type_png);// + ";;" + "JPG(*.jpg)"
+				g_dcam->savestr = QFileDialog::getSaveFileName(this, "Save Image", QString::fromStdString(path), type_png);// + ";;" + "JPG(*.jpg)"
 
 				if (g_dcam->savestr.isEmpty())//如果未选择文件便确认，即返回
 					return;
@@ -498,9 +498,9 @@ void SmartEye::savePCDSlot()
 			if (PclImgMultiSave == 0)
 			{
 				string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
-					to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_SiglePclData";
+					to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_SinglePclData";
 
-				g_dcam->savePcdStr = QFileDialog::getSaveFileName(this, "保存数据", QString::fromStdString(path), type_pcd);
+				g_dcam->savePcdStr = QFileDialog::getSaveFileName(this, "Save PCD", QString::fromStdString(path), type_pcd);
 
 				if (g_dcam->savePcdStr.isEmpty())//如果未选择文件便确认，即返回
 					return;
@@ -514,7 +514,7 @@ void SmartEye::savePCDSlot()
 					string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
 						to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_MultiPclData";
 
-					g_dcam->savePcdStr = QFileDialog::getSaveFileName(this, "保存数据", QString::fromStdString(path), type_pcd);
+					g_dcam->savePcdStr = QFileDialog::getSaveFileName(this, "Save PCD", QString::fromStdString(path), type_pcd);
 					if (g_dcam->savePcdStr.isEmpty())//如果未选择文件便确认，即返回
 						return;
 					QPalette pac;
