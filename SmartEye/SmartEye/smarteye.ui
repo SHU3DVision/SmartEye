@@ -6,128 +6,76 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>942</width>
-    <height>758</height>
+    <width>888</width>
+    <height>741</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SmartEye V1.0.3</string>
+   <string>SmartEye V1.0.4</string>
   </property>
   <property name="windowIcon">
    <iconset resource="smarteye.qrc">
     <normaloff>:/SmartEye/Resource/exe.png</normaloff>:/SmartEye/Resource/exe.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_4">
+   <layout class="QGridLayout" name="gridLayout_11">
     <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout_10">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QGroupBox" name="groupBox">
+     <layout class="QGridLayout" name="gridLayout_10">
+      <item row="1" column="0">
+       <widget class="QGroupBox" name="groupBox_4">
         <property name="title">
-         <string>IP Address</string>
+         <string>Colormap</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_11">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout">
-           <item>
-            <layout class="QGridLayout" name="gridLayout">
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="IplineEdit">
-               <property name="text">
-                <string>192.168.7.75</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="PortlineEdit">
-               <property name="text">
-                <string>50660</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>IP：</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>Port:</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+        <layout class="QGridLayout" name="gridLayout_8">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>MaxDepth</string>
+             </property>
+            </widget>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QPushButton" name="connectButton">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>23</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Connect</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="statelabel">
-               <property name="minimumSize">
-                <size>
-                 <width>75</width>
-                 <height>23</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(231, 231, 231);text-align: center;</string>
-               </property>
-               <property name="text">
-                <string>NO</string>
-               </property>
-               <property name="textFormat">
-                <enum>Qt::AutoText</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="maxdepthlineEdit">
+             <property name="text">
+              <string>30000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>MinDepth</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="mindepthlineEdit">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
-         <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="colormapPointCheckBox">
+           <property name="text">
+            <string>Clolormap Point</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
+           <property name="checked">
+            <bool>true</bool>
            </property>
-          </spacer>
+           <property name="tristate">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
       </item>
-      <item>
+      <item row="2" column="0">
        <widget class="QGroupBox" name="groupBox_2">
         <property name="title">
          <string>PointCloud Convert</string>
@@ -137,38 +85,10 @@
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <layout class="QGridLayout" name="gridLayout_5">
-             <item row="5" column="0">
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>k2</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QLineEdit" name="k1lineEdit">
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
              <item row="3" column="1">
               <widget class="QLineEdit" name="CYlineEdit">
                <property name="text">
                 <string>120</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="FXlineEdit">
-               <property name="text">
-                <string>290</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="1">
-              <widget class="QLineEdit" name="pointFilterEdit">
-               <property name="text">
-                <string>0</string>
                </property>
               </widget>
              </item>
@@ -179,6 +99,13 @@
                </property>
               </widget>
              </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="FXlineEdit">
+               <property name="text">
+                <string>290</string>
+               </property>
+              </widget>
+             </item>
              <item row="2" column="0">
               <widget class="QLabel" name="label_5">
                <property name="text">
@@ -186,31 +113,24 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_7">
+             <item row="6" column="1">
+              <widget class="QLineEdit" name="pointFilterEdit">
                <property name="text">
-                <string>k1</string>
+                <string>0</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_4">
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="k1lineEdit">
                <property name="text">
-                <string>FY</string>
+                <string>0</string>
                </property>
               </widget>
              </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_6">
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_8">
                <property name="text">
-                <string>CY</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0">
-              <widget class="QLabel" name="label_15">
-               <property name="text">
-                <string>Density</string>
+                <string>k2</string>
                </property>
               </widget>
              </item>
@@ -221,10 +141,24 @@
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="FYlineEdit">
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_15">
                <property name="text">
-                <string>288</string>
+                <string>Density</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>FY</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>k1</string>
                </property>
               </widget>
              </item>
@@ -232,6 +166,20 @@
               <widget class="QLabel" name="label_3">
                <property name="text">
                 <string>FX</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>CY</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="FYlineEdit">
+               <property name="text">
+                <string>288</string>
                </property>
               </widget>
              </item>
@@ -262,153 +210,88 @@
         </layout>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>IP Address</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>IP：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="IplineEdit">
+             <property name="text">
+              <string>192.168.7.75</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Port:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="PortlineEdit">
+             <property name="text">
+              <string>50660</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QPushButton" name="connectButton">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Connect</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="statelabel">
+             <property name="minimumSize">
+              <size>
+               <width>75</width>
+               <height>23</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(231, 231, 231);text-align: center;</string>
+             </property>
+             <property name="text">
+              <string>NO</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::AutoText</enum>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
      </layout>
     </item>
     <item row="0" column="1">
-     <layout class="QVBoxLayout" name="verticalLayout_16">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QGroupBox" name="groupBox_3">
-        <property name="title">
-         <string>Set Parametre</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_13">
-         <item>
-          <layout class="QGridLayout" name="gridLayout_6">
-           <item row="0" column="2">
-            <widget class="QLineEdit" name="IntegrationtimelineEdit">
-             <property name="text">
-              <string>500</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLineEdit" name="setAmplineEdit">
-             <property name="text">
-              <string>5</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_16">
-             <property name="text">
-              <string>MinAmp</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_9">
-             <property name="text">
-              <string>TOF(us)1rd</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLineEdit" name="IntegrationtimeHDRlineEdit">
-             <property name="text">
-              <string>2500</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_20">
-             <property name="text">
-              <string>TOF(us)2rd</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBoxHDR">
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>HDR</string>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_4">
-        <property name="title">
-         <string>Colormap</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <item>
-              <widget class="QLabel" name="label_11">
-               <property name="text">
-                <string>MaxDepth</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="maxdepthlineEdit">
-               <property name="text">
-                <string>30000</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="1" column="0">
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QLabel" name="label_12">
-               <property name="text">
-                <string>MinDepth</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="mindepthlineEdit">
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="colormapPointCheckBox">
-           <property name="text">
-            <string>Clolormap Point</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-           <property name="tristate">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="1" column="0">
        <widget class="QGroupBox" name="groupBox_5">
         <property name="title">
          <string>Depth Information</string>
@@ -416,13 +299,6 @@
         <layout class="QVBoxLayout" name="verticalLayout_15">
          <item>
           <layout class="QGridLayout" name="gridLayout_3">
-           <item row="2" column="0" colspan="2">
-            <widget class="QLabel" name="label_14">
-             <property name="text">
-              <string>Depth:</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_10">
              <property name="text">
@@ -430,18 +306,12 @@
              </property>
             </widget>
            </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_17">
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_19">
              <property name="text">
-              <string>ImgFrame</string>
+              <string>Dist(mm):</string>
              </property>
             </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLineEdit" name="ylineEdit"/>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLineEdit" name="depthlineEdit"/>
            </item>
            <item row="4" column="2">
             <widget class="QSpinBox" name="offsetSpinBox">
@@ -459,10 +329,10 @@
            <item row="5" column="2">
             <widget class="QLineEdit" name="FramelineEdit"/>
            </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_18">
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_17">
              <property name="text">
-              <string>Offset</string>
+              <string>ImgFrame</string>
              </property>
             </widget>
            </item>
@@ -476,15 +346,28 @@
            <item row="0" column="2">
             <widget class="QLineEdit" name="xlineEdit"/>
            </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_19">
+           <item row="3" column="2">
+            <widget class="QLineEdit" name="disLineEdit"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_18">
              <property name="text">
-              <string>Dist(mm):</string>
+              <string>Offset</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="2">
-            <widget class="QLineEdit" name="disLineEdit"/>
+           <item row="2" column="0" colspan="2">
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>Depth:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLineEdit" name="ylineEdit"/>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLineEdit" name="depthlineEdit"/>
            </item>
           </layout>
          </item>
@@ -585,6 +468,74 @@
         <zorder>PclImgMultiSave</zorder>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Set Parametre</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="0" column="0">
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>TOF(us)1rd</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="IntegrationtimelineEdit">
+             <property name="text">
+              <string>500</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>TOF(us)2rd</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="IntegrationtimeHDRlineEdit">
+             <property name="text">
+              <string>2500</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_16">
+             <property name="text">
+              <string>MinAmp</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="setAmplineEdit">
+             <property name="text">
+              <string>5</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="checkBoxHDR">
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>HDR</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
@@ -594,8 +545,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>942</width>
-     <height>26</height>
+     <width>888</width>
+     <height>23</height>
     </rect>
    </property>
   </widget>
@@ -625,8 +576,8 @@
     <number>2</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_7">
-    <layout class="QVBoxLayout" name="verticalLayout_9">
-     <item>
+    <layout class="QGridLayout" name="gridLayout_12">
+     <item row="0" column="0">
       <widget class="QVTKWidget" name="screen"/>
      </item>
     </layout>
@@ -649,7 +600,7 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="Img_label">
        <property name="enabled">
