@@ -75,7 +75,6 @@ public:
     QLineEdit *IplineEdit;
     QLabel *label_2;
     QLineEdit *PortlineEdit;
-    QHBoxLayout *horizontalLayout_3;
     QPushButton *connectButton;
     QLabel *statelabel;
     QGridLayout *gridLayout_4;
@@ -320,16 +319,13 @@ public:
         gridLayout->addWidget(PortlineEdit, 1, 1, 1, 1);
 
 
-        gridLayout_7->addLayout(gridLayout, 0, 0, 1, 1);
+        gridLayout_7->addLayout(gridLayout, 0, 0, 1, 2);
 
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
         connectButton = new QPushButton(groupBox);
         connectButton->setObjectName(QStringLiteral("connectButton"));
         connectButton->setMinimumSize(QSize(0, 23));
 
-        horizontalLayout_3->addWidget(connectButton);
+        gridLayout_7->addWidget(connectButton, 1, 0, 1, 1);
 
         statelabel = new QLabel(groupBox);
         statelabel->setObjectName(QStringLiteral("statelabel"));
@@ -337,10 +333,7 @@ public:
         statelabel->setStyleSheet(QStringLiteral("color: rgb(231, 231, 231);text-align: center;"));
         statelabel->setTextFormat(Qt::AutoText);
 
-        horizontalLayout_3->addWidget(statelabel);
-
-
-        gridLayout_7->addLayout(horizontalLayout_3, 1, 0, 1, 1);
+        gridLayout_7->addWidget(statelabel, 1, 1, 1, 1);
 
 
         gridLayout_10->addWidget(groupBox, 0, 0, 1, 1);
@@ -624,7 +617,7 @@ public:
         SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye V1.0.4", 0));
         groupBox_4->setTitle(QApplication::translate("SmartEyeClass", "Colormap", 0));
         label_11->setText(QApplication::translate("SmartEyeClass", "MaxDepth", 0));
-        maxdepthlineEdit->setText(QApplication::translate("SmartEyeClass", "30000", 0));
+        maxdepthlineEdit->setText(QApplication::translate("SmartEyeClass", "25000", 0));
         label_12->setText(QApplication::translate("SmartEyeClass", "MinDepth", 0));
         mindepthlineEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
         colormapPointCheckBox->setText(QApplication::translate("SmartEyeClass", "Clolormap Point", 0));

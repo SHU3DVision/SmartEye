@@ -64,15 +64,15 @@ void DCam::run()
 	if (n != 0)
 		return;
 
-	//积分时间1000
-	inter = send_integrationtime3D + "1000";
+	//积分时间500
+	inter = send_integrationtime3D + "500";
 	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送3D积分时间
 	emit getImage(cv::Mat(), frame,n);
 	if (n != 0)
 		return;
 
 	//最小信号强度10
-	inter = send_minamp + "10";
+	inter = send_minamp + "5";
 	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送最小信号强度
 	emit getImage(cv::Mat(),frame, n);
 	if (n != 0)
@@ -121,7 +121,6 @@ void DCam::run()
 			n = g_Tcpsocket.socket_com(send_inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送HDR功能命令
 			isHDRflag = 0;
 		}
-
 		else if (integrationtime3DHDRflag)
 		{
 			//发送3D HDR积分时间

@@ -81,6 +81,9 @@ SmartEye::SmartEye(QWidget *parent)
 
 	QObject::connect(ui.DepthImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSaveFileSlot()));
 	QObject::connect(ui.PclImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSavePclSlot()));
+
+	//获取当前hdr开启状态
+	setHDRSlot();
 }
 
 SmartEye::~SmartEye()

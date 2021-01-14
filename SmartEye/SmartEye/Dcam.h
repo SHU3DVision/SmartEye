@@ -42,7 +42,7 @@ public:
 	ushort getVersion();						//获取相机固件版本
 	void setOffset(int value);					//设置偏移量
 
-	int maxdepth=30000;					//映射最远距离    
+	int maxdepth=25000;					//映射最远距离    
 	int mindepth=0;						//映射最近距离
 	int saveimagestate = 0;             //save状态	0不保存 1保存图像
 	int savepcdstate = 0;				//PCD保存状态 0不保存 1保存
@@ -53,8 +53,8 @@ public:
 	bool isHDR = false;					//是否开启HDR
 	bool isHDRflag = false;				//HDR指令发送标志位，1发送，0无(是否更新HDR指定标志)
 	bool integrationtime3DHDRflag = 0;	//HDR积分时间标志位,1发送 0无
-	QString integrationtime3D="1000";	//相机积分时间
-	QString integrationtime3DHDR = "5000";//HDR积分时间
+	QString integrationtime3D="500";	//相机积分时间
+	QString integrationtime3DHDR = "2500";//HDR积分时间
 	QString MinAmp = "100";             //相机强度
 	QString savestr;					//保存路径
 	QString savePcdStr;					//点云保存路径
