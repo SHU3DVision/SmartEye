@@ -94,6 +94,8 @@ private slots:
 	void versionUpdateSlot(ushort);		//版本更新显示槽
 	void setOffsetSlot();				//设置偏移量相应槽
 	void setHDRSlot();					//设置HDR
+	void setDRNUSlot();					//设置DRNU矫正
+	void setABSSlot();					//设置ABS校准
 	void MultiSaveFileSlot();
 	void MultiSavePclSlot();
 };

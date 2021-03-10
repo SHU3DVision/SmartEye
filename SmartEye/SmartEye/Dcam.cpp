@@ -65,18 +65,18 @@ void DCam::run()
 		return;
 
 	//积分时间500
-	inter = send_integrationtime3D + "500";
-	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送3D积分时间
-	emit getImage(cv::Mat(), frame,n);
-	if (n != 0)
-		return;
+	//inter = send_integrationtime3D + "500";
+	//n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送3D积分时间
+	//emit getImage(cv::Mat(), frame,n);
+	//if (n != 0)
+	//	return;
 
-	//最小信号强度10
-	inter = send_minamp + "5";
+	//最小信号强度50
+	/*inter = send_minamp + "50";
 	n = g_Tcpsocket.socket_com(inter.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//发送最小信号强度
 	emit getImage(cv::Mat(),frame, n);
 	if (n != 0)
-		return;
+		return;*/
 #endif
 
 	//主循环
@@ -133,6 +133,21 @@ void DCam::run()
 			//获取温度数据
 			n = g_Tcpsocket.socket_com(send_temp, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取温度数据
 			tempReadEnable = 0;
+		}
+		else if (DRNUchanged)
+		{
+			//开启DRNU
+			QString DRNUstate = "correctDRNU " + QString::number(this->DRNUmodel);
+			n = g_Tcpsocket.socket_com(DRNUstate.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);
+			DRNUchanged = false;
+		}
+		else if (AbsChanged)
+		{
+
+			//开启环境光校准
+			QString ABSstate = "setABS " + QString::number(this->isABS);
+			n = g_Tcpsocket.socket_com(ABSstate.toLatin1().data(), bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);
+			AbsChanged = false;
 		}
 		else
 		{

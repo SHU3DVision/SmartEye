@@ -53,6 +53,10 @@ public:
 	bool isHDR = false;					//是否开启HDR
 	bool isHDRflag = false;				//HDR指令发送标志位，1发送，0无(是否更新HDR指定标志)
 	bool integrationtime3DHDRflag = 0;	//HDR积分时间标志位,1发送 0无
+	bool DRNUchanged = false;			//DRNU状态更新
+	int DRNUmodel = 0;					//drnu模式，0，关闭；1，模式1(fast DRNU); 模式2(精确DRNU)
+	bool AbsChanged = true;				//环境光校准状态
+	bool isABS = true;					//是否环境光校准
 	QString integrationtime3D="500";	//相机积分时间
 	QString integrationtime3DHDR = "2500";//HDR积分时间
 	QString MinAmp = "100";             //相机强度

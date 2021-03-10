@@ -78,12 +78,19 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.VFlip, SIGNAL(clicked()), this, SLOT(verticalFlipSlot()));
 	QObject::connect(ui.checkBoxHDR, SIGNAL(clicked()), this, SLOT(setHDRSlot()));
 	QObject::connect(ui.IntegrationtimeHDRlineEdit, SIGNAL(editingFinished()), this,SLOT(setIntegrationTime3DHDRSlot()));
+	QObject::connect(ui.checkBoxDRNU, SIGNAL(clicked()), this, SLOT(setDRNUSlot()));
+	QObject::connect(ui.checkBoxSetABS, SIGNAL(clicked()), this, SLOT(setABSSlot()));
 
 	QObject::connect(ui.DepthImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSaveFileSlot()));
 	QObject::connect(ui.PclImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSavePclSlot()));
 
-	//获取当前hdr开启状态
+	//更新初始状态
 	setHDRSlot();
+	setDRNUSlot();
+	setABSSlot();
+	setIntegrationTime3DSlot();
+	setIntegrationTime3DHDRSlot();
+	setMinAmpSlot();
 }
 
 SmartEye::~SmartEye()
@@ -211,6 +218,7 @@ void SmartEye::pointCloudUpdateSlot(PointCloudT::Ptr c)
 void SmartEye::showImage(Mat imshowsrc)
 {
 	Mat imgShow = imshowsrc.clone();
+
 	cv::cvtColor(imgShow, imgShow, COLOR_BGR2RGB);//Opencv默认BGR存储，Qt需要RGB
 	QImage img = QImage((uchar*)(imgShow.data), imgShow.cols, imgShow.rows, QImage::Format_RGB888);
 	
@@ -699,4 +707,19 @@ void SmartEye::setHDRSlot()
 {
 	g_dcam->isHDR = ui.checkBoxHDR->isChecked(); //更新HDR选中状态
 	g_dcam->isHDRflag = true; //更新isHDR命令发送标志
+}
+
+//设置DRNU校准
+void SmartEye::setDRNUSlot()
+{
+	//TODO:这里默认DRNU2模式, 后续新增一个模式选择
+	g_dcam->DRNUmodel = ui.checkBoxDRNU->isChecked() == true ? 2 : 0;
+	g_dcam->DRNUchanged = true;
+}
+
+//设置ABS环境光校准
+void SmartEye::setABSSlot()
+{
+	g_dcam->isABS = ui.checkBoxSetABS->isChecked();
+	g_dcam->AbsChanged = true;
 }
