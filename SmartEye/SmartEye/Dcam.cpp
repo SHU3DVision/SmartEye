@@ -151,27 +151,25 @@ void DCam::run()
 		}
 		else
 		{
-			if (isHDR)
+			if (isAmp)
 			{
 				start = clock();
 				//获取深度数据
-				n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取ROI区域原始图与合成图数据
+				n = g_Tcpsocket.socket_com(send_dist_amp, 2*bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);
 				//tempReadDelay++;
 				end = clock();
 				//计算帧率
 				frame = (float)frametime / (end - start);
-
 			}
 			else
 			{
 				start = clock();
 				//获取深度数据
-				n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	//获取深度数据
+				n = g_Tcpsocket.socket_com(send_distance, bytecount, (char*)g_Tcpsocket._ip.c_str(), g_Tcpsocket._port, ptr_buf);	
 				//tempReadDelay++;
 				end = clock();
 				//计算帧率
-				frame = (float)frametime/ (end - start);
-				//qDebug() << "frame=" << frame;
+				frame = (float)frametime / (end - start);
 			}
 		}
 #else
@@ -221,7 +219,7 @@ void DCam::run()
 		{
 			//获取数据成功
 			g_depthprocess.ptr_buf_unsigned = (unsigned char*)ptr_buf;	//设置图像处理数据指针
-			img_show = g_depthprocess.depthProcess(isHDR);					//获取处理图像
+			img_show = g_depthprocess.depthProcess(isHDR, isAmp);					//获取处理图像
 			if (g_depthprocess.saveimagestate == 2)						//及时切换保存状态  不能写成 saveimagestate == 2  
 			{
 				saveimagestate = 0;
@@ -238,7 +236,10 @@ void DCam::run()
 				}
 				emit(getPointCloud(cloud));
 			}
-
+			if (isAmp)
+			{
+				emit getAmpImage(g_depthprocess.img_amp, n);
+			}
 		}
 		else if (n == 12)
 		{
@@ -247,7 +248,6 @@ void DCam::run()
 		}
 
 		emit getImage(img_show,frame,n);		//成功得到图片，返回uchar图片，否则返回img的size为0*0
-
 	}
 }
 

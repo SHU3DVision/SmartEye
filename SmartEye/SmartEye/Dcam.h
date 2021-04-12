@@ -57,6 +57,7 @@ public:
 	int DRNUmodel = 0;					//drnu模式，0，关闭；1，模式1(fast DRNU); 模式2(精确DRNU)
 	bool AbsChanged = true;				//环境光校准状态
 	bool isABS = true;					//是否环境光校准
+	bool isAmp = false;					//是否显示强度图
 	QString integrationtime3D="500";	//相机积分时间
 	QString integrationtime3DHDR = "2500";//HDR积分时间
 	QString MinAmp = "100";             //相机强度
@@ -66,6 +67,7 @@ public:
 
 signals:
 	void getImage(cv::Mat,float, int);//获取图像后信号,Mat格式传回图像信息，第一个int为返回帧率，第二int传回是否是图像0不是图像，1是图像，-1异常
+	void getAmpImage(cv::Mat, int);
 	void getPointCloud(PointCloudT::Ptr);	//获取点云信号
 	void getVersion(ushort);				//获取版本信息
 

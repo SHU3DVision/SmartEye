@@ -6,7 +6,7 @@
 #include<qdebug.h>
 
 
-#define MAXLINE 253600
+#define MAXBUFLINE 307200
 
 
 using namespace std;

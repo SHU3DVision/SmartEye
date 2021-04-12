@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>910</width>
-    <height>741</height>
+    <width>886</width>
+    <height>1025</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -542,6 +542,13 @@
            </property>
           </widget>
          </item>
+         <item row="4" column="1">
+          <widget class="QCheckBox" name="checkBoxAmp">
+           <property name="text">
+            <string>showAmp</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -554,7 +561,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>910</width>
+     <width>886</width>
      <height>23</height>
     </rect>
    </property>
@@ -636,6 +643,9 @@
        <property name="autoFillBackground">
         <bool>true</bool>
        </property>
+       <property name="locale">
+        <locale language="Chinese" country="China"/>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -650,8 +660,52 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QDockWidget" name="ampDock">
+   <property name="floating">
+    <bool>true</bool>
+   </property>
+   <property name="windowTitle">
+    <string>Amplitude Image</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QGridLayout" name="gridLayout_9">
+     <item row="0" column="0">
+      <widget class="QLabel" name="amp_label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>320</width>
+         <height>240</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100000</width>
+         <height>100000</height>
+        </size>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <zorder>pointCloudDock</zorder>
   <zorder>imageDock</zorder>
+  <zorder>ampDock</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

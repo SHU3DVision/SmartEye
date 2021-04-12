@@ -1,7 +1,7 @@
 #include "smarteye.h"
 
 using namespace cv;
-
+int SmartEye::showImgID = 0;
 SmartEye::SmartEye(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -14,7 +14,7 @@ SmartEye::SmartEye(QWidget *parent)
 
 	ui.pointCloudDock->hide();	//隐藏点云界面
 	ui.imageDock->hide();		//隐藏图像界面
-
+	ui.ampDock->hide();
 	getCameraParameterFromFile();	//从config.ini读取相机配置参数
 
 	//点云初始化
@@ -80,14 +80,16 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.IntegrationtimeHDRlineEdit, SIGNAL(editingFinished()), this,SLOT(setIntegrationTime3DHDRSlot()));
 	QObject::connect(ui.checkBoxDRNU, SIGNAL(clicked()), this, SLOT(setDRNUSlot()));
 	QObject::connect(ui.checkBoxSetABS, SIGNAL(clicked()), this, SLOT(setABSSlot()));
+	QObject::connect(ui.checkBoxAmp, SIGNAL(clicked()), this, SLOT(setAmpSlot()));
 
 	QObject::connect(ui.DepthImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSaveFileSlot()));
 	QObject::connect(ui.PclImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSavePclSlot()));
-
+	
 	//更新初始状态
 	setHDRSlot();
 	setDRNUSlot();
 	setABSSlot();
+	setAmpSlot();
 	setIntegrationTime3DSlot();
 	setIntegrationTime3DHDRSlot();
 	setMinAmpSlot();
@@ -108,6 +110,7 @@ void SmartEye::connectButtonPressedSlot()
 		int port = ui.PortlineEdit->text().toInt();      //获取相机端口号
 		g_dcam->setNet(ip,port);						 //初始化相机类
 		connect(g_dcam, SIGNAL(getImage(cv::Mat,float,int)), this, SLOT(imageUpdateSlot(cv::Mat,float,int)));	//设置连接槽
+		connect(g_dcam, SIGNAL(getAmpImage(cv::Mat, int)), this, SLOT(ampImageUpdateSlot(cv::Mat, int)));	//设置连接槽
 		connect(g_dcam, SIGNAL(getVersion(ushort)), this, SLOT(versionUpdateSlot(ushort)));			//版本获取连接槽
 		g_dcam->start();	//线程启动
 		
@@ -120,7 +123,11 @@ void SmartEye::connectButtonPressedSlot()
 
 		//dock显示
 		ui.imageDock->show();
-
+		if (isAmpShow)
+		{
+			ui.ampDock->show();
+			ui.ampDock->setGeometry(900, 500, 320, 240);
+		}
 		connectState++;
 	}
 	else
@@ -135,11 +142,12 @@ void SmartEye::connectButtonPressedSlot()
 		ui.connectButton->setText(tr("Connect"));
 
 		disconnect(g_dcam, SIGNAL(getImage(cv::Mat,float,int)), this, SLOT(imageUpdateSlot(cv::Mat,float,int)));	//断开槽
+		disconnect(g_dcam, SIGNAL(getAmpImage(cv::Mat, float, int)), this, SLOT(ampImageUpdateSlot(cv::Mat, int)));	//设置连接槽
 		disconnect(g_dcam, SIGNAL(getVersion(ushort)), this, SLOT(versionUpdateSlot(ushort)));			//断开版本更新槽
 
 		//dock隐藏
 		ui.imageDock->hide();
-
+		ui.ampDock->hide();
 		connectState--;
 	}
 
@@ -202,6 +210,41 @@ void SmartEye::imageUpdateSlot(cv::Mat img,float frame,int isImg)
 	
 	return;
 		
+}
+
+//更新强度图片槽
+//输入：img 传入图像Mat格式
+//输入：isImg 是否是图像，避免读取温度造成跳帧
+void SmartEye::ampImageUpdateSlot(cv::Mat img, int isImg)
+{
+	if (isImg == 1)			//读入图片
+	{
+		if (img.size().height != 0 && g_dcam->getRunState())		//获取数据正常
+		{
+			//处理原始数据
+			cv::Mat imshowsrc = img;
+			//显示灰度图
+			QImage img = QImage((uchar*)(imshowsrc.data), imshowsrc.cols, imshowsrc.rows, QImage::Format_Grayscale8);
+
+			int width = ui.Img_label->size().width();
+			int height = ui.Img_label->size().height();
+			//自适应长宽比
+			if ((height / 240.0) > (width / 320.0))
+			{
+				//按照宽调整大小
+				height = width / 320.0 * 240.0;
+			}
+			else
+			{
+				//按照高调整大小
+				width = height / 240.0 * 320.0;
+			}
+
+			img = img.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);	//图像缩放
+			ui.Img_label->setAlignment(Qt::AlignCenter);		//居中显示
+			ui.Img_label->setPixmap(QPixmap::fromImage(img));	//更新图像
+		}
+	}
 }
 
 //点云数据更新
@@ -414,12 +457,10 @@ void SmartEye::saveFileSlot()
 		time_t t;
 		t = time(NULL);
 		localt = localtime(&t);
-
+		//string path = "/home/" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" + to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_DepthImg";
+		string path = "/home/DepthImg" + to_string(showImgID++);
 		if (DepthImgMultiSaveflag == 0)
 		{
-			string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
-				to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_SingleDepthImg";
-
 			//第三个参数可以是路径， 也可以是路径加文件名
 			g_dcam->savestr = QFileDialog::getSaveFileName(this, "Save Image", QString::fromStdString(path), type_png);
 
@@ -431,9 +472,6 @@ void SmartEye::saveFileSlot()
 		{
 			if (savestate == 0)				//savestate == 0表示未保存状态
 			{
-				string path = "/home/" + to_string(localt->tm_year + 1900) + "_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" +
-					to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_" + to_string(localt->tm_sec) + "_MultiDepthImg";
-
 				g_dcam->savestr = QFileDialog::getSaveFileName(this, "Save Image", QString::fromStdString(path), type_png);// + ";;" + "JPG(*.jpg)"
 
 				if (g_dcam->savestr.isEmpty())//如果未选择文件便确认，即返回
@@ -722,4 +760,10 @@ void SmartEye::setABSSlot()
 {
 	g_dcam->isABS = ui.checkBoxSetABS->isChecked();
 	g_dcam->AbsChanged = true;
+}
+
+void SmartEye::setAmpSlot()
+{
+	g_dcam->isAmp = ui.checkBoxAmp->isChecked();
+	isAmpShow = ui.checkBoxAmp->isChecked();
 }

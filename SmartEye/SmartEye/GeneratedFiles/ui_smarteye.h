@@ -9,6 +9,7 @@
 #ifndef UI_SMARTEYE_H
 #define UI_SMARTEYE_H
 
+#include <QtCore/QLocale>
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
@@ -115,6 +116,7 @@ public:
     QCheckBox *checkBoxHDR;
     QCheckBox *checkBoxDRNU;
     QCheckBox *checkBoxSetABS;
+    QCheckBox *checkBoxAmp;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -126,12 +128,16 @@ public:
     QWidget *dockWidgetContents_9;
     QVBoxLayout *verticalLayout;
     QLabel *Img_label;
+    QDockWidget *ampDock;
+    QWidget *dockWidgetContents;
+    QGridLayout *gridLayout_9;
+    QLabel *amp_label;
 
     void setupUi(QMainWindow *SmartEyeClass)
     {
         if (SmartEyeClass->objectName().isEmpty())
             SmartEyeClass->setObjectName(QStringLiteral("SmartEyeClass"));
-        SmartEyeClass->resize(910, 741);
+        SmartEyeClass->resize(886, 1025);
         QIcon icon;
         icon.addFile(QStringLiteral(":/SmartEye/Resource/exe.png"), QSize(), QIcon::Normal, QIcon::Off);
         SmartEyeClass->setWindowIcon(icon);
@@ -543,6 +549,11 @@ public:
 
         gridLayout_6->addWidget(checkBoxSetABS, 4, 0, 1, 1);
 
+        checkBoxAmp = new QCheckBox(groupBox_3);
+        checkBoxAmp->setObjectName(QStringLiteral("checkBoxAmp"));
+
+        gridLayout_6->addWidget(checkBoxAmp, 4, 1, 1, 1);
+
 
         gridLayout_4->addWidget(groupBox_3, 0, 0, 1, 1);
 
@@ -552,7 +563,7 @@ public:
         SmartEyeClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(SmartEyeClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 910, 23));
+        menuBar->setGeometry(QRect(0, 0, 886, 23));
         SmartEyeClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(SmartEyeClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -602,6 +613,7 @@ public:
         Img_label->setMinimumSize(QSize(320, 240));
         Img_label->setMaximumSize(QSize(1000000, 10000000));
         Img_label->setAutoFillBackground(true);
+        Img_label->setLocale(QLocale(QLocale::Chinese, QLocale::China));
         Img_label->setScaledContents(false);
         Img_label->setAlignment(Qt::AlignCenter);
 
@@ -609,8 +621,30 @@ public:
 
         imageDock->setWidget(dockWidgetContents_9);
         SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(2), imageDock);
+        ampDock = new QDockWidget(SmartEyeClass);
+        ampDock->setObjectName(QStringLiteral("ampDock"));
+        ampDock->setFloating(true);
+        dockWidgetContents = new QWidget();
+        dockWidgetContents->setObjectName(QStringLiteral("dockWidgetContents"));
+        gridLayout_9 = new QGridLayout(dockWidgetContents);
+        gridLayout_9->setSpacing(6);
+        gridLayout_9->setContentsMargins(11, 11, 11, 11);
+        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        amp_label = new QLabel(dockWidgetContents);
+        amp_label->setObjectName(QStringLiteral("amp_label"));
+        sizePolicy1.setHeightForWidth(amp_label->sizePolicy().hasHeightForWidth());
+        amp_label->setSizePolicy(sizePolicy1);
+        amp_label->setMinimumSize(QSize(320, 240));
+        amp_label->setMaximumSize(QSize(100000, 100000));
+        amp_label->setAutoFillBackground(true);
+
+        gridLayout_9->addWidget(amp_label, 0, 0, 1, 1);
+
+        ampDock->setWidget(dockWidgetContents);
+        SmartEyeClass->addDockWidget(static_cast<Qt::DockWidgetArea>(2), ampDock);
         pointCloudDock->raise();
         imageDock->raise();
+        ampDock->raise();
 
         retranslateUi(SmartEyeClass);
 
@@ -677,9 +711,12 @@ public:
         checkBoxSetABS->setToolTip(QApplication::translate("SmartEyeClass", "<html><head/><body><p>\347\216\257\345\242\203\345\205\211\346\240\241\345\207\206</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         checkBoxSetABS->setText(QApplication::translate("SmartEyeClass", "SetABS", 0));
+        checkBoxAmp->setText(QApplication::translate("SmartEyeClass", "showAmp", 0));
         pointCloudDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Point Cloud", 0));
         imageDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Depth Image", 0));
         Img_label->setText(QString());
+        ampDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Amplitude Image", 0));
+        amp_label->setText(QString());
     } // retranslateUi
 
 };

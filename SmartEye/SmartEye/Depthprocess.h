@@ -10,9 +10,9 @@
 using namespace std;
 
 #define bytecount 153600
-#define   Img_width   (320)
-#define   Img_height  (240)
-#define MAXLINE 253600     
+#define Img_width   (320)
+#define Img_height  (240)
+#define MAXLINE 153600   
 #define MAX_NUM_PIX	82656	//328 * 252
 #define LOW_AMPLITUDE_V26 	32500   //强度过低值
 #define OVER_EXPOSED_V26	32700	//过曝值
@@ -30,12 +30,14 @@ class Imagedepthprocess
 public:
 	Imagedepthprocess();
 	~Imagedepthprocess();
-	cv::Mat depthProcess(bool isHDR);
+	cv::Mat depthProcess(bool isHDR, bool isAmp);
 	cv::Mat getDepth();
 	unsigned char* ptr_buf_unsigned;
 	cv::Mat _matimg_short;			//16bit数据
 	cv::Mat _matimg_show;			//16bit数据
+	cv::Mat _matimg_amp;			//16bit数据
 	cv::Mat  img_color;				//伪彩色数据
+	cv::Mat  img_amp;				//强度数据
 	ushort realTempChip;			//相机温度
 	int maxdepth=30000;				//映射最远距离    
 	int mindepth=0;					//映射最近距离
@@ -53,6 +55,7 @@ private:
 	void calculationAddOffset(ushort *img);					//深度补偿
 	int calculationCorrectDRNU(ushort * img);				//温度矫正
 	void setColorImage();									//设置伪彩色图
+	void setAmpImg();
 	void saveImage();										//保存深度图
 	void imageInpainting();									//修复HDR图
 	uint16_t raw_dep;

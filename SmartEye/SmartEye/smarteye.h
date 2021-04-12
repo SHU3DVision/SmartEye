@@ -63,11 +63,12 @@ private:
 	int savepcdstate = 0;					//保存pcd文件 0不保存 1正在保存
 	int PclImgMultiSave = 0;
 	bool isPCLShow = false;					//是否点云转换标志
+	bool isAmpShow = false;					//是否显示强度图
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;	//PCL可视化窗口
 	PointCloudT::Ptr cloud;					//点云指针     
 	PointCloudT::Ptr cloud_clicked;			//点击事件处理点云
 	int pointSize=1;						//点云显示大小
-
+	static int showImgID;
 	
 
 	void showPointCloud();				//点云显示更新
@@ -77,6 +78,7 @@ private:
 
 private slots:
 	void imageUpdateSlot(cv::Mat img,float frame,int isImg);	//更新图像信号
+	void ampImageUpdateSlot(cv::Mat img, int isImg);				//更新强度图信号
 	void pointCloudUpdateSlot(PointCloudT::Ptr c);	//更新点云信息
 	void connectButtonPressedSlot();	//连接按钮点击槽
 	void pclButtonPressedSlot();		//点云转换功能 
@@ -96,6 +98,7 @@ private slots:
 	void setHDRSlot();					//设置HDR
 	void setDRNUSlot();					//设置DRNU矫正
 	void setABSSlot();					//设置ABS校准
+	void setAmpSlot();
 	void MultiSaveFileSlot();
 	void MultiSavePclSlot();
 };

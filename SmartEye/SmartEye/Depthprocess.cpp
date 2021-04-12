@@ -1,10 +1,13 @@
 ﻿#include"Depthprocess.h"
 using namespace cv;
+
 Imagedepthprocess::Imagedepthprocess()
 {
 	_matimg_short.create(Img_height, Img_width, CV_16UC1);
 	_matimg_show.create(Img_height, Img_width, CV_16UC1);
-	 img_color.create(Img_height, Img_width, CV_8UC3);//构造RGB图像
+	_matimg_amp.create(Img_height, Img_width, CV_16UC1);
+	img_color.create(Img_height, Img_width, CV_8UC3);//构造RGB图像
+	img_amp.create(Img_height, Img_width, CV_8UC1);//构造RGB图像
 }
 Imagedepthprocess::~Imagedepthprocess()
 {
@@ -12,10 +15,11 @@ Imagedepthprocess::~Imagedepthprocess()
 }
 //深度数据处理
 //返回：CV_U8C3 mat类型
-Mat Imagedepthprocess::depthProcess(bool isHDR)
+Mat Imagedepthprocess::depthProcess(bool isHDR, bool isAmp)
 {
 	uint16_t fameDepthArray2[MAXLINE];
-	
+	uint16_t fameDepthArray3[MAXLINE];
+	//深度图
 	for (int j = 0; j < bytecount / 2; j++)
 	{
 		raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
@@ -26,57 +30,85 @@ Mat Imagedepthprocess::depthProcess(bool isHDR)
 		fameDepthArray2[realindex] = raw_dep;
 
 	}
+	//强度图
+	if (isAmp)
+	{
+		for (int j = bytecount / 2; j < bytecount; j++)
+		{
+			raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
+			cout << raw_dep << " ";
+			realindex = bytecount / 2 - (j / Img_width + 1) * Img_width + j % Img_width;   //镜像
+			realrow = Img_height - 1 - j / Img_width;
+			realcol = j % Img_width;
+			fameDepthArray3[realindex] = raw_dep;
+		}
+	}
+	
 	if (!isHDR)
 	{
 		//滤波
 		calibrate(fameDepthArray2);
 	}
 	uint16_t depth[240][320];
+	uint16_t amp[240][320];
 	for (int i = 0; i < 240; i++)
 	{
 		for (int j = 0; j < 320; j++)
 		{
 			depth[i][j] = fameDepthArray2[i * 320 + j];
+			if (isAmp)	amp[i][j] = fameDepthArray3[i * 320 + j];
 		}
 	}
 	//16bit原始数据
 	for (int i = 0; i < 240; i++)
 	{
+		ushort* shortdata = _matimg_short.ptr<ushort>(i);
+		ushort* ampdata = _matimg_amp.ptr<ushort>(i);
 		for (int j = 0; j < 320; j++)
 		{
 			if (depth[i][j] > 30000)
 			{
-				_matimg_short.at<ushort>(i, j) = depth[i][j];
+				shortdata[j] = depth[i][j];
 			}
 			else
 			{
 				//计算偏移量
 				if (depth[i][j] + offset < 0 && depth[i][j] + offset < 30000)
-					_matimg_short.at<ushort>(i, j) = 0;
+					shortdata[j] = 0;
 				else
-					_matimg_short.at<ushort>(i, j) = depth[i][j] + offset;
+					shortdata[j] = depth[i][j] + offset;
 			}
-			//_matimg_short.at<ushort>(i, j) = depth[i][j];
-
+			if (isAmp) 
+			{
+				ampdata[j] = amp[i][j];
+			}
 		}
 
 	}
-
 	//翻转图像
 	if (isHorizontalFlip)
 	{
 		flip(_matimg_short, _matimg_short, 1);		//水平翻转图像
+		if (isAmp)	flip(_matimg_amp, _matimg_amp, 1);
 	}
 	if (isVerticalFlip)
 	{
 		flip(_matimg_short, _matimg_short, 0);		//垂直翻转图像
+		if (isAmp)flip(_matimg_amp, _matimg_amp, 0);
 	}
 
 	if (isHDR)
 	{
+		//合成hdr图
 		imageInpainting();
 		medianBlur(_matimg_short, _matimg_short, 3);
 	}
+	//强度图缩放
+	if (isAmp)
+	{
+		setAmpImg();
+	}
+	//深度图缩放和染色
 	setColorImage();
 	saveImage();
 
@@ -368,6 +400,7 @@ void Imagedepthprocess::saveImage()
 	}
 }
 
+//修复HDR图
 void Imagedepthprocess::imageInpainting()
 {
 	Mat& depthzip = _matimg_short;
@@ -440,4 +473,24 @@ void Imagedepthprocess::imageInpainting()
 	}
 
 	//_matimg_short = depthzip.clone();
+}
+
+void Imagedepthprocess::setAmpImg()
+{
+	double oneAmpData;
+	for (int i = 0; i < 240; i++)
+	{
+		ushort* ampdata = _matimg_amp.ptr<ushort>(i);
+		uchar* img_ampData = img_amp.ptr<uchar>(i);
+		for (int j = 0; j < 320; j++)
+		{
+			oneAmpData = ampdata[j];
+			if (oneAmpData > 2000)
+			{
+				oneAmpData = 2000;
+			}
+			oneAmpData = oneAmpData * 255 / 2000;
+			img_ampData[j] = (uchar)oneAmpData;
+		}
+	}
 }

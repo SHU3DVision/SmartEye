@@ -28,7 +28,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 {
 	//socket connect
 	sk_startup();
-	char tempbuf[MAXLINE];      //接收缓冲区
+	char tempbuf[MAXBUFLINE];      //接收缓冲区
 	int count = 0;             //接收总字节计数
 	int rec_len, Ret;          //发送、接收状
 	static struct sockaddr_in servaddr;
@@ -77,7 +77,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 		
 	}
 
-	//设置回非阻塞
+	//设置回阻塞
 	u_long imodeb = 0;
 	if (ioctlsocket(sockfd, FIONBIO, &imodeb) == SOCKET_ERROR)
 	{
@@ -107,13 +107,14 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 		
 	}
 	int i2 = 0;
-	if (strcmp(sendline,"getDistanceSorted")==0)
+	//getDistanceSorted getDistanceAndAmplitudeSorted
+	if ((strcmp(sendline,"getDistanceSorted")==0)||(strcmp(sendline, "getDistanceAndAmplitudeSorted") == 0))
 	{
 		//接收返回图像数据
 		
-		while (count < length) //153600
+		while (count < length) //153600 307200
 		{
-			rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
+			rec_len = recv(sockfd, tempbuf, MAXBUFLINE, 0);
 			for (int i = 0; i < rec_len; i++)
 			{
 
@@ -133,7 +134,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	else if (strcmp(sendline,"getTemperature")==0)
 	{
 		//获得温度
-		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
+		rec_len = recv(sockfd, tempbuf, MAXBUFLINE, 0);
 		for (int i = 0; i < rec_len; i++)
 		{
 
@@ -150,7 +151,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	else 
 	{
 		//其他指令
-		rec_len = recv(sockfd, tempbuf, MAXLINE, 0);
+		rec_len = recv(sockfd, tempbuf, MAXBUFLINE, 0);
 		/*qDebug() << "-------------------" << rec_len;
 		qDebug() << "-------------------" << tempbuf;*/
 		if (rec_len == SOCKET_ERROR)
@@ -167,7 +168,7 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	closesocket(sockfd);
 	//终止使用 DLL
 	sk_cleanup();
-	if (strcmp(sendline, "getDistanceSorted") == 0)
+	if ((strcmp(sendline, "getDistanceSorted") == 0) || strcmp(sendline, "getDistanceAndAmplitudeSorted") == 0)
 	{
 		return 1;
 	}
