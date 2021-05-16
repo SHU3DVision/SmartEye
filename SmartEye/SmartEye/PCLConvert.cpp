@@ -34,7 +34,7 @@ PointCloudT::Ptr PCLConvert::getPointCloud(cv::Mat img, cv::Mat colorMat, bool c
 {
 	PointCloudT::Ptr pointcloud(new PointCloudT);
 
-	img = undistImg(img);		//畸变矫正
+	//img = undistImg(img);		//畸变矫正
 	//因为畸变矫正存在坐标变换，部分坐标点的像素值通最近邻补上
 	//仍然存在散点噪声，滤波处理
 	img = filterImg(img);		//图像滤波

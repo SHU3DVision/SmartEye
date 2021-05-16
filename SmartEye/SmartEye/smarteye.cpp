@@ -74,6 +74,7 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.colormapPointCheckBox, SIGNAL(stateChanged(int)), this, SLOT(colormapPointCheckBoxSlot(int)));
 	QObject::connect(ui.pointFilterEdit, SIGNAL(editingFinished()), this, SLOT(pointFilterSlot()));
 	QObject::connect(ui.setAmplineEdit, SIGNAL(editingFinished()), this, SLOT(setMinAmpSlot()));
+	QObject::connect(ui.setMaxAmplineEdit, SIGNAL(editingFinished()), this, SLOT(setMaxAmpSlot()));
 	QObject::connect(ui.HFlip, SIGNAL(clicked()), this, SLOT(horizontalFlipSlot()));
 	QObject::connect(ui.VFlip, SIGNAL(clicked()), this, SLOT(verticalFlipSlot()));
 	QObject::connect(ui.checkBoxHDR, SIGNAL(clicked()), this, SLOT(setHDRSlot()));
@@ -81,6 +82,13 @@ SmartEye::SmartEye(QWidget *parent)
 	QObject::connect(ui.checkBoxDRNU, SIGNAL(clicked()), this, SLOT(setDRNUSlot()));
 	QObject::connect(ui.checkBoxSetABS, SIGNAL(clicked()), this, SLOT(setABSSlot()));
 	QObject::connect(ui.checkBoxAmp, SIGNAL(clicked()), this, SLOT(setAmpSlot()));
+	QObject::connect(ui.checkBoxCalibration, SIGNAL(clicked()), this, SLOT(setCalibrationSlot()));
+	QObject::connect(ui.CXlineEdit, SIGNAL(editingFinished()), this, SLOT(setCameraParametersSlot()));
+	QObject::connect(ui.CYlineEdit, SIGNAL(editingFinished()), this, SLOT(setCameraParametersSlot()));
+	QObject::connect(ui.FXlineEdit, SIGNAL(editingFinished()), this, SLOT(setCameraParametersSlot()));
+	QObject::connect(ui.FYlineEdit, SIGNAL(editingFinished()), this, SLOT(setCameraParametersSlot()));
+	QObject::connect(ui.k1lineEdit, SIGNAL(editingFinished()), this, SLOT(setCameraParametersSlot()));
+	QObject::connect(ui.k2lineEdit, SIGNAL(editingFinished()), this, SLOT(setCameraParametersSlot()));
 
 	QObject::connect(ui.DepthImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSaveFileSlot()));
 	QObject::connect(ui.PclImgMultiSave, SIGNAL(clicked()), this, SLOT(MultiSavePclSlot()));
@@ -93,6 +101,7 @@ SmartEye::SmartEye(QWidget *parent)
 	setIntegrationTime3DSlot();
 	setIntegrationTime3DHDRSlot();
 	setMinAmpSlot();
+	setCameraParametersSlot();
 }
 
 SmartEye::~SmartEye()
@@ -226,8 +235,8 @@ void SmartEye::ampImageUpdateSlot(cv::Mat img, int isImg)
 			//显示灰度图
 			QImage img = QImage((uchar*)(imshowsrc.data), imshowsrc.cols, imshowsrc.rows, QImage::Format_Grayscale8);
 
-			int width = ui.Img_label->size().width();
-			int height = ui.Img_label->size().height();
+			int width = ui.amp_label->size().width();
+			int height = ui.amp_label->size().height();
 			//自适应长宽比
 			if ((height / 240.0) > (width / 320.0))
 			{
@@ -241,8 +250,8 @@ void SmartEye::ampImageUpdateSlot(cv::Mat img, int isImg)
 			}
 
 			img = img.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);	//图像缩放
-			ui.Img_label->setAlignment(Qt::AlignCenter);		//居中显示
-			ui.Img_label->setPixmap(QPixmap::fromImage(img));	//更新图像
+			ui.amp_label->setAlignment(Qt::AlignCenter);		//居中显示
+			ui.amp_label->setPixmap(QPixmap::fromImage(img));	//更新图像
 		}
 	}
 }
@@ -295,18 +304,6 @@ void SmartEye::showFrame(float frame)
 //点云转换按钮点击事件槽
 void SmartEye::pclButtonPressedSlot()
 {
-	//获取畸变矩阵参数
-	double fx = ui.FXlineEdit->text().toDouble();
-	double fy = ui.FYlineEdit->text().toDouble();
-	double cx = ui.CXlineEdit->text().toDouble();
-	double cy = ui.CYlineEdit->text().toDouble();
-	double k1 = ui.k1lineEdit->text().toDouble();
-	double k2 = ui.k2lineEdit->text().toDouble();
-
-	//设置畸变系数
-	g_dcam->setCameraParameters(fx, fy, cx, cy, k1, k2, 0, 0, 0);
-
-
 	if (isPCLShow || !(g_dcam->getRunState()))
 	{
 		//关闭更新
@@ -397,6 +394,12 @@ void SmartEye::setMinAmpSlot()
 	g_dcam->setAmpFlag = 1;
 }
 
+//设置最大信号强度
+void SmartEye::setMaxAmpSlot()
+{
+	g_dcam->MaxAmp = ui.setMaxAmplineEdit->text();
+}
+
 //设置映射距离
 void SmartEye::setMappingDistanceSlot()
 {
@@ -458,12 +461,17 @@ void SmartEye::saveFileSlot()
 		t = time(NULL);
 		localt = localtime(&t);
 		//string path = "/home/" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday) + "_" + to_string(localt->tm_hour) + "_" + to_string(localt->tm_min) + "_DepthImg";
-		string path = "/home/DepthImg" + to_string(showImgID++);
+		//string path = "/home/DepthImg" + to_string(showImgID++);
+		string path = "/home/Depth_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday);
+		string pathAmp = "/home/Amp_" + to_string(localt->tm_mon) + "_" + to_string(localt->tm_mday);
 		if (DepthImgMultiSaveflag == 0)
 		{
 			//第三个参数可以是路径， 也可以是路径加文件名
 			g_dcam->savestr = QFileDialog::getSaveFileName(this, "Save Image", QString::fromStdString(path), type_png);
-
+			if (ui.checkBoxAmp->isChecked())
+			{
+				g_dcam->saveAmpstr = QFileDialog::getSaveFileName(this, "Save Amp Image", QString::fromStdString(pathAmp), type_png);
+			}
 			if (g_dcam->savestr.isEmpty())		//如果未选择文件便确认，即返回
 				return;
 			g_dcam->saveimagestate = 2;			//保存单帧
@@ -472,7 +480,11 @@ void SmartEye::saveFileSlot()
 		{
 			if (savestate == 0)				//savestate == 0表示未保存状态
 			{
-				g_dcam->savestr = QFileDialog::getSaveFileName(this, "Save Image", QString::fromStdString(path), type_png);// + ";;" + "JPG(*.jpg)"
+				g_dcam->savestr = QFileDialog::getSaveFileName(this, "Save Image", QString::fromStdString(path), type_png);
+				if (ui.checkBoxAmp->isChecked())
+				{
+					g_dcam->saveAmpstr = QFileDialog::getSaveFileName(this, "Save Amp Image", QString::fromStdString(pathAmp), type_png);
+				}
 
 				if (g_dcam->savestr.isEmpty())//如果未选择文件便确认，即返回
 					return;
@@ -766,4 +778,33 @@ void SmartEye::setAmpSlot()
 {
 	g_dcam->isAmp = ui.checkBoxAmp->isChecked();
 	isAmpShow = ui.checkBoxAmp->isChecked();
+	if (isAmpShow)
+	{
+		ui.ampDock->show();
+		ui.ampDock->setGeometry(900, 500, 320, 240);
+	}
+	else
+	{
+		ui.ampDock->hide();
+	}
+}
+
+void SmartEye::setCameraParametersSlot()
+{
+	//获取畸变矩阵参数
+	double fx = ui.FXlineEdit->text().toDouble();
+	double fy = ui.FYlineEdit->text().toDouble();
+	double cx = ui.CXlineEdit->text().toDouble();
+	double cy = ui.CYlineEdit->text().toDouble();
+	double k1 = ui.k1lineEdit->text().toDouble();
+	double k2 = ui.k2lineEdit->text().toDouble();
+
+	//设置畸变系数
+	g_dcam->setCameraParameters(fx, fy, cx, cy, k1, k2, 0, 0, 0);
+
+}
+
+void SmartEye::setCalibrationSlot()
+{
+	g_dcam->isRawCalibration = ui.checkBoxCalibration->isChecked();
 }

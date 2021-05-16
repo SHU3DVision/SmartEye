@@ -85,6 +85,7 @@ private slots:
 	void setIntegrationTime3DSlot();	//设置3D积分时间
 	void setIntegrationTime3DHDRSlot();	//设置3D HDR积分时间
 	void setMinAmpSlot();                //设置最小信号强度指令
+	void setMaxAmpSlot();				//设置最大信号强度指令
 	void setMappingDistanceSlot();		//设置映射距离
 	void saveFileSlot();				//保存数据
 	void savePCDSlot();					//保存PCD文件
@@ -98,9 +99,11 @@ private slots:
 	void setHDRSlot();					//设置HDR
 	void setDRNUSlot();					//设置DRNU矫正
 	void setABSSlot();					//设置ABS校准
-	void setAmpSlot();
+	void setAmpSlot();					//设置开启强度图显示
+	void setCalibrationSlot();			//设置畸变校正
 	void MultiSaveFileSlot();
 	void MultiSavePclSlot();
+	void setCameraParametersSlot();		//更新校正参数
 };
 
 #endif // SMARTEYE_H

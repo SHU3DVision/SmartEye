@@ -107,16 +107,19 @@ public:
     QCheckBox *VFlip;
     QGroupBox *groupBox_3;
     QGridLayout *gridLayout_6;
-    QLabel *label_9;
-    QLineEdit *IntegrationtimelineEdit;
-    QLabel *label_20;
     QLineEdit *IntegrationtimeHDRlineEdit;
-    QLabel *label_16;
-    QLineEdit *setAmplineEdit;
     QCheckBox *checkBoxHDR;
-    QCheckBox *checkBoxDRNU;
+    QLabel *label_16;
+    QLineEdit *IntegrationtimelineEdit;
     QCheckBox *checkBoxSetABS;
+    QLineEdit *setAmplineEdit;
     QCheckBox *checkBoxAmp;
+    QCheckBox *checkBoxDRNU;
+    QLabel *label_9;
+    QLabel *label_20;
+    QLineEdit *setMaxAmplineEdit;
+    QLabel *label_21;
+    QCheckBox *checkBoxCalibration;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -502,57 +505,73 @@ public:
         gridLayout_6->setSpacing(6);
         gridLayout_6->setContentsMargins(11, 11, 11, 11);
         gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
-        label_9 = new QLabel(groupBox_3);
-        label_9->setObjectName(QStringLiteral("label_9"));
-
-        gridLayout_6->addWidget(label_9, 0, 0, 1, 1);
-
-        IntegrationtimelineEdit = new QLineEdit(groupBox_3);
-        IntegrationtimelineEdit->setObjectName(QStringLiteral("IntegrationtimelineEdit"));
-
-        gridLayout_6->addWidget(IntegrationtimelineEdit, 0, 1, 1, 1);
-
-        label_20 = new QLabel(groupBox_3);
-        label_20->setObjectName(QStringLiteral("label_20"));
-
-        gridLayout_6->addWidget(label_20, 1, 0, 1, 1);
-
         IntegrationtimeHDRlineEdit = new QLineEdit(groupBox_3);
         IntegrationtimeHDRlineEdit->setObjectName(QStringLiteral("IntegrationtimeHDRlineEdit"));
 
         gridLayout_6->addWidget(IntegrationtimeHDRlineEdit, 1, 1, 1, 1);
+
+        checkBoxHDR = new QCheckBox(groupBox_3);
+        checkBoxHDR->setObjectName(QStringLiteral("checkBoxHDR"));
+        checkBoxHDR->setAutoFillBackground(false);
+        checkBoxHDR->setChecked(false);
+
+        gridLayout_6->addWidget(checkBoxHDR, 4, 0, 1, 1);
 
         label_16 = new QLabel(groupBox_3);
         label_16->setObjectName(QStringLiteral("label_16"));
 
         gridLayout_6->addWidget(label_16, 2, 0, 1, 1);
 
+        IntegrationtimelineEdit = new QLineEdit(groupBox_3);
+        IntegrationtimelineEdit->setObjectName(QStringLiteral("IntegrationtimelineEdit"));
+
+        gridLayout_6->addWidget(IntegrationtimelineEdit, 0, 1, 1, 1);
+
+        checkBoxSetABS = new QCheckBox(groupBox_3);
+        checkBoxSetABS->setObjectName(QStringLiteral("checkBoxSetABS"));
+
+        gridLayout_6->addWidget(checkBoxSetABS, 5, 0, 1, 1);
+
         setAmplineEdit = new QLineEdit(groupBox_3);
         setAmplineEdit->setObjectName(QStringLiteral("setAmplineEdit"));
 
         gridLayout_6->addWidget(setAmplineEdit, 2, 1, 1, 1);
 
-        checkBoxHDR = new QCheckBox(groupBox_3);
-        checkBoxHDR->setObjectName(QStringLiteral("checkBoxHDR"));
-        checkBoxHDR->setAutoFillBackground(false);
-        checkBoxHDR->setChecked(true);
+        checkBoxAmp = new QCheckBox(groupBox_3);
+        checkBoxAmp->setObjectName(QStringLiteral("checkBoxAmp"));
+        checkBoxAmp->setChecked(false);
 
-        gridLayout_6->addWidget(checkBoxHDR, 3, 0, 1, 1);
+        gridLayout_6->addWidget(checkBoxAmp, 5, 1, 1, 1);
 
         checkBoxDRNU = new QCheckBox(groupBox_3);
         checkBoxDRNU->setObjectName(QStringLiteral("checkBoxDRNU"));
 
-        gridLayout_6->addWidget(checkBoxDRNU, 3, 1, 1, 1);
+        gridLayout_6->addWidget(checkBoxDRNU, 4, 1, 1, 1);
 
-        checkBoxSetABS = new QCheckBox(groupBox_3);
-        checkBoxSetABS->setObjectName(QStringLiteral("checkBoxSetABS"));
+        label_9 = new QLabel(groupBox_3);
+        label_9->setObjectName(QStringLiteral("label_9"));
 
-        gridLayout_6->addWidget(checkBoxSetABS, 4, 0, 1, 1);
+        gridLayout_6->addWidget(label_9, 0, 0, 1, 1);
 
-        checkBoxAmp = new QCheckBox(groupBox_3);
-        checkBoxAmp->setObjectName(QStringLiteral("checkBoxAmp"));
+        label_20 = new QLabel(groupBox_3);
+        label_20->setObjectName(QStringLiteral("label_20"));
 
-        gridLayout_6->addWidget(checkBoxAmp, 4, 1, 1, 1);
+        gridLayout_6->addWidget(label_20, 1, 0, 1, 1);
+
+        setMaxAmplineEdit = new QLineEdit(groupBox_3);
+        setMaxAmplineEdit->setObjectName(QStringLiteral("setMaxAmplineEdit"));
+
+        gridLayout_6->addWidget(setMaxAmplineEdit, 3, 1, 1, 1);
+
+        label_21 = new QLabel(groupBox_3);
+        label_21->setObjectName(QStringLiteral("label_21"));
+
+        gridLayout_6->addWidget(label_21, 3, 0, 1, 1);
+
+        checkBoxCalibration = new QCheckBox(groupBox_3);
+        checkBoxCalibration->setObjectName(QStringLiteral("checkBoxCalibration"));
+
+        gridLayout_6->addWidget(checkBoxCalibration, 6, 0, 1, 1);
 
 
         gridLayout_4->addWidget(groupBox_3, 0, 0, 1, 1);
@@ -653,7 +672,7 @@ public:
 
     void retranslateUi(QMainWindow *SmartEyeClass)
     {
-        SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye V1.0.5", 0));
+        SmartEyeClass->setWindowTitle(QApplication::translate("SmartEyeClass", "SmartEye V1.0.6", 0));
         groupBox_4->setTitle(QApplication::translate("SmartEyeClass", "Colormap", 0));
         colormapPointCheckBox->setText(QApplication::translate("SmartEyeClass", "Clolormap Point", 0));
         label_11->setText(QApplication::translate("SmartEyeClass", "MaxDepth", 0));
@@ -661,25 +680,25 @@ public:
         label_12->setText(QApplication::translate("SmartEyeClass", "MinDepth", 0));
         mindepthlineEdit->setText(QApplication::translate("SmartEyeClass", "100", 0));
         groupBox_2->setTitle(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
-        CYlineEdit->setText(QApplication::translate("SmartEyeClass", "134.47", 0));
-        k2lineEdit->setText(QApplication::translate("SmartEyeClass", "0.12", 0));
-        FXlineEdit->setText(QApplication::translate("SmartEyeClass", "195.73", 0));
+        CYlineEdit->setText(QApplication::translate("SmartEyeClass", "133.6313985", 0));
+        k2lineEdit->setText(QApplication::translate("SmartEyeClass", "0.102422447", 0));
+        FXlineEdit->setText(QApplication::translate("SmartEyeClass", "191.8097556", 0));
         label_5->setText(QApplication::translate("SmartEyeClass", "CX", 0));
         pointFilterEdit->setText(QApplication::translate("SmartEyeClass", "0", 0));
-        k1lineEdit->setText(QApplication::translate("SmartEyeClass", "-0.30", 0));
+        k1lineEdit->setText(QApplication::translate("SmartEyeClass", "-0.293527263", 0));
         label_8->setText(QApplication::translate("SmartEyeClass", "k2", 0));
-        CXlineEdit->setText(QApplication::translate("SmartEyeClass", "164.65", 0));
+        CXlineEdit->setText(QApplication::translate("SmartEyeClass", "162.3485761", 0));
         label_15->setText(QApplication::translate("SmartEyeClass", "Density", 0));
         label_4->setText(QApplication::translate("SmartEyeClass", "FY", 0));
         label_7->setText(QApplication::translate("SmartEyeClass", "k1", 0));
         label_3->setText(QApplication::translate("SmartEyeClass", "FX", 0));
         label_6->setText(QApplication::translate("SmartEyeClass", "CY", 0));
-        FYlineEdit->setText(QApplication::translate("SmartEyeClass", "196.48", 0));
+        FYlineEdit->setText(QApplication::translate("SmartEyeClass", "190.5375098", 0));
         pclBtn->setText(QApplication::translate("SmartEyeClass", "PointCloud Convert", 0));
         groupBox->setTitle(QApplication::translate("SmartEyeClass", "IP Address", 0));
         statelabel->setText(QApplication::translate("SmartEyeClass", "NO", 0));
         label->setText(QApplication::translate("SmartEyeClass", "IP\357\274\232", 0));
-        IplineEdit->setText(QApplication::translate("SmartEyeClass", "192.168.7.51", 0));
+        IplineEdit->setText(QApplication::translate("SmartEyeClass", "192.168.7.94", 0));
         label_2->setText(QApplication::translate("SmartEyeClass", "Port:", 0));
         PortlineEdit->setText(QApplication::translate("SmartEyeClass", "50660", 0));
         connectButton->setText(QApplication::translate("SmartEyeClass", "Connect", 0));
@@ -699,19 +718,28 @@ public:
         HFlip->setText(QApplication::translate("SmartEyeClass", "Horizontal Flip", 0));
         VFlip->setText(QApplication::translate("SmartEyeClass", "Vertical Flip", 0));
         groupBox_3->setTitle(QApplication::translate("SmartEyeClass", "Set Parametre", 0));
-        label_9->setText(QApplication::translate("SmartEyeClass", "TOF(us)1rd", 0));
-        IntegrationtimelineEdit->setText(QApplication::translate("SmartEyeClass", "500", 0));
-        label_20->setText(QApplication::translate("SmartEyeClass", "TOF(us)2rd", 0));
         IntegrationtimeHDRlineEdit->setText(QApplication::translate("SmartEyeClass", "2500", 0));
-        label_16->setText(QApplication::translate("SmartEyeClass", "MinAmp", 0));
-        setAmplineEdit->setText(QApplication::translate("SmartEyeClass", "50", 0));
         checkBoxHDR->setText(QApplication::translate("SmartEyeClass", "HDR", 0));
-        checkBoxDRNU->setText(QApplication::translate("SmartEyeClass", "DRNU", 0));
+        label_16->setText(QApplication::translate("SmartEyeClass", "MinAmp", 0));
+        IntegrationtimelineEdit->setText(QApplication::translate("SmartEyeClass", "500", 0));
 #ifndef QT_NO_TOOLTIP
         checkBoxSetABS->setToolTip(QApplication::translate("SmartEyeClass", "<html><head/><body><p>\347\216\257\345\242\203\345\205\211\346\240\241\345\207\206</p></body></html>", 0));
 #endif // QT_NO_TOOLTIP
         checkBoxSetABS->setText(QApplication::translate("SmartEyeClass", "SetABS", 0));
-        checkBoxAmp->setText(QApplication::translate("SmartEyeClass", "showAmp", 0));
+#ifndef QT_NO_TOOLTIP
+        setAmplineEdit->setToolTip(QApplication::translate("SmartEyeClass", "<html><head/><body><p>\345\260\217\344\272\216\346\255\244\345\274\272\345\272\246\345\215\263\350\256\276\344\270\2720\357\274\214\344\270\215\346\224\271\345\217\230\347\274\251\346\224\276\344\270\213\351\231\220</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
+        setAmplineEdit->setText(QApplication::translate("SmartEyeClass", "50", 0));
+        checkBoxAmp->setText(QApplication::translate("SmartEyeClass", "\345\274\272\345\272\246\345\233\276", 0));
+        checkBoxDRNU->setText(QApplication::translate("SmartEyeClass", "DRNU", 0));
+        label_9->setText(QApplication::translate("SmartEyeClass", "TOF(us)1rd", 0));
+        label_20->setText(QApplication::translate("SmartEyeClass", "TOF(us)2rd", 0));
+#ifndef QT_NO_TOOLTIP
+        setMaxAmplineEdit->setToolTip(QApplication::translate("SmartEyeClass", "<html><head/><body><p>\346\211\200\346\234\211\345\274\272\345\272\246\344\270\215\350\266\205\350\277\207\346\255\244\351\231\220\345\256\232\345\200\274\357\274\214\345\215\263\347\274\251\346\224\276\344\270\212\351\231\220</p></body></html>", 0));
+#endif // QT_NO_TOOLTIP
+        setMaxAmplineEdit->setText(QApplication::translate("SmartEyeClass", "500", 0));
+        label_21->setText(QApplication::translate("SmartEyeClass", "MaxAmp", 0));
+        checkBoxCalibration->setText(QApplication::translate("SmartEyeClass", "\347\225\270\345\217\230\346\240\241\346\255\243", 0));
         pointCloudDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Point Cloud", 0));
         imageDock->setWindowTitle(QApplication::translate("SmartEyeClass", "Depth Image", 0));
         Img_label->setText(QString());

@@ -32,7 +32,6 @@ int CTinySocket::socket_com(char sendline[], int length, const char* destip, con
 	int count = 0;             //接收总字节计数
 	int rec_len, Ret;          //发送、接收状
 	static struct sockaddr_in servaddr;
-	databuf = buf;
 	//socket初始化
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == INVALID_SOCKET)

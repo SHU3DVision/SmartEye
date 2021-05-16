@@ -88,6 +88,7 @@ void DCam::run()
 		g_depthprocess.mindepth = mindepth;
 		g_depthprocess.saveimagestate = saveimagestate;
 		g_depthprocess.savestr = savestr;
+		g_depthprocess.saveAmpstr = saveAmpstr;
 		//点云pcd保存参数
 		g_pclConvert.savestate = savepcdstate;
 		g_pclConvert.savestr = string(savePcdStr.toLocal8Bit());
@@ -214,12 +215,15 @@ void DCam::run()
 #endif
 		
 		cv::Mat img_show;
-
+		g_depthprocess.isAmp = isAmp;
+		g_depthprocess.isHDR = isHDR;
+		g_depthprocess.isRawCalibration = isRawCalibration;
 		if (n == 1)
 		{
 			//获取数据成功
 			g_depthprocess.ptr_buf_unsigned = (unsigned char*)ptr_buf;	//设置图像处理数据指针
-			img_show = g_depthprocess.depthProcess(isHDR, isAmp);					//获取处理图像
+			g_depthprocess.maxAmp = MaxAmp.toInt();
+			img_show = g_depthprocess.depthProcess();					//获取处理图像
 			if (g_depthprocess.saveimagestate == 2)						//及时切换保存状态  不能写成 saveimagestate == 2  
 			{
 				saveimagestate = 0;
@@ -276,7 +280,8 @@ void DCam::setPointcloudConvert(bool isConvert)
 //设置相机内参、畸变系数
 void DCam::setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3)
 {
-	g_pclConvert.setConvertParameter(fx, fy, cx, cy, k1, k2, 0, 0, 0);
+	//g_pclConvert.setConvertParameter(fx, fy, cx, cy, k1, k2, 0, 0, 0);
+	g_depthprocess.setConvertParameter(fx, fy, cx, cy, k1, k2, 0, 0, 0);
 }
 
 //获取运行状态

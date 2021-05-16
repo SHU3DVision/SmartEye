@@ -27,7 +27,6 @@ private:
 	int	realTempChip;		//温度
 	int	realTempBoard1;
 	int	realTempBoard2;
-	char *databuf;
 	
 };
 extern "C" void sk_startup(void); //extern "C"是实现的类C和C++的混合编程

@@ -58,10 +58,13 @@ public:
 	bool AbsChanged = true;				//环境光校准状态
 	bool isABS = true;					//是否环境光校准
 	bool isAmp = false;					//是否显示强度图
+	bool isRawCalibration = false;		//开启畸变校正标志
 	QString integrationtime3D="500";	//相机积分时间
 	QString integrationtime3DHDR = "2500";//HDR积分时间
 	QString MinAmp = "100";             //相机强度
+	QString MaxAmp = "500";				//最大强度
 	QString savestr;					//保存路径
+	QString saveAmpstr;
 	QString savePcdStr;					//点云保存路径
 	
 

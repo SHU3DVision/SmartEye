@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SmartEye V1.0.5</string>
+   <string>SmartEye V1.0.6</string>
   </property>
   <property name="windowIcon">
    <iconset resource="smarteye.qrc">
@@ -88,21 +88,21 @@
              <item row="3" column="1">
               <widget class="QLineEdit" name="CYlineEdit">
                <property name="text">
-                <string>134.47</string>
+                <string>133.6313985</string>
                </property>
               </widget>
              </item>
              <item row="5" column="1">
               <widget class="QLineEdit" name="k2lineEdit">
                <property name="text">
-                <string>0.12</string>
+                <string>0.102422447</string>
                </property>
               </widget>
              </item>
              <item row="0" column="1">
               <widget class="QLineEdit" name="FXlineEdit">
                <property name="text">
-                <string>195.73</string>
+                <string>191.8097556</string>
                </property>
               </widget>
              </item>
@@ -123,7 +123,7 @@
              <item row="4" column="1">
               <widget class="QLineEdit" name="k1lineEdit">
                <property name="text">
-                <string>-0.30</string>
+                <string>-0.293527263</string>
                </property>
               </widget>
              </item>
@@ -137,7 +137,7 @@
              <item row="2" column="1">
               <widget class="QLineEdit" name="CXlineEdit">
                <property name="text">
-                <string>164.65</string>
+                <string>162.3485761</string>
                </property>
               </widget>
              </item>
@@ -179,7 +179,7 @@
              <item row="1" column="1">
               <widget class="QLineEdit" name="FYlineEdit">
                <property name="text">
-                <string>196.48</string>
+                <string>190.5375098</string>
                </property>
               </widget>
              </item>
@@ -247,7 +247,7 @@
            <item row="0" column="1">
             <widget class="QLineEdit" name="IplineEdit">
              <property name="text">
-              <string>192.168.7.51</string>
+              <string>192.168.7.94</string>
              </property>
             </widget>
            </item>
@@ -470,31 +470,23 @@
          <string>Set Parametre</string>
         </property>
         <layout class="QGridLayout" name="gridLayout_6">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>TOF(us)1rd</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="IntegrationtimelineEdit">
-           <property name="text">
-            <string>500</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_20">
-           <property name="text">
-            <string>TOF(us)2rd</string>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="IntegrationtimeHDRlineEdit">
            <property name="text">
             <string>2500</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QCheckBox" name="checkBoxHDR">
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>HDR</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -505,34 +497,14 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="setAmplineEdit">
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="IntegrationtimelineEdit">
            <property name="text">
-            <string>50</string>
+            <string>500</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="QCheckBox" name="checkBoxHDR">
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>HDR</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QCheckBox" name="checkBoxDRNU">
-           <property name="text">
-            <string>DRNU</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
+         <item row="5" column="0">
           <widget class="QCheckBox" name="checkBoxSetABS">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;环境光校准&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -542,10 +514,68 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="setAmplineEdit">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;小于此强度即设为0，不改变缩放下限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>50</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
           <widget class="QCheckBox" name="checkBoxAmp">
            <property name="text">
-            <string>showAmp</string>
+            <string>强度图</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QCheckBox" name="checkBoxDRNU">
+           <property name="text">
+            <string>DRNU</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>TOF(us)1rd</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_20">
+           <property name="text">
+            <string>TOF(us)2rd</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="setMaxAmplineEdit">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;所有强度不超过此限定值，即缩放上限&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>500</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_21">
+           <property name="text">
+            <string>MaxAmp</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0">
+          <widget class="QCheckBox" name="checkBoxCalibration">
+           <property name="text">
+            <string>畸变校正</string>
            </property>
           </widget>
          </item>

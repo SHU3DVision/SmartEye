@@ -5,9 +5,10 @@ Imagedepthprocess::Imagedepthprocess()
 {
 	_matimg_short.create(Img_height, Img_width, CV_16UC1);
 	_matimg_show.create(Img_height, Img_width, CV_16UC1);
-	_matimg_amp.create(Img_height, Img_width, CV_16UC1);
-	img_color.create(Img_height, Img_width, CV_8UC3);//构造RGB图像
-	img_amp.create(Img_height, Img_width, CV_8UC1);//构造RGB图像
+	_matimg_amp.create(imgSize, CV_16UC1);
+	img_color.create(imgSize, CV_8UC3);//构造RGB图像
+	img_amp.create(imgSize, CV_8UC1);//构造RGB图像
+
 }
 Imagedepthprocess::~Imagedepthprocess()
 {
@@ -15,7 +16,7 @@ Imagedepthprocess::~Imagedepthprocess()
 }
 //深度数据处理
 //返回：CV_U8C3 mat类型
-Mat Imagedepthprocess::depthProcess(bool isHDR, bool isAmp)
+Mat Imagedepthprocess::depthProcess()
 {
 	uint16_t fameDepthArray2[MAXLINE];
 	uint16_t fameDepthArray3[MAXLINE];
@@ -24,9 +25,7 @@ Mat Imagedepthprocess::depthProcess(bool isHDR, bool isAmp)
 	{
 		raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
 		//cout << raw_dep << " ";
-		realindex = bytecount / 2 - (j / Img_width + 1) * Img_width + j % Img_width;   //镜像
-		realrow = Img_height - 1 - j / Img_width;
-		realcol = j % Img_width;
+		realindex = bytecount / 2 - (j / Img_width + 1) * Img_width + j % Img_width;   //镜像		
 		fameDepthArray2[realindex] = raw_dep;
 
 	}
@@ -36,10 +35,8 @@ Mat Imagedepthprocess::depthProcess(bool isHDR, bool isAmp)
 		for (int j = bytecount / 2; j < bytecount; j++)
 		{
 			raw_dep = ptr_buf_unsigned[j * 2 + 1] * 256 + ptr_buf_unsigned[2 * j];
-			cout << raw_dep << " ";
-			realindex = bytecount / 2 - (j / Img_width + 1) * Img_width + j % Img_width;   //镜像
-			realrow = Img_height - 1 - j / Img_width;
-			realcol = j % Img_width;
+			//cout << raw_dep << " ";
+			realindex = bytecount - (j / Img_width + 1) * Img_width + j % Img_width;   //镜像
 			fameDepthArray3[realindex] = raw_dep;
 		}
 	}
@@ -85,6 +82,15 @@ Mat Imagedepthprocess::depthProcess(bool isHDR, bool isAmp)
 		}
 
 	}
+	if (isRawCalibration)
+	{
+		undistImg(_matimg_short, _matimg_short);
+		if (isAmp)
+		{
+			undistImg(_matimg_amp, _matimg_amp);
+		}
+	}
+	
 	//翻转图像
 	if (isHorizontalFlip)
 	{
@@ -106,7 +112,7 @@ Mat Imagedepthprocess::depthProcess(bool isHDR, bool isAmp)
 	//强度图缩放
 	if (isAmp)
 	{
-		setAmpImg();
+		setAmpImg(maxAmp);
 	}
 	//深度图缩放和染色
 	setColorImage();
@@ -387,12 +393,23 @@ void Imagedepthprocess::saveImage()
 	if (saveimagestate == 1)		//连续帧
 	{
 		savestr = savestr.left(savestr.size() - 4);	//删除末尾的 .png
+		saveAmpstr = saveAmpstr.left(savestr.size() - 4);
 		imwrite(string(savestr.toLocal8Bit()) + "_" + to_string(imagecount) + ".png", _matimg_short);
+		if (isAmp)
+		{
+			imwrite(string(saveAmpstr.toLocal8Bit()) + "_" + to_string(imagecount) + ".png", img_amp);//_matimg_amp
+		}
 		imagecount++;
 	}
 	else if (saveimagestate == 2)	//单帧
 	{
-		imwrite(string(savestr.toLocal8Bit()), _matimg_short);
+		string tempDepth = string(savestr.toLocal8Bit());
+		string tempAmp = string(saveAmpstr.toLocal8Bit());
+		imwrite(tempDepth, _matimg_short);
+		if (isAmp)
+		{
+			imwrite(tempAmp, img_amp);
+		}
 	}
 	else
 	{
@@ -475,7 +492,7 @@ void Imagedepthprocess::imageInpainting()
 	//_matimg_short = depthzip.clone();
 }
 
-void Imagedepthprocess::setAmpImg()
+void Imagedepthprocess::setAmpImg(int maxAmp)
 {
 	double oneAmpData;
 	for (int i = 0; i < 240; i++)
@@ -485,12 +502,63 @@ void Imagedepthprocess::setAmpImg()
 		for (int j = 0; j < 320; j++)
 		{
 			oneAmpData = ampdata[j];
-			if (oneAmpData > 2000)
+			if (oneAmpData > maxAmp)
 			{
-				oneAmpData = 2000;
+				oneAmpData = maxAmp;
 			}
-			oneAmpData = oneAmpData * 255 / 2000;
+			oneAmpData = oneAmpData * 255 / maxAmp;
 			img_ampData[j] = (uchar)oneAmpData;
 		}
 	}
+	//undistImg(img_amp, img_amp);
+}
+
+//图像畸变矫正
+//src：CV_U16C1格式图像
+//return：畸变矫正后图像
+void Imagedepthprocess::undistImg(Mat src, Mat &dst)
+{
+	remap(src, dst, map1, map2, cv::INTER_LINEAR);
+}
+
+void Imagedepthprocess::setConvertParameter(double ffx, double ffy, double fcx, double fcy, double fk1, double fk2 , double fp1, double fp2, double fk3)
+{
+	this->fx = ffx;
+	this->fy = ffy;
+	this->cx = fcx;
+	this->cy = fcy;
+	this->k1 = fk1;
+	this->k2 = fk2;
+	this->k3 = fk3;
+	this->p1 = fp1;
+	this->p2 = fp2;
+	
+	//内参矩阵
+	cv::Mat cameraMatrix = cv::Mat::eye(3, 3, CV_64F);		//3*3单位矩阵
+	cameraMatrix.at<double>(0, 0) = fx;
+	cameraMatrix.at<double>(0, 1) = 0;
+	cameraMatrix.at<double>(0, 2) = cx;
+	cameraMatrix.at<double>(1, 1) = fy;
+	cameraMatrix.at<double>(1, 2) = cy;
+	cameraMatrix.at<double>(2, 2) = 1;
+
+	//畸变参数
+	cv::Mat distCoeffs = cv::Mat::zeros(5, 1, CV_64F);		//5*1全0矩阵
+	distCoeffs.at<double>(0, 0) = k1;
+	distCoeffs.at<double>(1, 0) = k2;
+	distCoeffs.at<double>(2, 0) = p1;
+	distCoeffs.at<double>(3, 0) = p2;
+	distCoeffs.at<double>(4, 0) = k3;
+	//畸变参数
+	cv::Mat distCoeff = cv::Mat::zeros(1, 5, CV_64F);		//5*1全0矩阵
+	distCoeff.at<double>(0, 0) = k1;
+	distCoeff.at<double>(0, 1) = k2;
+	distCoeff.at<double>(0, 2) = p1;
+	distCoeff.at<double>(0, 3) = p2;
+	distCoeff.at<double>(0, 4) = k3;
+
+	Mat newCameraMatrix = getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imgSize, 0);
+	//计算畸变映射
+	initUndistortRectifyMap(cameraMatrix, distCoeffs, cv::Mat(), newCameraMatrix, imgSize, CV_32FC1, map1, map2);	
+
 }
