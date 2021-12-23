@@ -80,7 +80,6 @@ Mat Imagedepthprocess::depthProcess()
 				ampdata[j] = amp[i][j];
 			}
 		}
-
 	}
 	if (isRawCalibration)
 	{

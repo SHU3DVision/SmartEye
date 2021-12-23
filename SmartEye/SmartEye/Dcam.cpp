@@ -280,8 +280,8 @@ void DCam::setPointcloudConvert(bool isConvert)
 //设置相机内参、畸变系数
 void DCam::setCameraParameters(double fx, double fy, double cx, double cy, double k1, double k2, double p1, double p2, double k3)
 {
-	//g_pclConvert.setConvertParameter(fx, fy, cx, cy, k1, k2, 0, 0, 0);
-	g_depthprocess.setConvertParameter(fx, fy, cx, cy, k1, k2, 0, 0, 0);
+	g_pclConvert.setConvertParameter(fx, fy, cx, cy, k1, k2, 0, 0, 0);
+	//g_depthprocess.setConvertParameter(fx, fy, cx, cy, k1, k2, 0, 0, 0);
 }
 
 //获取运行状态
